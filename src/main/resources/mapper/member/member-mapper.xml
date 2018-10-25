@@ -11,4 +11,14 @@
     <select id="existsById" resultType="int">
         SELECT COUNT(*) FROM MEMBER WHERE ID = #{id}
     </select>
+
+    <select id="findById" resultType="member">
+        SELECT * FROM MEMBER WHERE ID = #{id}
+    </select>
+
+    <resultMap id="member" type="member">
+        <result column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+    </resultMap>
 </mapper>

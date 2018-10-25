@@ -31,4 +31,18 @@ public class ApiMemberController {
         memberService.checkIdDuplicate(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody MemberDTO memberDTO, HttpSession session) {
+        log.debug("[로그인] 로그인 요청");
+        session.setAttribute("LOGIN_USER", memberService.login(memberDTO));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session) {
+        log.debug("[로그아웃] 로그아웃 요청");
+        session.removeAttribute("LOGIN_USER");
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
