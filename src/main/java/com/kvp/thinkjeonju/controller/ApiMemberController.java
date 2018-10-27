@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -19,7 +20,7 @@ public class ApiMemberController {
     private MemberService memberService;
 
     @PostMapping("")
-    public ResponseEntity<Void> addMember(@RequestBody MemberDTO memberDTO, HttpSession session) {
+    public ResponseEntity<Void> addMember(@RequestBody @Valid MemberDTO memberDTO, HttpSession session) {
         log.debug("[회원가입] 회원가입 요청");
         session.setAttribute("LOGIN_USER", memberService.addMember(memberDTO));
         return new ResponseEntity(HttpStatus.CREATED);
