@@ -4,12 +4,12 @@ class Join {
     }
     validateName() {
         if(this.name.length <= 0) {
-            $_("#join-name-error span").innerText = "이름을 압력해주세요.";
+            $_("#join-name-error span").innerText = "이름을 입력해주세요.";
             $_("#join-name-error").style.display = "";
             return false;
         }
         if(this.name.length < 1 || this.name.length > 20) {
-            $_("#join-name-error span").innerText = "이름은 1자 이상 20자 이하로 압력해주세요.";
+            $_("#join-name-error span").innerText = "이름은 1자 이상 20자 이하로 입력해주세요.";
             $_("#join-name-error").style.display = "";
             return false;
         }
@@ -18,18 +18,18 @@ class Join {
     }
     validatePassword() {
         if(this.password.length <= 0) {
-            $_("#join-password-error span").innerText = "비밀번호를 압력해주세요.";
+            $_("#join-password-error span").innerText = "비밀번호를 입력해주세요.";
             $_("#join-password-error").style.display = "";
             return false;
         }
         if(this.password.length < 8 || this.password.length > 15) {
-            $_("#join-password-error span").innerText = "비밀번호는 8자 이상 15자 이하로 압력해주세요.";
+            $_("#join-password-error span").innerText = "비밀번호는 8자 이상 15자 이하로 입력해주세요.";
             $_("#join-password-error").style.display = "";
             return false;
         }
         const passwordRegex = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$");
         if(!passwordRegex.test(this.password)) {
-            $_("#join-password-error span").innerText = "비밀번호는 영문, 숫자, 특수문자 조합으로 압력해주세요.";
+            $_("#join-password-error span").innerText = "비밀번호는 영문, 숫자, 특수문자 조합으로 입력해주세요.";
             $_("#join-password-error").style.display = "";
             return false;
         }
@@ -38,18 +38,18 @@ class Join {
     }
     validateId() {
         if(this.id.length <= 0) {
-            $_("#join-id-error span").innerText = "아이디를 압력해주세요.";
+            $_("#join-id-error span").innerText = "아이디를 입력해주세요.";
             $_("#join-id-error").style.display = "";
             return false;
         }
         if(this.id.length < 6 || this.id.length > 15) {
-            $_("#join-id-error span").innerText = "아이디는 6자 이상 15자 이하로 압력해주세요.";
+            $_("#join-id-error span").innerText = "아이디는 6자 이상 15자 이하로 입력해주세요.";
             $_("#join-id-error").style.display = "";
             return false;
         }
         const idRegex = new RegExp("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,15}$");
         if(!idRegex.test(this.id)) {
-            $_("#join-id-error span").innerText = "아이디는 영문, 숫자 조합으로 압력해주세요.";
+            $_("#join-id-error span").innerText = "아이디는 영문, 숫자 조합으로 입력해주세요.";
             $_("#join-id-error").style.display = "";
             return false;
         }
