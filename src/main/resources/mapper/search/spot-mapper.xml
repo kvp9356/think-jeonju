@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kvp.thinkjeonju.repository.SearchMapper">
+<mapper namespace="com.kvp.thinkjeonju.repository.SpotMapper">
 	<select id="checkSpotIdDuplicate" resultType="_int">
 		SELECT COUNT(*) 
 		FROM SPOT 
@@ -34,17 +34,5 @@
 				#{spotId},
 				#{url})
 	</insert>
-	
-	<select id="searchSpot" resultType="com.kvp.thinkjeonju.dto.SpotDTO">
-		SELECT *
-		FROM SPOT
-		WHERE NAME LIKE '%'||#{dataValue}||'%'
-		OR CONTENT LIKE '%'||#{dataValue}||'%'
-	</select>
-	
-	<select id="searchSpotImg" resultType="String">
-		SELECT url
-		FROM SPOTIMG
-		WHERE SPOTID = #{id}
-	</select>
+
 </mapper>

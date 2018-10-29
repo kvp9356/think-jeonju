@@ -15,19 +15,20 @@ import org.springframework.stereotype.Service;
 
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
-import com.kvp.thinkjeonju.repository.SearchMapper;
+import com.kvp.thinkjeonju.exception.common.DataBaseException;
+import com.kvp.thinkjeonju.repository.SpotMapper;
 
 
 @Service
-public class SearchService {
+public class SpotService {
 
-	final int MAX = 999999;
-	final int IMGMAX = 5;
+	final static int MAX = 999999;
+	final static int IMGMAX = 5;
 	
-	private String authApiKey = "DCSBMCAPSGRWVRX";
+	private final String authApiKey = "DCSBMCAPSGRWVRX";
 	
 	@Autowired
-	private SearchMapper searchMapper;
+	private SpotMapper spotMapper;
 	
 	public String webConnection(String apiUrl) {
 		
@@ -63,7 +64,8 @@ public class SearchService {
 		return json;
 	}
 	
-	public void getSpotData(String dataValue) {
+	// 검색키워드를 통해 해당 값을 포함한 spot list 반환(이미지 포함)
+	public ArrayList<SpotDTO> getSpotData(String dataValue) {
 		ArrayList<SpotDTO> spots = new ArrayList<>();
 		
 		try {
@@ -83,24 +85,37 @@ public class SearchService {
     		long totalCount = (long)obj.get("totalCount");
     		obj = (JSONObject)obj.get("data");
     		
+    		ArrayList<String> img = new ArrayList<>();
+    		
     		if(totalCount > 0) {
     			// 뽑아낸 list의 길이가 1일 때
     			if(totalCount <= 1) {
-    			obj = (JSONObject)obj.get("list");
-    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
-    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
-    					obj.getString("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
-    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), null));
+	    			obj = (JSONObject)obj.get("list");
+	    			
+	    			if(obj.getInt("fileCnt") > 0) {
+	    				img = getSpotImgData(obj.getString("dataSid"));
+	    			}
+	    			
+	    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
+	    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
+	    					obj.getString("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
+	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img));
+    			
     			} else { // 길이가 2이상일 때
     				JSONArray spot = (JSONArray)obj.get("list");
     				
     				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
             		for(int i=0; i<totalCount; i++) {
             			JSONObject tmp = (JSONObject)spot.get(i);
+            			
+            			if(tmp.getInt("fileCnt") > 0) {
+    	    				img = getSpotImgData(tmp.getString("dataSid"));
+    	    			}
+            			
             			SpotDTO spotDTO = new SpotDTO(tmp.getString("dataSid"), tmp.getString("dataTitle"), 
             					tmp.getString("dataContent"), tmp.getString("zipCode"), tmp.getString("addr"), 
             					tmp.getString("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
-            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), null);
+            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img);
             			spots.add(spotDTO);
             		}
     			}
@@ -109,20 +124,23 @@ public class SearchService {
         		for(int i=0; i<spots.size(); i++) {
         			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
         				addSpot(spots.get(i));
-        				if(spots.get(i).getFileCnt() != 0) {				  
-            				getSpotImgUrl(spots.get(i).getId());
-            			}
         			}
         		}
     		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return spots;
 	}
 
-	public void getSpotImgUrl(String id) {
+	// spot id 값을 통해 해당 spot의 이미지 리스트 반환
+	public ArrayList<String> getSpotImgData(String id) {
 		
+		// DB저장용 ArrayList (모든 값 포함)
 		ArrayList<SpotImgDTO> spotImgs = new ArrayList<>();
+		
+		// 반환용 ArrayList (이미지  url만 포함)
+		ArrayList<String> url = new ArrayList<>();
 		
         try {
         	String addr = "http://openapi.jeonju.go.kr/rest/culture/getCultureFile?authApiKey=";
@@ -145,6 +163,7 @@ public class SearchService {
         			obj = (JSONObject)obj.get("list");
         			SpotImgDTO spotImgDTO = new SpotImgDTO(obj.getString("fileSid"), obj.getString("dataSid"), obj.getString("thumbUrl"));
         			spotImgs.add(spotImgDTO);
+        			url.add(obj.getString("thumbUrl"));
     			} else {
     				JSONArray spotImg = (JSONArray)obj.get("list");
     	    		
@@ -155,6 +174,7 @@ public class SearchService {
     	    			JSONObject tmp = (JSONObject)spotImg.get(i);
     	    			SpotImgDTO spotImgDTO = new SpotImgDTO(tmp.getString("fileSid"), tmp.getString("dataSid"), tmp.getString("thumbUrl"));
     	    			spotImgs.add(spotImgDTO);
+    	    			url.add(tmp.getString("thumbUrl"));
     	    		}
     			}
     			
@@ -168,40 +188,28 @@ public class SearchService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public ArrayList<SpotDTO> searchSpot(String dataValue) {
-		ArrayList<SpotDTO> spot = searchMapper.searchSpot(dataValue);
-		
-		for(int i=0; i<spot.size(); i++) {
-			if(spot.get(i).getFileCnt() != 0) {
-				ArrayList<String> img = searchMapper.searchSpotImg(spot.get(i).getId());
-				spot.get(i).setImgUrl(img);
-				//System.out.println(spot.get(i).getImgUrl());
-			}	
-		}
-		return spot;
+        return url;
 	}
 
 	public void addSpotImg(SpotImgDTO spotImgDTO) {
-		int result = searchMapper.addSpotImg(spotImgDTO);
-		/*if(result <= 0) 
-			throw new DatabaseException("장소 이미지 등록에 실패했습니다.");*/
+		int result = spotMapper.addSpotImg(spotImgDTO);
+		if(result <= 0) 
+			throw new DataBaseException("장소 이미지 등록에 실패했습니다.");
 	}
 
 
 	public void addSpot(SpotDTO spotDTO) {
-		int result = searchMapper.addSpot(spotDTO);
-		/*if(result <= 0) 
-			throw new DatabaseException("장소 등록에 실패했습니다.");*/
+		int result = spotMapper.addSpot(spotDTO);
+		if(result <= 0) 
+			throw new DataBaseException("장소 등록에 실패했습니다.");
 	}
 
 	public int checkSpotIdDuplicate(String id) {
-		return searchMapper.checkSpotIdDuplicate(id);
+		return spotMapper.checkSpotIdDuplicate(id);
 	}
 	
 	public int checkSpotImgDuplicate(String id) {
-		return searchMapper.checkSpotImgDuplicate(id);
+		return spotMapper.checkSpotImgDuplicate(id);
 	}
 
 }

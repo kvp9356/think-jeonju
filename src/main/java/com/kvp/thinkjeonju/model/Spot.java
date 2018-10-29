@@ -1,5 +1,7 @@
 package com.kvp.thinkjeonju.model;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.type.Alias;
 
 import com.kvp.thinkjeonju.dto.SpotDTO;
@@ -30,6 +32,6 @@ public class Spot {
 	}
 	
 	public SpotDTO toDTO() {
-		return new SpotDTO(id, name, content, zipCode, addr, addrDtl, posX, posY, url, tel, fileCnt, null);
+		return new SpotDTO(id, name, content, zipCode, addr, addrDtl, posX, posY, url, tel, fileCnt, new ArrayList<String>());
 	}
 }

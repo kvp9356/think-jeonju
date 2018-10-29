@@ -1,15 +1,12 @@
 package com.kvp.thinkjeonju.repository;
 
-import java.util.ArrayList;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
-import com.kvp.thinkjeonju.model.Spot;
 
 @Mapper
-public interface SearchMapper {
+public interface SpotMapper {
 
 	int checkSpotIdDuplicate(String id);
 
@@ -18,9 +15,5 @@ public interface SearchMapper {
 	int checkSpotImgDuplicate(String id);
 
 	int addSpotImg(SpotImgDTO spotImgDTO);
-
-	ArrayList<SpotDTO> searchSpot(String dataValue);
-
-	ArrayList<String> searchSpotImg(String dataValue);
 
 }

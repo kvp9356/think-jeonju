@@ -11,31 +11,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kvp.thinkjeonju.dto.SpotDTO;
-import com.kvp.thinkjeonju.service.SearchService;
+import com.kvp.thinkjeonju.service.SpotService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/searches")
-public class SearchController {
+@RequestMapping("/api/spots")
+public class SpotController {
 
 	@Autowired
-	private SearchService searchService;
+	private SpotService spotService;
 	
-	@PostMapping("")
+	@PostMapping("/search")
 	public ResponseEntity<ArrayList<SpotDTO>> getSpotData(@RequestParam String dataValue) {
 	
 		log.debug("[Search] Spot Data 검색");
 		
 		// 키워드로 api 통해 spot 검색 후 db에 저장
-		searchService.getSpotData(dataValue);
-		
-		// db에서 해당 spot과 img 불러옴
-		ArrayList<SpotDTO> spots = searchService.searchSpot(dataValue);
-		/*for(int i=0; i<spots.size(); i++) {
-			System.out.println(spots.get(i).getImgUrl());
-		}*/
+		ArrayList<SpotDTO> spots = spotService.getSpotData(dataValue);
+
 		return new ResponseEntity<>(spots, HttpStatus.OK);
 	}
 	
