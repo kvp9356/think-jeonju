@@ -27,3 +27,4 @@ bin/
 
 #Database
 database.properties
+/.metadata/
