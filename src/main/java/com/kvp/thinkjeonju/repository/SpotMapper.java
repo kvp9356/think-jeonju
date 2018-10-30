@@ -1,9 +1,12 @@
 package com.kvp.thinkjeonju.repository;
 
+import com.kvp.thinkjeonju.model.SpotImg;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
+
+import java.util.ArrayList;
 
 @Mapper
 public interface SpotMapper {
@@ -16,4 +19,5 @@ public interface SpotMapper {
 
 	int addSpotImg(SpotImgDTO spotImgDTO);
 
+	ArrayList<String> findSpotImgUrlById(String id);
 }

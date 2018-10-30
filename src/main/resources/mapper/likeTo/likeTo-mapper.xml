@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kvp.thinkjeonju.repository.LikeToMapper">
+    <select id="findSpotsByMemberId" resultType="spot">
+        SELECT * FROM SPOT
+        WHERE ID = (SELECT SPOT_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId})
+    </select>
+
+    <select id="findSchedulesByMemberId" resultType="schedule">
+        SELECT * FROM SCHEDULE
+        WHERE URL = (SELECT SCHEDULE_URL FROM LIKE_TO WHERE MEMBER_ID = #{memberId})
+    </select>
+
+</mapper>

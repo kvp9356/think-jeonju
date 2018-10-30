@@ -35,4 +35,9 @@
 				#{url})
 	</insert>
 
+	<select id="findSpotImgUrlById" resultType="string">
+		SELECT URL FROM SPOTIMG
+		WHERE ID = #{id}
+	</select>
+
 </mapper>
