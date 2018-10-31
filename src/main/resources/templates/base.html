@@ -25,30 +25,38 @@
                 <a href="#">
                     <span>스케쥴</span>
                 </a>
-                {{#LOGIN_USER}}
+                {{#loginUser}}
                 <a href="#">
                     <span>스케쥴 작성</span>
                 </a>
-                {{/LOGIN_USER}}
+                {{/loginUser}}
             </div>
             <div class="account">
-                {{^LOGIN_USER}}
+                {{^loginUser}}
                 <a id="login">
                     <span>로그인</span>
                 </a>
                 <a id="join">
                     <span>회원가입</span>
                 </a>
-                {{/LOGIN_USER}}
-                {{#LOGIN_USER}}
+                {{/loginUser}}
+                {{#loginUser}}
                 <a href="#" id="my-page">
                     <span>마이페이지</span>
                 </a>
                 <a id="logout">
                     <span>로그아웃</span>
                 </a>
-                {{/LOGIN_USER}}
+                {{/loginUser}}
             </div>
+        </div>
+    </div>
+
+    {{#block "contents"}} {{/block}}
+    <div class="footer-container">
+        <div class="footer">
+            <p id="footer-info">(팀)KVP | Think-Jeonju</p>
+            <p>Copyright ⓒ 2018 thinkJeonju.com, All Rights Reserved.</p>
         </div>
     </div>
 
@@ -117,14 +125,6 @@
                     <button type="button" class="btn btn-outline-secondary width100p" onclick="" id="login-form-btn">로그인</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    {{#block "contents"}} {{/block}}
-    <div class="footer-container">
-        <div class="footer">
-            <p id="footer-info">(팀)KVP | Think-Jeonju</p>
-            <p>Copyright ⓒ 2018 thinkJeonju.com, All Rights Reserved.</p>
         </div>
     </div>
 </div>

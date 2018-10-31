@@ -6,7 +6,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 public class SessionUtil {
-    private static final String LOGIN_USER = "LOGIN_USER";
+    public static final String LOGIN_USER = "loginUser";
 
     public static MemberDTO getLoginUserFromWebRequest(NativeWebRequest webRequest) {
         MemberDTO memberDTO = (MemberDTO) webRequest.getAttribute(LOGIN_USER, WebRequest.SCOPE_SESSION);
