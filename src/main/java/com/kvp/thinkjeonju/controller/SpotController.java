@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
 import com.kvp.thinkjeonju.dto.SpotDTO;
-import com.kvp.thinkjeonju.exception.common.DataBaseException;
 import com.kvp.thinkjeonju.service.SpotService;
 
 import lombok.extern.slf4j.Slf4j;

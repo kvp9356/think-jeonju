@@ -1,7 +1,5 @@
 package com.kvp.thinkjeonju.repository;
 
-import java.util.ArrayList;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
