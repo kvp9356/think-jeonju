@@ -19,7 +19,8 @@
 				#{posY},
 				#{url},
 				#{tel},
-				#{fileCnt})
+				#{fileCnt},
+				#{category})
 	</insert>
 	
 	<select id="checkSpotImgDuplicate" resultType="_int">

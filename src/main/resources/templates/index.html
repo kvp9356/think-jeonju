@@ -2,6 +2,65 @@
 {{/partial}}
 
 {{#partial "contents"}}
+<style>
+#searchImgDiv {
+	background-image: url("../image/jeonjuStation.jpg");
+	background-size: 1080px 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 450px;
+	width: 100%;
+	position: absolute;
+}
+#searchDiv {
+	text-align: center;
+	vertical-align: middle;
+	margin: 0 auto;
+	position: relative;
+	top: 300px;
+	background: white;
+	width: 400px;
+	height: 60px;
+	border-radius: 10px;
+}
+#searchDiv input {
+	width: 320px;
+	display: inline;
+	height: 100%;
+	border: none;
+}
+#searchDiv input:focus, #searchDiv button:focus{
+    box-shadow: none;
+}
+#searchDiv button {
+	background: transparent;
+}
+#searchDiv button img{
+	padding-bottom: 5px;
+}
+</style>
+
+<div id="searchImgDiv">
+	<div id="searchDiv">
+		<input type="text" class="form-control mr-sm-2" id="searchKeyword"/>
+		<button class="btn" onclick="searchByKeyword()"><img src="../image/search.png" alt="" /></button>
+	</div>
+</div>
+
+<script>
+function searchByKeyword() {
+	var searchKeyword = $("#searchKeyword").val();
+	
+	if(searchKeyword.length == 0) {
+		alert("검색어를 입력하세요!");
+	} else if(searchKeyword.length > 10) {
+		alert("검색어의 길이는 10이하입니다.");
+	} else {
+		location.href = "/spots/search?dataValue=" + searchKeyword;
+	}
+}
+</script>
+
 {{/partial}}
 
 {{#partial "script"}}

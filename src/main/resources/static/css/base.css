@@ -140,7 +140,7 @@ html, body {
     background-color: lightgray;
     margin-top: 20px;
     padding: 10px 0;
-    position:absolute;
+    position: fixed;
     bottom:0;
 }
 
