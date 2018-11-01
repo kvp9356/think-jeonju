@@ -1,7 +1,10 @@
 package com.kvp.thinkjeonju.repository;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.model.SpotImg;
 
@@ -15,5 +18,13 @@ public interface SpotMapper {
 	int checkSpotImgDuplicate(String id);
 
 	int addSpotImg(SpotImg spotImg);
+
+	int getLikeCnt(String id);
+
+	void setSpotLike(LikeToDTO like);
+
+	void cancelSpotLike(LikeToDTO like);
+
+	int getIsLike(LikeToDTO like);
 
 }

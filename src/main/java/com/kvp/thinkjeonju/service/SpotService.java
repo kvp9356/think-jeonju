@@ -13,6 +13,7 @@ import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
 import com.kvp.thinkjeonju.exception.common.DataBaseException;
@@ -101,7 +102,7 @@ public class SpotService {
 	    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
 	    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
 	    					""+obj.get("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
-	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName()));
+	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, null));
     			} else { // 길이가 2이상일 때
     				JSONArray spot = (JSONArray)obj.get("list");
     				
@@ -116,7 +117,7 @@ public class SpotService {
             			SpotDTO spotDTO = new SpotDTO(tmp.getString("dataSid"), tmp.getString("dataTitle"), 
             					tmp.getString("dataContent"), tmp.getString("zipCode"), tmp.getString("addr"), 
             					""+tmp.get("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
-            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName());
+            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, null);
             			spots.add(spotDTO);
             		}
     			}
@@ -125,6 +126,8 @@ public class SpotService {
         		for(int i=0; i<spots.size(); i++) {
         			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
         				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
         			}
         		}
     		}
@@ -212,5 +215,21 @@ public class SpotService {
 	public int checkSpotImgDuplicate(String id) {
 		return spotMapper.checkSpotImgDuplicate(id);
 	}
+	
+	public int getLikeCnt(String id) {
+		return spotMapper.getLikeCnt(id);
+	}
 
+	public void setSpotLike(LikeToDTO like) {
+		spotMapper.setSpotLike(like);
+	}
+
+	public void cancelSpotLike(LikeToDTO like) {
+		spotMapper.cancelSpotLike(like);
+	}
+
+	public int getIsLike(LikeToDTO like) {
+		return spotMapper.getIsLike(like);
+	}
+	
 }

@@ -35,5 +35,30 @@
 				#{spotId},
 				#{url})
 	</insert>
-
+	
+	<select id="getLikeCnt" resultType="_int">
+		SELECT COUNT(*)
+		FROM LIKE_TO
+		WHERE RELATED_ID = #{id}
+	</select>
+	
+	<insert id="setSpotLike">
+		INSERT INTO LIKE_TO
+		VALUES (#{memberId},
+				#{relatedId},
+				#{isSpot})
+	</insert>
+	
+	<delete id="cancelSpotLike">
+		DELETE FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId} 
+		AND RELATED_ID = #{relatedId}
+	</delete>
+	
+	<select id="getIsLike" resultType="int">
+		SELECT count(*) 
+		FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND RELATED_ID = #{relatedId}
+	</select>
 </mapper>

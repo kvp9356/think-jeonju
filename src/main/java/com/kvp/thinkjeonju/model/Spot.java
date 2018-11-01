@@ -34,6 +34,6 @@ public class Spot {
 	}
 	
 	public SpotDTO toDTO() {
-		return new SpotDTO(id, name, content, zipCode, addr, addrDtl, posX, posY, url, tel, fileCnt, new ArrayList<String>(), Category.getById(category).getCategoryName());
+		return new SpotDTO(id, name, content, zipCode, addr, addrDtl, posX, posY, url, tel, fileCnt, new ArrayList<String>(), Category.getById(category).getCategoryName(), 0, null);
 	}
 }

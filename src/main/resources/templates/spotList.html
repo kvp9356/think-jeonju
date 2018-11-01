@@ -1,4 +1,5 @@
 {{#partial "head"}}
+
 {{/partial}}
 
 {{#partial "contents"}}
@@ -15,6 +16,7 @@
 	margin-bottom: 20px;
 	margin-right: 10px;
 	width: 250px;
+	height: 250px;
 }
 #container {
 	width: 1080px;
@@ -22,8 +24,26 @@
 	margin-bottom: 100px;
 	padding-left: 25px;
 }
-.imgContainer img {
+.img {
 	width: 250px;
+}
+.absolute {
+	position: absolute;
+}
+.relative {
+	position: relative;
+}
+.star {
+	top: 5px;
+	left: 220px;
+}
+.contentContainer {
+	top: 170px;
+	position: relative;
+}
+.likeCnt img{
+	width: 16px;
+	vertical-align: baseline;
 }
 </style>
 <div id="container">
@@ -33,20 +53,74 @@
 	<div class="imgContainer">
 	{{#imgUrl}}
 		{{#if @first}}
-			<img src="{{this}}" alt="" />
+		<div class="absolute">
+			<div class="relative">
+				<img src="{{this}}" alt="" class="img"/>
+			</div>
+		</div>
+		<div class="absolute">
+			<div class="relative star">
+				{{#if isLike}}
+					<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+				{{else}}
+					<img src="/image/star.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+				{{/if}}
+			</div>
+		</div>
 		{{/if}}
 	{{/imgUrl}}	
 	</div>
 	<div class="contentContainer">
 	<!-- 카테고리/타이틀/좋아요수 -->
-	{{category}} <br />
+	<div>{{category}}</div>
 	<div class="title">{{name}}</div>
-	좋아요 수
+	<div class="likeCnt"> 
+		<img src="/image/fullStar.png" alt="" />
+		<span>{{likeCnt}}</span>
+	</div>
 	</div>
 </div>
 {{/spots}}
 </div>
 
+<script>
+function switchStarImg(img) {
+	
+	var imgCnt = img.parentElement.parentElement.parentElement.parentElement.children[1].children[2].children[1];
+	console.log(imgCnt);
+	if(img.getAttribute("src") === '/image/star.png') {
+		$.ajax({
+			url: '/api/spots/'+img.dataset.id+"/spotLike",
+			type: 'post',
+			success: function(data) {
+				img.setAttribute("src", '/image/fullStar.png');
+				imgCnt.innerHTML = data;
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log("Status: " + textStatus); 
+				console.log("Error: " + errorThrown); 
+			}
+		});
+	} else {
+		$.ajax({
+			url: '/api/spots/'+img.dataset.id+"/spotLike",
+			type: 'delete',
+			success: function(data) {
+				img.setAttribute("src", '/image/star.png');
+				imgCnt.innerHTML = data;
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log("Status: " + textStatus); 
+				console.log("Error: " + errorThrown); 
+			}
+		});
+	}
+	
+}
+
+</script>
+
+    
 {{/partial}}
 
 {{#partial "script"}}

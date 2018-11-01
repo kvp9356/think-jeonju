@@ -25,7 +25,17 @@ public class SpotDTO {
 	private int fileCnt;
 	private ArrayList<String> imgUrl;
 	private String category;
-
+	private int likeCnt;
+	private String isLike;
+	
+	public void setLikeCnt(int likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+	
+	public void setIsLike(String isLike) {
+		this.isLike = isLike;
+	}
+	
 	@Getter
 	public enum Category {
 		CulturalSpace(0, "문화공간"),
