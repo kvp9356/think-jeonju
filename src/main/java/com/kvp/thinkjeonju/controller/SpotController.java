@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
 import com.kvp.thinkjeonju.dto.SpotDTO;
-import com.kvp.thinkjeonju.exception.common.DataBaseException;
 import com.kvp.thinkjeonju.service.SpotService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,14 +36,7 @@ public class SpotController {
 		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
 		
 		if(m != null) {
-			for(int i=0; i<spots.size(); i++) {
-				LikeToDTO like = new LikeToDTO(m.getId(), spots.get(i).getId(), 's');
-				int result = spotService.getIsLike(like);
-				System.out.println(result);
-				if(result == 1) {
-					spots.get(i).setIsLike("true");
-				}
-			}
+			spotService.setLikeInSpotDTOs(m, spots);
 		}
 		model.addAttribute("spots", spots);
 		

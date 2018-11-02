@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
+import com.kvp.thinkjeonju.dto.MemberDTO;
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
 import com.kvp.thinkjeonju.exception.common.DataBaseException;
@@ -232,4 +233,14 @@ public class SpotService {
 		return spotMapper.getIsLike(like);
 	}
 	
+	public void setLikeInSpotDTOs(MemberDTO m, ArrayList<SpotDTO> spots) {
+		for(int i=0; i<spots.size(); i++) {
+			LikeToDTO like = new LikeToDTO(m.getId(), spots.get(i).getId(), 's');
+			int result = getIsLike(like);
+
+			if(result == 1) {
+				spots.get(i).setIsLike("true");
+			}
+		}
+	}
 }

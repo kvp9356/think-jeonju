@@ -29,20 +29,16 @@ public class ApiSpotController {
 	@PostMapping("/{spotId}/spotLike")
 	public ResponseEntity<Integer> setSpotLike(@PathVariable String spotId, HttpSession session) {
 		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
-		
-		LikeToDTO like = new LikeToDTO(m.getId(), spotId, 's');
-		spotService.setSpotLike(like);
-		int likeCnt = spotService.getLikeCnt(spotId);
-		return new ResponseEntity(likeCnt, HttpStatus.OK);		
+		spotService.setSpotLike(new LikeToDTO(m.getId(), spotId, 's'));
+
+		return new ResponseEntity(spotService.getLikeCnt(spotId), HttpStatus.OK);		
 	}
 	
 	@DeleteMapping("/{spotId}/spotLike")
 	public ResponseEntity<Integer> cancelSpotLike(@PathVariable String spotId, HttpSession session) {
 		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
+		spotService.cancelSpotLike(new LikeToDTO(m.getId(), spotId, 's'));
 		
-		LikeToDTO like = new LikeToDTO(m.getId(), spotId, 's');
-		spotService.cancelSpotLike(like);
-		int likeCnt = spotService.getLikeCnt(spotId);
-		return new ResponseEntity(likeCnt, HttpStatus.OK);
+		return new ResponseEntity(spotService.getLikeCnt(spotId), HttpStatus.OK);
 	}
 }
