@@ -6,7 +6,7 @@
         WHERE ID = (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 's')
     </select>
 
-    <select id="findSchedulesByMemberId" resultType="schedule">
+    <select id="findSchedulesByMemberId" resultMap="schedule">
         SELECT * FROM SCHEDULE
         WHERE ID = (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
     </select>
