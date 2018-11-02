@@ -233,7 +233,7 @@ public class SpotService {
 		return spotMapper.getIsLike(like);
 	}
 	
-	public void setLikeInSpotDTOs(MemberDTO m, ArrayList<SpotDTO> spots) {
+	public ArrayList<SpotDTO> setLikeInSpotDTOs(MemberDTO m, ArrayList<SpotDTO> spots) {
 		for(int i=0; i<spots.size(); i++) {
 			LikeToDTO like = new LikeToDTO(m.getId(), spots.get(i).getId(), 's');
 			int result = getIsLike(like);
@@ -242,5 +242,7 @@ public class SpotService {
 				spots.get(i).setIsLike("true");
 			}
 		}
+		
+		return spots;
 	}
 }

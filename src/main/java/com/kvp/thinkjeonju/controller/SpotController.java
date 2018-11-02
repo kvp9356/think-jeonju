@@ -36,7 +36,7 @@ public class SpotController {
 		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
 		
 		if(m != null) {
-			spotService.setLikeInSpotDTOs(m, spots);
+			spots = spotService.setLikeInSpotDTOs(m, spots);
 		}
 		model.addAttribute("spots", spots);
 		
