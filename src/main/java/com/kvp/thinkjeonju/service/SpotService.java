@@ -13,9 +13,13 @@ import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kvp.thinkjeonju.dto.LikeToDTO;
+import com.kvp.thinkjeonju.dto.MemberDTO;
 import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.dto.SpotImgDTO;
 import com.kvp.thinkjeonju.exception.common.DataBaseException;
+import com.kvp.thinkjeonju.model.Spot;
+import com.kvp.thinkjeonju.model.SpotImg;
 import com.kvp.thinkjeonju.repository.SpotMapper;
 
 
@@ -98,9 +102,8 @@ public class SpotService {
 	    			
 	    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
 	    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
-	    					obj.getString("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
-	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img));
-    			
+	    					""+obj.get("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
+	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, null));
     			} else { // 길이가 2이상일 때
     				JSONArray spot = (JSONArray)obj.get("list");
     				
@@ -114,8 +117,8 @@ public class SpotService {
             			
             			SpotDTO spotDTO = new SpotDTO(tmp.getString("dataSid"), tmp.getString("dataTitle"), 
             					tmp.getString("dataContent"), tmp.getString("zipCode"), tmp.getString("addr"), 
-            					tmp.getString("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
-            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img);
+            					""+tmp.get("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
+            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, null);
             			spots.add(spotDTO);
             		}
     			}
@@ -123,7 +126,9 @@ public class SpotService {
     			// DB에 존재하지 않는 장소만 저장
         		for(int i=0; i<spots.size(); i++) {
         			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
-        				addSpot(spots.get(i));
+        				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
         			}
         		}
     		}
@@ -181,7 +186,7 @@ public class SpotService {
     			// DB에 존재하지 않는 이미지만 저장
         		for(int i=0; i<spotImgs.size(); i++) {
         			if(checkSpotImgDuplicate(spotImgs.get(i).getId()) == 0) {	
-        				addSpotImg(spotImgs.get(i));
+        				addSpotImg(SpotImg.from(spotImgs.get(i)));
         			}
         		}
     		}	
@@ -191,15 +196,15 @@ public class SpotService {
         return url;
 	}
 
-	public void addSpotImg(SpotImgDTO spotImgDTO) {
-		int result = spotMapper.addSpotImg(spotImgDTO);
+	public void addSpotImg(SpotImg spotImg) {
+		int result = spotMapper.addSpotImg(spotImg);
 		if(result <= 0) 
 			throw new DataBaseException("장소 이미지 등록에 실패했습니다.");
 	}
 
 
-	public void addSpot(SpotDTO spotDTO) {
-		int result = spotMapper.addSpot(spotDTO);
+	public void addSpot(Spot spot) {
+		int result = spotMapper.addSpot(spot);
 		if(result <= 0) 
 			throw new DataBaseException("장소 등록에 실패했습니다.");
 	}
@@ -211,5 +216,33 @@ public class SpotService {
 	public int checkSpotImgDuplicate(String id) {
 		return spotMapper.checkSpotImgDuplicate(id);
 	}
+	
+	public int getLikeCnt(String id) {
+		return spotMapper.getLikeCnt(id);
+	}
 
+	public void setSpotLike(LikeToDTO like) {
+		spotMapper.setSpotLike(like);
+	}
+
+	public void cancelSpotLike(LikeToDTO like) {
+		spotMapper.cancelSpotLike(like);
+	}
+
+	public int getIsLike(LikeToDTO like) {
+		return spotMapper.getIsLike(like);
+	}
+	
+	public ArrayList<SpotDTO> setLikeInSpotDTOs(MemberDTO m, ArrayList<SpotDTO> spots) {
+		for(int i=0; i<spots.size(); i++) {
+			LikeToDTO like = new LikeToDTO(m.getId(), spots.get(i).getId(), 's');
+			int result = getIsLike(like);
+
+			if(result == 1) {
+				spots.get(i).setIsLike("true");
+			}
+		}
+		
+		return spots;
+	}
 }

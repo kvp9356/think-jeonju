@@ -1,0 +1,46 @@
+{{#partial "head"}}
+<link rel="stylesheet" href="/css/spotList.css"/>
+{{/partial}}
+
+{{#partial "contents"}}
+<div id="container">
+{{#spots}}
+<div class="spotContainer">
+	<div class="imgContainer">
+	{{#imgUrl}}
+		{{#if @first}}
+		<div class="absolute">
+			<div class="relative">
+				<img src="{{this}}" alt="" class="img"/>
+			</div>
+		</div>
+		<div class="absolute">
+			<div class="relative star">
+				{{#if isLike}}
+					<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+				{{else}}
+					<img src="/image/star.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+				{{/if}}
+			</div>
+		</div>
+		{{/if}}
+	{{/imgUrl}}	
+	</div>
+	<div class="contentContainer">
+	<div>{{category}}</div>
+	<div class="title">{{name}}</div>
+	<div class="likeCnt"> 
+		<img src="/image/fullStar.png" alt="" />
+		<span>{{likeCnt}}</span>
+	</div>
+	</div>
+</div>
+{{/spots}}
+</div>    
+{{/partial}}
+
+{{#partial "script"}}
+<script src="/js/spotList.js"></script>
+{{/partial}}
+
+{{>base}}

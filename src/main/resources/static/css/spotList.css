@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.title {
+	font-size: 20px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.spotContainer {
+	display: inline-block;
+	margin-bottom: 20px;
+	margin-right: 10px;
+	width: 250px;
+	height: 250px;
+}
+#container {
+	width: 1080px;
+	margin: 0 auto;
+	margin-bottom: 100px;
+	padding-left: 25px;
+}
+.img {
+	width: 250px;
+}
+.absolute {
+	position: absolute;
+}
+.relative {
+	position: relative;
+}
+.star {
+	top: 5px;
+	left: 220px;
+}
+.contentContainer {
+	top: 170px;
+	position: relative;
+}
+.likeCnt img{
+	width: 16px;
+	vertical-align: baseline;
+}
