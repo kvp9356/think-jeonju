@@ -11,4 +11,14 @@
         WHERE URL = (SELECT SCHEDULE_URL FROM LIKE_TO WHERE MEMBER_ID = #{memberId})
     </select>
 
+    <resultMap id="schedule" type="schedule">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="member_id" property="memberId"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="is_public" property="isPublic"/>
+        <result column="thumnail_url" property="thumnailUrl"/>
+        <result column="is_writing" property="isWriting"/>
+    </resultMap>
 </mapper>

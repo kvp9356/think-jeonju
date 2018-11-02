@@ -10,10 +10,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 public class ScheduleDTO {
-    private String url;
+    private String id;
     private String title;
     private String memberId;
     private LocalDate startDate;
     private LocalDate endDate;
     private int isPublic;
+    private String thumnailUrl;
+    private int isWriting;
+    private int like;
 }
