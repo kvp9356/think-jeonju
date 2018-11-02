@@ -7,6 +7,10 @@ a {
     color: black;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 html, body {
     height: 100%;
 }
@@ -28,13 +32,11 @@ html, body {
 }
 
 .header a:hover {
-    text-decoration: none;
     color: lightgray;
     cursor: pointer;
 }
 
 #login:hover, #join:hover, #logout:hover {
-    text-decoration: none;
     color: lightgray;
     cursor: pointer;
 }
@@ -140,8 +142,6 @@ html, body {
     background-color: lightgray;
     margin-top: 20px;
     padding: 10px 0;
-    position:absolute;
-    bottom:0;
 }
 
 .footer {
