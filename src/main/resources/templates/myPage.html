@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{{#partial "head"}}
+<link rel="stylesheet" href="/css/myPage.css"/>
+{{/partial}}
+
+{{#partial "contents"}}
+<div class="mypage-menu-container">
+    <div class="mypage-menu">
+        <a href="javascript:void(0)" class="in" id="my-schedule">
+            <span>내 스케쥴</span>
+        </a>
+        <a href="javascript:void(0)" id="like-spot">
+            <span>좋아요 장소</span>
+        </a>
+        <a href="javascript:void(0)" id="like-schedule">
+            <span>좋아요 스케쥴</span>
+        </a>
+    </div>
+</div>
+<div class="mypage-container">
+
+</div>
+{{/partial}}
+
+{{#partial "script"}}
+<script src="/js/myPage.js"></script>
+{{/partial}}
+
+{{>base}}
