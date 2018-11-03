@@ -1,0 +1,389 @@
+{{#partial "head"}}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .left::-webkit-scrollbar {
+        display: none;
+    }
+
+    #tab-frame::-webkit-scrollbar {
+        display: none;
+    }
+
+    .body-container{
+        margin : 0 50px;
+    }
+    #schedule-frame {
+        float:left;
+        border : 0;
+        width:100%;
+    }
+
+    .center{
+        float: left;
+        width :30%;
+    }
+    #body-container>.left-frame{
+        float: left;
+        padding-right : 10px;
+        border-right : 1px solid #e9e9e9;
+    }
+
+    .left {
+        border: 1px solid white;
+        margin: 10px 0;
+        width: 400px;
+        overflow: auto;
+        height: 750px;
+    }
+    #title_header{
+        background : #e9e9e9;
+    }
+    #edit_image{
+        width : 20px;
+        height: 20px;
+
+    }
+    #edit_image:hover {
+        cursor : pointer;
+    }
+
+    #tab-frame {
+        float: left;
+        width: 60px;
+        margin: 10px 0;
+        height: 750px;
+        overflow: auto;
+        padding : 0px
+    }
+    .center{
+        float: left;
+        border: 1px solid #ff0010;
+        margin: 10px;
+        padding: 10px;
+        width: 300px;
+        overflow: hidden;
+        min-height: 750px;
+    }
+
+    #day-frame{
+        text-align: center;
+    }
+    /*    .whatDay{
+            width:100%;
+            height : 35px;
+            padding : 5px;
+            border-bottom: 1px solid lightblue;
+            border-top: 1px solid lightblue;
+            background : lightblue;
+            font-weight: bold;
+            color : #ffffff;
+        }*/
+
+    #schedule_title{
+        border:none;
+        text-align: center;
+        background : #e9e9e9;
+        width:calc(100% - 30px);
+        font-weight: bold;
+    }
+
+    .date{
+        border:0px;
+        width: 30%;
+        text-align:center;
+    }
+
+    /*    .left > h3{
+            margin : 0;
+            width:calc(100% - 20px);
+        }*/
+
+    .startEndDate, .date{
+        text-align: center;
+        background : #e9e9e9;
+
+    }
+
+    #endDate{
+        margin-left : 5px;
+    }
+    #schedule-frame{
+        float : left;
+        text-align: center;
+        width : 100%;
+    }
+
+    .details-Spot{
+        border : 1px solid #e9e9e9;
+        overflow:hidden;
+        height: 200px;
+        padding : 10px 10px;
+        margin-bottom : 10px;
+        width : 100%;
+    }
+    .details-Schedule{
+        min-height: 470px;
+        text-align: center;
+        color : lightgray;
+        align-items: center;
+        justify-content: center;
+    }
+    .details-Spot:hover{
+        cursor : pointer;
+    }
+
+    .ui-widget-header{
+        border: none;
+        background: none;
+        color: #333333;
+        font-weight: bold;
+    }
+    #tab-frame>.tab>.ui-tabs-anchor {
+        float: left;
+        padding: 20px 4px;
+        text-decoration: none;
+        width: 100%;
+        text-align: center;
+    }
+    .ui-widget.ui-widget-content{
+        border : none;
+    }
+    #tab-frame>.tab {
+        width : 100%;
+        border-bottom-width: 1px;
+        margin : 0;
+    }
+    .resetDay{
+        padding : 0;
+        background : #e9e9e9;
+    }
+
+    #tab-frame>.ui-state-default{
+        background : none;
+    }
+
+
+    #tab-frame>.ui-state-active{
+        background: lightblue;
+        border : none;
+    }
+
+    .highlight {
+        border: 2px solid lightblue;
+    }
+
+    #day-frame>.day-Form{
+        overflow:hidden;
+        min-height: 500px;
+        height:auto;
+        padding :0;
+    }
+
+    #day-frame>.day-Form>.details-Schedule>.ui-state-highlight{
+        background : aliceblue;
+        border : 1px solid lightgray;
+    }
+    #trapTerm{
+        width: 20%;
+    }
+</style>
+{{/partial}}
+
+{{#partial "contents"}}
+<!-- Modal-->
+<div class="body-container" id="body-container">
+    <!-- Modal-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        <input type="text" id ="schedule-title" placeholder="여행 제목을 입력해주세요!">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="modalForm" id="modalForm">
+                        시작일 : <input id="toDate" width="276" /><br>
+                        종료일 : <input id="fromDate" width="276" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="left-frame">
+        <ul id="tab-frame">
+        </ul>
+        <div class="left">
+            <div id="title_header">
+                <input id="schedule_title" readonly>
+                <button type="button" data-target="#myModal" class="btn resetDay" data-toggle="modal"><img src="/image/edit.png" id="edit_image"></button>
+            </div>
+            <div class="startEndDate">
+                <input id="startDate" class="date" readonly> ~
+                <input id="endDate" class="date" readonly>
+                <input id="trapTerm" class="date" readonly>
+
+            </div>
+
+            <div id="schedule-frame">
+                <div id="day-frame"> <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="search_Form" class="center">
+
+    </div>
+</div>
+{{/partial}}
+
+{{#partial "script"}}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script>
+    var nowDay;
+    var $tabs = $(".left-frame").tabs();
+
+    $(".btn-primary").on({
+        click: function() {
+            toDate = $('#toDate').val();
+            fromDate = $('#fromDate').val();
+            schedule_title = $('#schedule-title').val();
+            document.querySelector('#schedule_title').value = schedule_title;
+            if(new Date(fromDate)>=new Date(toDate) && (new Date(toDate).getTime() - new Date().getTime()) / (1000*60*60*24) > -1 ) {
+                console.log(new Date(fromDate)-new Date(toDate));
+                document.querySelector('#startDate').value = toDate;
+                document.querySelector('#endDate').value = fromDate;
+                console.log("ok");
+                $("#myModal").modal('hide');
+                var day = (new Date(fromDate).getTime() - new Date(toDate).getTime()) / (1000*60*60*24)+1;
+                var textday = "(총 "+day+"일)";
+                $("#trapTerm").val(textday)
+                var count = 1;
+                var day_Form;
+                var tab_form;
+                for(count=1;count<=day;count++) {
+                    console.log(("#day"+count));
+                    if (($("#day" + count)).length == 0) {            //해당 id가 미존재한다면
+                        day_Form = "<div id=\"day" + count + "\" class=\"day-Form\">\n" +
+                            //                    "                <div class=\"whatDay\">" + count + "일차</div>\n" +
+                            "                  <div id=\"day"+count+"\" class=\"details-Schedule\">\n" +
+                            "                       <div class=\"details-Spot\">\n" + count +
+                            "번 장소\n" +
+                            "                       </div>\n" +
+                            "                 </div>\n" +
+                            "            </div>";
+                        $("#day-frame").append(day_Form);
+                        tab_form = "<li class=\"tab\" id=\"tab"+count+"\"><a href=\"#day" + count + "\">"+ count +"일차</a></li>";
+                        $("#tab-frame").append(tab_form);
+                    }
+                }
+                for(count;count<=nowDay;count++){
+                    if (($("#day" + count)).length != 0) {            //해당 id가 존재한 다면
+                        $("#day"+count).remove();
+                        $("#tab"+count).remove();
+                    }
+                }
+                nowDay = day;
+
+            }
+            else{
+                if(new Date(toDate) < new Date()){
+                    alert("출발 날짜는 오늘 보다 이후여야 합니다. 다시 한번 확인해주세요.");
+                }
+                else{
+                    alert("도착 날짜가 출발 날짜보다 작습니다. 다시 한번 확인해주세요.")
+                }
+            }
+            console.log("change!");
+            $(".left-frame").tabs("refresh");
+            var left = ($(".details-Spot").width()/2);
+
+            $(".details-Schedule").sortable({
+                cursorAt : { left : 200, top : 100 },
+                connectWith: ".details-Schedule",
+                placeholder: "ui-state-highlight",
+                start: function(e,ui){
+                    ui.placeholder.height(ui.item.height());
+                }
+            }).disableSelection();
+            $(".ui-tabs-anchor").droppable({
+                accept: ".details-Spot",
+                hoverClass : "highlight",
+                drop: function( event, ui ) {
+                    var $item = $(this);
+                    var $list = $($($item).attr("href")).find(".details-Schedule");
+                    console.log($(".ui-state-active").attr("aria-labelledby"));
+                    console.log($($item).attr("id"));
+                    console.log($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id"));
+                    if($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id")){
+                        console.log("not equal")
+                        ui.draggable.hide(function () {
+                            console.log($(this));
+                            ($(this)).appendTo($list).show("");
+                        });
+                    }
+                }
+            });
+            //    $(".details-Schedule").text("여기를 눌러 장소를 추가하세요!");
+        }
+    });
+
+
+    $(document).on("click",".details-Schedule, #addSpot",function(){
+        var search_Form;
+    });
+
+
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+
+
+    });
+
+    $('#fromDate').datepicker({
+        dateFormat: 'yy-mm-dd' //Input Display Format 변경
+        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+        ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+        ,changeYear: true //콤보박스에서 년 선택 가능
+        ,changeMonth: true //콤보박스에서 월 선택 가능
+//    ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+        ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+        ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+        ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+    });
+
+    $('#toDate').datepicker({
+        dateFormat: 'yy-mm-dd' //Input Display Format 변경
+        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+        ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+        ,changeYear: true //콤보박스에서 년 선택 가능
+        ,changeMonth: true //콤보박스에서 월 선택 가능
+//    ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+        ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+        ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+        ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+    });
+
+</script>
+
+{{/partial}}
+
+{{>base}}
