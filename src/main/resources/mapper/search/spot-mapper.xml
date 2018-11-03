@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kvp.thinkjeonju.repository.SpotMapper">
+	<select id="checkSpotIdDuplicate" resultType="_int">
+		SELECT COUNT(*) 
+		FROM SPOT 
+		WHERE ID = #{id}
+	</select>
+	
+	<insert id="addSpot">
+		INSERT INTO SPOT
+		VALUES (#{id}, 
+				#{name},
+				#{content},
+				#{zipCode},
+				#{addr},
+				#{addrDtl},
+				#{posX},
+				#{posY},
+				#{url},
+				#{tel},
+				#{fileCnt},
+				#{category})
+	</insert>
+	
+	<select id="checkSpotImgDuplicate" resultType="_int">
+		SELECT COUNT(*) 
+		FROM SPOTIMG
+		WHERE ID = #{id}
+	</select>
+	
+	<insert id="addSpotImg">
+		INSERT INTO SPOTIMG
+		VALUES (#{id}, 
+				#{spotId},
+				#{url})
+	</insert>
+	
+	<select id="getLikeCnt" resultType="_int">
+		SELECT COUNT(*)
+		FROM LIKE_TO
+		WHERE RELATED_ID = #{id}
+	</select>
+	
+	<insert id="setSpotLike">
+		INSERT INTO LIKE_TO
+		VALUES (#{memberId},
+				#{relatedId},
+				#{isSpot})
+	</insert>
+	
+	<delete id="cancelSpotLike">
+		DELETE FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId} 
+		AND RELATED_ID = #{relatedId}
+	</delete>
+	
+	<select id="getIsLike" resultType="int">
+		SELECT count(*) 
+		FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND RELATED_ID = #{relatedId}
+	</select>
+</mapper>

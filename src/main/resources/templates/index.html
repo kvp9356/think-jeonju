@@ -1,10 +1,18 @@
 {{#partial "head"}}
+<link rel="stylesheet" href="/css/index.css"/>
 {{/partial}}
 
 {{#partial "contents"}}
+<div id="searchImgDiv">
+	<div id="searchDiv">
+		<input type="text" class="form-control mr-sm-2" id="searchKeyword"/>
+		<button class="btn" onclick="searchByKeyword()"><img src="/image/search.png" alt="" /></button>
+	</div>
+</div>
 {{/partial}}
 
 {{#partial "script"}}
+<script src="/js/index.js"></script>
 {{/partial}}
 
 {{>base}}
