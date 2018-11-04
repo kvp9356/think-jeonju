@@ -72,6 +72,14 @@
     white-space: nowrap;
 }
 
+.my-spot-info .title {
+    margin-top: 0;
+}
+
+.my-spot-info .category {
+    margin-top: 5px;
+}
+
 .my-content-info dd {
     margin-bottom: 0;
 }

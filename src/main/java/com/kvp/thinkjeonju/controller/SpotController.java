@@ -33,7 +33,7 @@ public class SpotController {
 		
 		// 키워드로 api 통해 spot 검색 후 db에 저장
 		ArrayList<SpotDTO> spots = spotService.getSpotData(dataValue);
-		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
+		MemberDTO m = (MemberDTO)session.getAttribute("loginUser");
 		
 		if(m != null) {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
