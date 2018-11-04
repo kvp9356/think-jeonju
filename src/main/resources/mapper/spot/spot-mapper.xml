@@ -64,6 +64,6 @@
 
 	<select id="findSpotImgUrlById" resultType="string">
 		SELECT URL FROM SPOTIMG
-		WHERE ID = #{id}
+		WHERE SPOT_ID = #{id}
 	</select>
 </mapper>

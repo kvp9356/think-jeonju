@@ -3,12 +3,12 @@
 <mapper namespace="com.kvp.thinkjeonju.repository.LikeToMapper">
     <select id="findSpotsByMemberId" resultType="spot">
         SELECT * FROM SPOT
-        WHERE ID = (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 's')
+        WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 's')
     </select>
 
     <select id="findSchedulesByMemberId" resultMap="schedule">
         SELECT * FROM SCHEDULE
-        WHERE ID = (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
+        WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
     </select>
 
     <resultMap id="schedule" type="schedule">
