@@ -33,27 +33,38 @@
     padding-left: 25px;
 }
 
-.my-schedule {
+.my-content {
     display: inline-block;
     width: 250px;
     margin: 10px 5px;
     cursor: pointer;
 }
 
-.my-schedule:hover {
+.my-content:hover {
     box-shadow: 0 2px 10px rgba(0,0,0,.2);
 }
 
-.my-schedule-img {
+.star-container {
+    position: absolute;
+}
+
+.star {
+    position: relative;
+    top: -145px;
+    left: 220px;
+}
+
+.my-content-img {
     width: 250px;
     height: 150px;
 }
 
-.my-schedule-info {
+.my-content-info {
     padding-left: 5px;
+    margin-bottom: 10px;
 }
 
-.my-schedule-info .title {
+.my-content-info .title {
     font-size: 20px;
     margin-top: 5px;
     overflow: hidden;
@@ -61,6 +72,11 @@
     white-space: nowrap;
 }
 
-.my-schedule-info dd {
+.my-content-info dd {
     margin-bottom: 0;
+}
+
+.my-content-info .like img{
+    width: 16px;
+    vertical-align: baseline;
 }
