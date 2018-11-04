@@ -92,6 +92,10 @@
         width: 30%;
         text-align:center;
     }
+ /*   .search_btn{
+        width : 30px;
+        height : 30px;
+    }*/
 
     /*    .left > h3{
             margin : 0;
@@ -186,6 +190,19 @@
     #trapTerm{
         width: 20%;
     }
+    #searchDiv{
+        margin: 0 auto;
+        position: relative;
+        background: white;
+        border-radius: 10px;
+
+    }
+    #searchDiv > input{
+        width: calc(100% - 75px);
+        display: inline;
+        height: 100%;
+        border: none;
+    }
 </style>
 {{/partial}}
 
@@ -239,7 +256,10 @@
         </div>
     </div>
     <div id="search_Form" class="center">
-
+        <div id="searchDiv">
+            <input type="text" form-control mr-sm-2" id="searchKeyword"/>
+            <button class="btn" onclick="searchByKeyword()"><img src="/image/search.png" alt="" /></button>
+        </div>
     </div>
 </div>
 {{/partial}}
