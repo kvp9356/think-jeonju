@@ -25,23 +25,33 @@ public class MyPageService {
     private ScheduleMapper scheduleMapper;
 
     public List<SpotDTO> getLikeSpots(MemberDTO user) {
-        List<SpotDTO> likeSpots = likeToMapper.findSpotsByMemberId(user.getId()).stream()
+        return likeToMapper.findSpotsByMemberId(user.getId()).stream()
                 .map(spot -> spot.toDTO())
+                .map(spotDTO -> {
+                    spotDTO.setImgUrl(spotMapper.findSpotImgUrlById(spotDTO.getId()));
+                    spotDTO.setLikeCnt(spotMapper.getLikeCnt(spotDTO.getId()));
+                    return spotDTO;
+                })
                 .collect(Collectors.toList());
-        likeSpots.stream()
-                .forEach(spotDTO -> spotDTO.setImgUrl(spotMapper.findSpotImgUrlById(spotDTO.getId())));
-        return likeSpots;
     }
 
     public List<ScheduleDTO> getLikeSchedules(MemberDTO user) {
         return likeToMapper.findSchedulesByMemberId(user.getId()).stream()
                 .map(schedule -> schedule.toDTO())
+                .map(scheduleDTO -> {
+                    scheduleDTO.setLike(scheduleMapper.getLikeCnt(scheduleDTO.getId()));
+                    return scheduleDTO;
+                })
                 .collect(Collectors.toList());
     }
 
     public List<ScheduleDTO> getPersonalSchedules(MemberDTO user) {
         return scheduleMapper.findByMemberId(user.getId()).stream()
                 .map(schedule -> schedule.toDTO())
+                .map(scheduleDTO -> {
+                    scheduleDTO.setLike(scheduleMapper.getLikeCnt(scheduleDTO.getId()));
+                    return scheduleDTO;
+                })
                 .collect(Collectors.toList());
     }
 }

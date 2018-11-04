@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface ScheduleMapper {
     List<Schedule> findByMemberId(String memberId);
+
+    int getLikeCnt(String id);
 }

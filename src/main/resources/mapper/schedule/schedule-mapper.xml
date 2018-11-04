@@ -6,6 +6,11 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
+    <select id="getLikeCnt" resultType="int">
+        SELECT COUNT(*) FROM LIKE_TO
+        WHERE RELATED_ID = #{id} AND ISSPOT = 'c'
+    </select>
+
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>
         <result column="title" property="title"/>

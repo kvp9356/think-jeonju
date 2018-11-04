@@ -19,4 +19,8 @@ public class ScheduleDTO {
     private String thumnailUrl;
     private int isWriting;
     private int like;
+
+    public void setLike(int like) {
+        this.like = like;
+    }
 }
