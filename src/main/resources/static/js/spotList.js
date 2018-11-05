@@ -1,7 +1,6 @@
 function switchStarImg(img) {
 	
 	var imgCnt = img.parentElement.parentElement.parentElement.parentElement.children[1].children[2].children[1];
-	console.log(imgCnt);
 	if(img.getAttribute("src") === '/image/star.png') {
 		$.ajax({
 			url: '/api/spots/'+img.dataset.id+"/spotLike",

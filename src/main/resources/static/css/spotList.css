@@ -12,7 +12,8 @@
 	margin-bottom: 20px;
 	margin-right: 10px;
 	width: 250px;
-	height: 250px;
+	height: 260px;
+	border: 1px solid #80808036;
 }
 #container {
 	width: 1080px;
@@ -38,6 +39,7 @@
 .contentContainer {
 	top: 170px;
 	position: relative;
+	margin: 5px;
 }
 .likeCnt img{
 	width: 16px;
@@ -78,4 +80,33 @@
 #pagingDiv {
 	width: fit-content;
 	margin: 0 auto;
+}
+.star img:hover {
+	cursor: pointer;
+}
+.imgDiv img {
+	-webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:1.2s;
+    -moz-transition:1.2s;
+    -ms-transition:1.2s;
+    -o-transition:1.2s;
+    transition:1.2s;
+}
+.imgDiv:hover img {
+	-webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+}
+.imgDiv {
+	overflow:hidden;
+}
+.spotContainer:hover {
+	/* box-shadow: 5px 5px 15px 5px #80808036; */
+	border: 1px solid rgba(0,123,255,.5);
 }

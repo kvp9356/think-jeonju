@@ -12,7 +12,6 @@
 		VALUES (#{id}, 
 				#{name},
 				#{content},
-				#{zipCode},
 				#{addr},
 				#{addrDtl},
 				#{posX},

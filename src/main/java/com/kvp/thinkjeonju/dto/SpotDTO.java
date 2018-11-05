@@ -15,7 +15,6 @@ public class SpotDTO {
 	private String id;
 	private String name;
 	private String content;
-	private String zipCode;
 	private String addr;
 	private String addrDtl;
 	private Double posX;

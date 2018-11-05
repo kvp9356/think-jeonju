@@ -101,7 +101,7 @@ public class SpotService {
 	    			}
 	    			
 	    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
-	    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
+	    					obj.getString("dataContent"), obj.getString("addr"), 
 	    					""+obj.get("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
 	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false));
     			} else { // 길이가 2이상일 때
@@ -116,7 +116,7 @@ public class SpotService {
     	    			}
             			
             			SpotDTO spotDTO = new SpotDTO(tmp.getString("dataSid"), tmp.getString("dataTitle"), 
-            					tmp.getString("dataContent"), tmp.getString("zipCode"), tmp.getString("addr"), 
+            					tmp.getString("dataContent"), tmp.getString("addr"), 
             					""+tmp.get("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
             					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false);
             			spots.add(spotDTO);

@@ -1,12 +1,15 @@
 package com.kvp.thinkjeonju.controller;
 
-import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
-import com.kvp.thinkjeonju.security.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
-import com.kvp.thinkjeonju.exception.common.DataBaseException;
+import com.kvp.thinkjeonju.security.LoginUser;
 import com.kvp.thinkjeonju.service.SpotService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,5 +43,7 @@ public class ApiSpotController {
 		spotService.cancelSpotLike(new LikeToDTO(user.getId(), spotId, 's'));
 		return new ResponseEntity(spotService.getLikeCnt(spotId), HttpStatus.OK);
 	}
-	
+
 }
+
+

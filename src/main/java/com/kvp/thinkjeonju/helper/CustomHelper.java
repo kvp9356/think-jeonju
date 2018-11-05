@@ -17,4 +17,12 @@ public class CustomHelper {
         }
         return options.inverse(this);
     }
+    
+    public int getI(Object size, Options options) throws IOException {
+    	int num = (int)size;
+    	for(int i=0; i<num; i++) {
+    		return i+1;
+    	}
+		return 0;
+    }
 }

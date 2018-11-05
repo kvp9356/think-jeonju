@@ -59,5 +59,6 @@ function searchByKeyword() {
 		
 		document.body.appendChild(form);
 		form.submit();
+		
 	}
 }
