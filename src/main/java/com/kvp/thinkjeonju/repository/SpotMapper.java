@@ -4,6 +4,7 @@ import com.kvp.thinkjeonju.model.SpotImg;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
+import com.kvp.thinkjeonju.dto.SpotDTO;
 import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.model.SpotImg;
 
@@ -31,5 +32,7 @@ public interface SpotMapper {
 	int getIsLike(LikeToDTO like);
 
 	int getSpotDataSize(String dataValue);
+
+	Spot getSpotDetail(String name);
 
 }

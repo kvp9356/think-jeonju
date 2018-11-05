@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +30,11 @@ public class SpotController {
 	@PostMapping("/search")
 	public String getSpotData(@RequestParam String dataValue, Model model, HttpSession session, 
 							  @RequestParam(required=false, defaultValue="1") int cPage) {
-		log.debug("[Search] Spot Data 검색");
+		log.debug("[Spot] Spot Data 검색");
 			
 		// 키워드로 api 통해 spot 검색 후 db에 저장
 		ArrayList<SpotDTO> spots = spotService.getSpotData(dataValue, cPage);
-		MemberDTO m = (MemberDTO)session.getAttribute("LOGIN_USER");
+		MemberDTO m = (MemberDTO)session.getAttribute("loginUser");
 		int size = spotService.getSpotDataSize(dataValue);
 		
 		if(m != null) {
@@ -44,5 +46,4 @@ public class SpotController {
 		
 		return "spotList";
 	}
-	
 }

@@ -72,4 +72,10 @@
 		WHERE NAME LIKE '%'||#{dataValue}||'%' 
 		OR CONTENT LIKE '%'||#{dataValue}||'%'
 	</select>
+	
+	<select id="getSpotDetail" resultType="spot">
+		SELECT *
+		FROM SPOT
+		WHERE NAME = #{name}
+	</select>
 </mapper>

@@ -251,4 +251,9 @@ public class SpotService {
 	public int getSpotDataSize(String dataValue) {
 		return spotMapper.getSpotDataSize(dataValue);
 	}
+
+	public Spot getSpotDetail(String name) {
+		return spotMapper.getSpotDetail(name);
+	}
+
 }

@@ -20,7 +20,7 @@
 
 <div id="container">
 {{#spots}}
-<div class="spotContainer" onclick="goToDetailView(this);">
+<div class="spotContainer" onclick="getSpotDetail(this);">
 	<div class="imgContainer">
 		{{#imgUrl}}
 			{{#if @first}}
@@ -105,12 +105,14 @@ function moveToPage(a) {
 	form.submit();
 }
 
-function goToDetailView(div) {
-	var title = div.children[1].children[1].innerHTML;
-	
-	location.href="/spots/search/detail/title="+title;
+function getSpotDetail(div) {
+	var name = div.children[1].children[1].innerHTML;
+	 
+	location.href="/api/spots/" + name + "/detail";
 	
 }
+
+
 </script>
 {{/partial}}
 
