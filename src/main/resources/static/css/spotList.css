@@ -19,6 +19,8 @@
 	margin: 0 auto;
 	margin-bottom: 100px;
 	padding-left: 25px;
+	margin-top: 20px;
+	min-height: 540px;
 }
 .img {
 	width: 250px;
@@ -40,4 +42,40 @@
 .likeCnt img{
 	width: 16px;
 	vertical-align: baseline;
+	margin-right: 3px;
+}
+#navbar {
+  overflow: hidden;
+  background-color: lightblue;
+}
+#navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+#navbar>div {
+	width: 1080px;
+	margin: 0 auto;
+}
+#navbar a:hover, #navbar a:focus {
+	text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+#search input{
+	width: 200px;
+	display: inline-block;
+}
+#search {
+	float: right;
+	margin-top: 7px;
+}
+#pagingDiv {
+	width: fit-content;
+	margin: 0 auto;
 }

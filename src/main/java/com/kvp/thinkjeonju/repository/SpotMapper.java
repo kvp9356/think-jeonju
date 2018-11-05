@@ -25,4 +25,6 @@ public interface SpotMapper {
 
 	int getIsLike(LikeToDTO like);
 
+	int getSpotDataSize(String dataValue);
+
 }

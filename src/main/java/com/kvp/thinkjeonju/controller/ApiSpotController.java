@@ -41,4 +41,5 @@ public class ApiSpotController {
 		
 		return new ResponseEntity(spotService.getLikeCnt(spotId), HttpStatus.OK);
 	}
+	
 }

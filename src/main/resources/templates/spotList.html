@@ -3,6 +3,21 @@
 {{/partial}}
 
 {{#partial "contents"}}
+<div id="navbar">
+	<div>
+		<a href="#">통합검색</a>
+	  	<a href="#">문화공간</a>
+	  	<a href="#">문화체험</a>
+	  	<a href="#">야외여행지</a>
+ 	 	<a href="#">거리투어</a>
+	 	<a href="#">문화재</a>
+	 	<div id="search">
+			<input type="text" class="form-control"/>
+			<button class="btn btn-light">검색</button>
+		</div>
+	</div>
+</div>
+
 <div id="container">
 {{#spots}}
 <div class="spotContainer">
@@ -35,12 +50,61 @@
 	</div>
 	</div>
 </div>
+<input type="hidden" id="dataValue" value="{{dataValue}}"/>
 {{/spots}}
-</div>    
+</div>
+<div id="pagingDiv">
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+	<li class="page-item"><a class="page-link" onclick="moveToPage(this);">1</a></li>
+	<li class="page-item"><a class="page-link" onclick="moveToPage(this);">2</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
 {{/partial}}
 
 {{#partial "script"}}
 <script src="/js/spotList.js"></script>
+<script>
+function moveToPage(a) {
+	var form = document.createElement("form");
+	var parm = new Array();
+	var input = new Array();
+	
+	var dataValue = $("#dataValue").val();
+	var cPage = a.innerHTML;
+	
+	form.action = "/spots/search";
+	form.method = "POST";
+	
+	parm.push(['dataValue', dataValue]);
+	parm.push(['cPage', cPage]);
+	
+	for(var i=0; i<parm.length; i++) {
+		input[i] = document.createElement("input");
+		input[i].setAttribute("type", "hidden");
+		input[i].setAttribute("name", parm[i][0]);
+		input[i].setAttribute("value", parm[i][1]);
+		
+		form.appendChild(input[i]);
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+}
+</script>
 {{/partial}}
 
 {{>base}}

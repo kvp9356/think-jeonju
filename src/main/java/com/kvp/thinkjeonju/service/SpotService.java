@@ -26,7 +26,7 @@ import com.kvp.thinkjeonju.repository.SpotMapper;
 @Service
 public class SpotService {
 
-	final static int MAX = 999999;
+	final static int PAGESIZE = 8;
 	final static int IMGMAX = 5;
 	
 	private final String authApiKey = "DCSBMCAPSGRWVRX";
@@ -69,13 +69,14 @@ public class SpotService {
 	}
 	
 	// 검색키워드를 통해 해당 값을 포함한 spot list 반환(이미지 포함)
-	public ArrayList<SpotDTO> getSpotData(String dataValue) {
+	public ArrayList<SpotDTO> getSpotData(String dataValue, int cPage) {
 		ArrayList<SpotDTO> spots = new ArrayList<>();
 		
 		try {
 			String addr = "http://openapi.jeonju.go.kr/rest/culture/getCultureList?authApiKey=";
 			String parameter = "&dataValue=" + URLEncoder.encode(dataValue, "UTF-8");
-			parameter += "&pageSize=" + MAX;
+			parameter += "&startPage=" + cPage;
+			parameter += "&pageSize=" + PAGESIZE;
 			
 			addr += authApiKey + parameter;
 			
@@ -88,7 +89,6 @@ public class SpotService {
     		obj = (JSONObject)obj.get("body");
     		long totalCount = (long)obj.get("totalCount");
     		obj = (JSONObject)obj.get("data");
-    		
     		ArrayList<String> img = new ArrayList<>();
     		
     		if(totalCount > 0) {
@@ -108,7 +108,7 @@ public class SpotService {
     				JSONArray spot = (JSONArray)obj.get("list");
     				
     				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
-            		for(int i=0; i<totalCount; i++) {
+            		for(int i=0; i<spot.length(); i++) {
             			JSONObject tmp = (JSONObject)spot.get(i);
             			
             			if(tmp.getInt("fileCnt") > 0) {
@@ -244,5 +244,9 @@ public class SpotService {
 		}
 		
 		return spots;
+	}
+
+	public int getSpotDataSize(String dataValue) {
+		return spotMapper.getSpotDataSize(dataValue);
 	}
 }
