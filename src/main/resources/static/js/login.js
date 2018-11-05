@@ -39,7 +39,7 @@ class Login {
             contentType: "application/json",
             success: () => {
                 $_("#login-error").style.display = "none";
-                reloadHome();
+                location.reload();
             },
             error: () => {
                 $_("#login-error span").innerText = "아이디, 비밀번호를 다시 확인해주세요.";
