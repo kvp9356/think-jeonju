@@ -12,7 +12,7 @@ function switchStarImg(img) {
 			},
 			statusCode: {
 				403: function () {
-					location.href = "/error";
+					location.href = "/loginError";
                 }
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -30,7 +30,7 @@ function switchStarImg(img) {
 			},
             statusCode: {
                 403: function () {
-                    location.href = "/error";
+                    location.href = "/loginError";
                 }
             },
 			error: function(XMLHttpRequest, textStatus, errorThrown) {

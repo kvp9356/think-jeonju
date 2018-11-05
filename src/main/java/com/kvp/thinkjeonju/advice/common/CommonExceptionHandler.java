@@ -15,6 +15,6 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String loginUserNotFound(UnAuthenticatedException exception) {
         log.error("[UnAuthenticatedException] {}", exception.getMessage());
-        return "/error";
+        return "/loginError";
     }
 }
