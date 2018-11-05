@@ -7,6 +7,10 @@ a {
     color: black;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 html, body {
     height: 100%;
 }
@@ -28,13 +32,11 @@ html, body {
 }
 
 .header a:hover {
-    text-decoration: none;
     color: lightgray;
     cursor: pointer;
 }
 
 #login:hover, #join:hover, #logout:hover {
-    text-decoration: none;
     color: lightgray;
     cursor: pointer;
 }
@@ -45,7 +47,6 @@ html, body {
     align-self: center;
     padding-top: 10px;
 }
-
 
 .menu {
     grid-area: menu;
@@ -68,6 +69,26 @@ html, body {
 .account a {
     font-size: 20px;
     font-weight: bold;
+}
+
+.contents-container {
+    min-height: 771px;
+}
+
+.footer-container {
+    width: 100%;
+    background-color: lightgray;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+.footer {
+    width: 1080px;
+    margin: 0 auto;
+}
+
+#footer-info {
+    font-weight: 300;
 }
 
 #login, #my-page {
@@ -133,22 +154,4 @@ html, body {
 #join-form-btn, #login-form-btn {
     width: 100%;
     margin-bottom: 20px;
-}
-
-.footer-container {
-    width: 100%;
-    background-color: lightgray;
-    margin-top: 20px;
-    padding: 10px 0;
-    position:absolute;
-    bottom:0;
-}
-
-.footer {
-    width: 1080px;
-    margin: 0 auto;
-}
-
-#footer-info {
-    font-weight: 300;
 }

@@ -62,6 +62,11 @@
 		AND RELATED_ID = #{relatedId}
 	</select>
 	
+	<select id="findSpotImgUrlById" resultType="string">
+		SELECT URL FROM SPOTIMG
+		WHERE SPOT_ID = #{id}
+	</select>
+	
 	<select id="getSpotDataSize" resultType="int">
 		SELECT COUNT(*)
 		FROM SPOT

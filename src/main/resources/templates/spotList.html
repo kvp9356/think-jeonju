@@ -22,24 +22,24 @@
 {{#spots}}
 <div class="spotContainer">
 	<div class="imgContainer">
-	{{#imgUrl}}
-		{{#if @first}}
-		<div class="absolute">
-			<div class="relative">
-				<img src="{{this}}" alt="" class="img"/>
+		{{#imgUrl}}
+			{{#if @first}}
+			<div class="absolute">
+				<div class="relative">
+					<img src="{{this}}" alt="" class="img"/>
+				</div>
 			</div>
-		</div>
+			{{/if}}
+		{{/imgUrl}}
 		<div class="absolute">
 			<div class="relative star">
-				{{#if isLike}}
+				{{#isMyLike isLike}}
 					<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
 				{{else}}
 					<img src="/image/star.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
-				{{/if}}
+				{{/isMyLike}}
 			</div>
 		</div>
-		{{/if}}
-	{{/imgUrl}}	
 	</div>
 	<div class="contentContainer">
 	<div>{{category}}</div>

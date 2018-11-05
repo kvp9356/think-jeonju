@@ -26,13 +26,17 @@ public class SpotDTO {
 	private ArrayList<String> imgUrl;
 	private String category;
 	private int likeCnt;
-	private String isLike;
+	private Boolean isLike;
+
+	public void setImgUrl(ArrayList<String> imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 	
 	public void setLikeCnt(int likeCnt) {
 		this.likeCnt = likeCnt;
 	}
 	
-	public void setIsLike(String isLike) {
+	public void setIsLike(Boolean isLike) {
 		this.isLike = isLike;
 	}
 	
