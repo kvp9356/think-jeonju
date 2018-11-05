@@ -8,6 +8,8 @@ import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.model.SpotImg;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Mapper
 public interface SpotMapper {
@@ -30,4 +32,5 @@ public interface SpotMapper {
 
 	int getIsLike(LikeToDTO like);
 
+	List<Spot> findBestSpots();
 }
