@@ -25,22 +25,22 @@ public class SpotController {
 
 	@Autowired
 	private SpotService spotService;
-	
+
 	@GetMapping("/search")
 	public String getSpotData(@RequestParam String dataValue, Model model, HttpSession session) {
-	
+
 		log.debug("[Search] Spot Data 검색");
-		
+
 		// 키워드로 api 통해 spot 검색 후 db에 저장
 		ArrayList<SpotDTO> spots = spotService.getSpotData(dataValue);
 		MemberDTO m = (MemberDTO)session.getAttribute("loginUser");
-		
+
 		if(m != null) {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
 		}
 		model.addAttribute("spots", spots);
-		
+
 		return "spotList";
 	}
-	
+
 }
