@@ -11,6 +11,15 @@
         WHERE RELATED_ID = #{id} AND ISSPOT = 'c'
     </select>
 
+    <select id="findBestSchedules" resultMap="schedule">
+        SELECT * FROM
+        (SELECT SCHEDULE.* FROM SCHEDULE
+        LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 'c'
+        GROUP BY RELATED_ID) ON SCHEDULE.ID = RELATED_ID
+        ORDER BY LIKE_CNT DESC nulls last, ID ASC)
+        WHERE ROWNUM <![CDATA[ <= ]]> 4
+    </select>
+
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>
         <result column="title" property="title"/>

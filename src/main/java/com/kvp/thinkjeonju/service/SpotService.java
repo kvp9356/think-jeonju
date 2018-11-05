@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -246,5 +248,16 @@ public class SpotService {
 		}
 		
 		return spots;
+	}
+
+	public List<SpotDTO> getBestSpots() {
+		return spotMapper.findBestSpots().stream()
+		.map(spot -> spot.toDTO())
+		.map(spotDTO -> {
+			spotDTO.setLikeCnt(spotMapper.getLikeCnt(spotDTO.getId()));
+			spotDTO.setImgUrl(spotMapper.findSpotImgUrlById(spotDTO.getId()));
+			return spotDTO;
+		})
+		.collect(Collectors.toList());
 	}
 }
