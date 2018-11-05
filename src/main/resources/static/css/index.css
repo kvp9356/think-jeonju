@@ -34,3 +34,68 @@
 #searchDiv button img{
 	padding-bottom: 5px;
 }
+
+.best-container {
+	width: 1080px;
+	margin: 20px auto;
+	padding: 0 14px;
+}
+
+.best-main-title {
+	font-size: 25px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.best-sub-title {
+	font-size: 18px;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.best-content {
+	display: inline-block;
+	width: 250px;
+	margin: 10px 5px;
+	cursor: pointer;
+}
+
+.best-content:hover {
+	box-shadow: 0 2px 10px rgba(0,0,0,.2);
+}
+
+.best-content-img {
+	width: 250px;
+	height: 150px;
+}
+
+.best-content-info {
+	padding-left: 5px;
+	margin-bottom: 10px;
+}
+
+.best-content-info .title {
+	font-size: 20px;
+	margin-top: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.best-spot-info .title {
+	margin-top: 0;
+}
+
+.best-spot-info .category {
+	margin-top: 5px;
+}
+
+.best-content-info dd {
+	margin-bottom: 0;
+}
+
+.best-content-info .like img{
+	width: 16px;
+	vertical-align: baseline;
+}
