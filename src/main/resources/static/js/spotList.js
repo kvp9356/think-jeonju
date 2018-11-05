@@ -10,6 +10,11 @@ function switchStarImg(img) {
 				img.setAttribute("src", '/image/fullStar.png');
 				imgCnt.innerHTML = data;
 			},
+			statusCode: {
+				403: function () {
+					location.href = "/loginError";
+                }
+			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log("Status: " + textStatus); 
 				console.log("Error: " + errorThrown); 
@@ -23,6 +28,11 @@ function switchStarImg(img) {
 				img.setAttribute("src", '/image/star.png');
 				imgCnt.innerHTML = data;
 			},
+            statusCode: {
+                403: function () {
+                    location.href = "/loginError";
+                }
+            },
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log("Status: " + textStatus); 
 				console.log("Error: " + errorThrown); 
