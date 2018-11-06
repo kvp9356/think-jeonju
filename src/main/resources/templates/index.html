@@ -9,6 +9,40 @@
 		<button class="btn" onclick="searchByKeyword()"><img src="/image/search.png" alt="" /></button>
 	</div>
 </div>
+
+<div class="best-container" id="best-spot-container">
+	<div class="best-main-title"> BEST 장소 </div>
+	<div class="best-sub-title"> 모두가 집중하고 있는 바로 그 장소! </div>
+	{{#bestSpots}}
+	<div class='best-spot best-content' data-spot-id='{{id}}'>
+		{{#imgUrl}}
+			{{#if @first}}
+			<img src="{{this}}" class="best-spot-img best-content-img"/>
+			{{/if}}
+		{{/imgUrl}}
+		<dl class="best-spot-info best-content-info">
+			<dd class="category">{{category}}</dd>
+			<dt class="title">{{name}}</dt>
+			<dd class="like"><img src="/image/fullStar.png" alt=""/> <spn class="like-cnt">{{likeCnt}}</spn></dd>
+		</dl>
+	</div>
+	{{/bestSpots}}
+</div>
+
+<div class="best-container" id="best-schedule-container">
+	<div class="best-main-title"> BEST 스케쥴 </div>
+	<div class="best-sub-title"> 스케쥴 짜기 힘들 때, 이런 스케쥴은 어때요? </div>
+	{{#bestSchedules}}
+	<div class='best-schedule best-content' data-scehdule-id='{{id}}'>
+		<img src="{{imgUrl}}" class="best-schedule-img best-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
+		<dl class="best-schedule-info best-content-info">
+			<dt class="title">{{title}}</dt>
+			<dd class="date">{{diffDate startDate endDate}}일</dd>
+			<dd class="like"><img src="/image/fullStar.png" alt=""/> <spn class="like-cnt">{{like}}</spn></dd>
+		</dl>
+	</div>
+	{{/bestSchedules}}
+</div>
 {{/partial}}
 
 {{#partial "script"}}

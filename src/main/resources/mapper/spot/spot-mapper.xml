@@ -78,4 +78,13 @@
 		FROM SPOT
 		WHERE id = #{id}
 	</select>
+
+	<select id="findBestSpots" resultType="spot">
+		SELECT * FROM
+		(SELECT SPOT.* FROM SPOT
+		LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 's'
+		GROUP BY RELATED_ID) ON SPOT.ID = RELATED_ID
+		ORDER BY LIKE_CNT DESC nulls last, ID ASC)
+		WHERE ROWNUM <![CDATA[ <= ]]> 4
+	</select>
 </mapper>

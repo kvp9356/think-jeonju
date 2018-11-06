@@ -1,11 +1,12 @@
 package com.kvp.thinkjeonju.helper;
 
-import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import org.springframework.stereotype.Component;
 import pl.allegro.tech.boot.autoconfigure.handlebars.HandlebarsHelper;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Component
 @HandlebarsHelper
@@ -17,12 +18,8 @@ public class CustomHelper {
         }
         return options.inverse(this);
     }
-    
-    public int getI(Object size, Options options) throws IOException {
-    	int num = (int)size;
-    	for(int i=0; i<num; i++) {
-    		return i+1;
-    	}
-		return 0;
+
+    public String diffDate(LocalDate startDate, LocalDate endDate, Options options) {
+        return Long.toString(startDate.until(endDate, ChronoUnit.DAYS) + 1);
     }
 }

@@ -9,6 +9,8 @@ import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.model.SpotImg;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Mapper
 public interface SpotMapper {
@@ -34,5 +36,7 @@ public interface SpotMapper {
 	int getSpotDataSize(String dataValue);
 
 	Spot getSpotDetail(String name);
+
+	List<Spot> findBestSpots();
 
 }
