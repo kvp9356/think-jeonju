@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+#bodyContainer {
+	width: 1080px;
+	margin: 0 auto; 
+}
+#container {
+	margin-left: 20px;
+}
+#imgContainer {
+	width: 500px;
+	margin: 0;
+}
+#imgContainer img {
+	width: inherit;
+}
+#slideBar {
+	width: inherit;
+}
+.arrow img {
+	margin-bottom: 5px;
+}
+.mySlides {display:none}
+.w3-left, .w3-right, .w3-badge {cursor:pointer}
+.w3-badge {height:17px;width:17px;padding:0}
+#category {
+	font-size: 18px;
+	margin-top: 5px;
+}
+#name {
+	font-size: 35px;
+	margin-bottom: 5px;
+}
+#name img {
+	vertical-align: baseline !important;
+	margin-right: 5px;
+}
+ul .addr {
+    list-style-image: url('/image/placeholder.png');
+}
+ul .tel {
+    list-style-image: url('/image/phone-call.png');
+}
+ul .url {
+    list-style-image: url('/image/homepage.png');
+}
+ul {
+	font-size: 20px;
+}
+.cnt_info {
+	margin: 10px;
+}
+ul a, ul a:hover {
+	text-decoration: underline;
+	color: blue;
+}
+ul li {
+	padding: 5px;
+}
+#content {
+	font-size: 18px;
+}
+#tblContainer {
+	margin-top: 20px;
+}
+.verticalTop {
+	vertical-align: text-top;
+}
+.verticalTop>div {
+	margin-left: 20px;
+}
+.verticalBottom {
+	vertical-align: bottom;
+}
+.verticalBottom>div {
+	padding-left: 10px;
+}

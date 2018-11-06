@@ -1,5 +1,6 @@
 {{#partial "head"}}
 <link rel="stylesheet" href="/css/spotList.css"/>
+<link rel="stylesheet" href="/css/spotMenu.css"/>
 {{/partial}}
 
 {{#partial "contents"}}
@@ -20,7 +21,7 @@
 
 <div id="container">
 {{#spots}}
-<div class="spotContainer" onclick="getSpotDetail(this);">
+<div class="spotContainer" onclick="getSpotDetail(this);" data-id="{{id}}">
 	<div class="imgContainer">
 		{{#imgUrl}}
 			{{#if @first}}
@@ -77,43 +78,6 @@
 
 {{#partial "script"}}
 <script src="/js/spotList.js"></script>
-<script>
-function moveToPage(a) {
-	var form = document.createElement("form");
-	var parm = new Array();
-	var input = new Array();
-	
-	var dataValue = $("#dataValue").val();
-	var cPage = a.innerHTML;
-	
-	form.action = "/spots/search";
-	form.method = "POST";
-	
-	parm.push(['dataValue', dataValue]);
-	parm.push(['cPage', cPage]);
-	
-	for(var i=0; i<parm.length; i++) {
-		input[i] = document.createElement("input");
-		input[i].setAttribute("type", "hidden");
-		input[i].setAttribute("name", parm[i][0]);
-		input[i].setAttribute("value", parm[i][1]);
-		
-		form.appendChild(input[i]);
-	}
-	
-	document.body.appendChild(form);
-	form.submit();
-}
-
-function getSpotDetail(div) {
-	var name = div.children[1].children[1].innerHTML;
-	 
-	location.href="/api/spots/" + name + "/detail";
-	
-}
-
-
-</script>
 {{/partial}}
 
 {{>base}}

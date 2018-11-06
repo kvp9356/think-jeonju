@@ -41,17 +41,6 @@ public class ApiSpotController {
 		spotService.cancelSpotLike(new LikeToDTO(user.getId(), spotId, 's'));
 		return new ResponseEntity<>(spotService.getLikeCnt(spotId), HttpStatus.OK);
 	}
-	
-	@GetMapping("/{name}/detail")
-	public ResponseEntity<Void> getSpotDetail(@PathVariable String name, Model model) {
-		log.debug("[Spot] 상세보기 페이지 이동");
-		
-		SpotDTO spot = spotService.getSpotDetail(name).toDTO();
-		
-		System.out.println(spot.getId());
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 
 }
 

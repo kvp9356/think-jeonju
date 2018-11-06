@@ -1,10 +1,76 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+{{#partial "head"}}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="/css/spotMenu.css"/>
+<link rel="stylesheet" href="/css/spotDetail.css"/>
+{{/partial}}
 
-</body>
-</html>
+{{#partial "contents"}}
+<div id="navbar">
+	<div>
+		<a href="#">통합검색</a>
+	  	<a href="#">문화공간</a>
+	  	<a href="#">문화체험</a>
+	  	<a href="#">야외여행지</a>
+ 	 	<a href="#">거리투어</a>
+	 	<a href="#">문화재</a>
+	 	<div id="search">
+			<input type="text" class="form-control"/>
+			<button class="btn btn-light">검색</button>
+		</div>
+	</div>
+</div>
+
+<div id="bodyContainer">
+	<div id="container">
+		<table id="tblContainer">
+			<tr>
+				<td rowspan="2">
+					<div class="w3-content w3-display-container" id="imgContainer">
+						{{#spot.imgUrl}}
+						<img class="mySlides" src="{{this}}">
+						{{/spot.imgUrl}}
+		  				<div class="w3-center w3-display-bottommiddle" id="slideBar">
+	    				<div class="w3-left arrow" onclick="plusDivs(-1)"><img src="/image/left-arrow.png" alt="" /></div>
+		    			<div class="w3-right arrow" onclick="plusDivs(1)"><img src="/image/right-arrow.png" alt="" /></div>
+							{{#spot.imgUrl}}
+				    		<span class="w3-badge demo w3-border" onclick="currentDiv({{@index}})"></span>
+							{{/spot.imgUrl}}
+		  				</div>
+					</div>
+				</td>
+				<td class="verticalTop">
+					<div>
+						<div id="category">{{spot.category}}</div>
+						<div id="name">
+							{{spot.name}}
+							<img src="/image/fullStar.png" alt="" />{{spot.likeCnt}}
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="verticalBottom">
+					<div class="cnt_info">
+						<ul>
+							<li class="addr">{{spot.addr}} {{spot.addrDtl}}</li>
+							<li class="tel">{{spot.tel}}</li>
+							<li class="url"><a href="{{spot.url}}">{{spot.url}}</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<hr />
+		<div id="content">
+			{{spot.content}}
+		</div>
+	</div>
+
+</div>
+{{/partial}}
+
+{{#partial "script"}}
+<script src="/js/spotDetail.js"></script>
+{{/partial}}
+
+{{>base}}

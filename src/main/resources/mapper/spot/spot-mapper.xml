@@ -76,6 +76,6 @@
 	<select id="getSpotDetail" resultType="spot">
 		SELECT *
 		FROM SPOT
-		WHERE NAME = #{name}
+		WHERE id = #{id}
 	</select>
 </mapper>

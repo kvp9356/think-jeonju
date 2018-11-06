@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,5 +47,18 @@ public class SpotController {
 		model.addAttribute("size", size);
 		
 		return "spotList";
+	}
+	
+	@PostMapping("/detail")
+	public String getSpotDetail(@RequestParam String id, Model model) {
+		log.debug("[Spot] 상세보기 페이지 이동");
+		
+		SpotDTO spot = spotService.getSpotDetail(id).toDTO();
+		spot.setImgUrl(spotService.getSpotImgData(id));
+		spot.setLikeCnt(spotService.getLikeCnt(id));
+		
+		model.addAttribute("spot", spot);
+		
+		return "spotDetail";
 	}
 }

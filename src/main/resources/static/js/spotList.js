@@ -37,6 +37,29 @@ function switchStarImg(img) {
 				console.log("Error: " + errorThrown); 
 			}
 		});
+	}	
+}
+function getSpotDetail(div) {
+	var id = div.dataset.id;
+	
+	var form = document.createElement("form");
+	var parm = new Array();
+	var input = new Array();
+
+	form.action = "/spots/detail";
+	form.method = "POST";
+	
+	parm.push(['id', id]);
+	
+	for(var i=0; i<parm.length; i++) {
+		input[i] = document.createElement("input");
+		input[i].setAttribute("type", "hidden");
+		input[i].setAttribute("name", parm[i][0]);
+		input[i].setAttribute("value", parm[i][1]);
+		
+		form.appendChild(input[i]);
 	}
 	
+	document.body.appendChild(form);
+	form.submit();
 }
