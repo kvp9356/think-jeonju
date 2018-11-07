@@ -1,236 +1,11 @@
 {{#partial "head"}}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<style>
-    .x_button{
-        float:right;
-        width : 20px;
-        height: 20px;
-    }
-
-    .x_button:hover{
-        border : 1px solid red;
-    }
-
-    #schedule-frame::-webkit-scrollbar {
-        display: none;
-    }
-
-    #tab-frame::-webkit-scrollbar {
-        display: none;
-    }
-
-    #searchResult::-webkit-scrollbar {
-        display: none;
-    }
-
-
-    .body-container{
-        margin : 0 50px;
-    }
-    #schedule-frame {
-        float:left;
-        border : 0;
-        width:100%;
-    }
-
-
-    #body-container>.left-frame{
-        position: absolute;
-        padding-right : 10px;
-        border-right : 1px solid #e9e9e9;
-    }
-
-    .left {
-        border: 1px solid white;
-        margin: 10px 0;
-        width: 400px;
-        overflow: hidden;
-        height: 750px;
-    }
-    #title_header{
-        background : #e9e9e9;
-    }
-    #edit_image{
-        width : 20px;
-        height: 20px;
-
-    }
-    #edit_image:hover {
-        cursor : pointer;
-    }
-
-    #tab-frame {
-        float: left;
-        width: 60px;
-        margin: 10px 0;
-        height: 750px;
-        overflow: auto;
-        padding : 0px
-    }
-    .center{
-        position: absolute;
-        margin: 10px;
-        margin-left: 480px;
-        padding: 10px;
-        width: 400px;
-        height: 750px;
-    }
-
-    #day-frame{
-        text-align: center;
-    }
-
-    #schedule_title{
-        border:none;
-        text-align: center;
-        background : #e9e9e9;
-        width:calc(100% - 30px);
-        font-weight: bold;
-    }
-
-    .date{
-        border:0px;
-        width: 30%;
-        text-align:center;
-    }
-
-    .startEndDate, .date{
-        text-align: center;
-        background : #e9e9e9;
-
-    }
-
-    #endDate{
-        margin-left : 5px;
-    }
-    #schedule-frame{
-        float : left;
-        text-align: center;
-        width : 100%;
-        height : 650px;
-        overflow: auto;
-    }
-
-    .details-Spot{
-        border : 1px solid #e9e9e9;
-        overflow:hidden;
-        height: 300px;
-        padding : 10px 10px;
-        margin-bottom : 10px;
-        width : 100%;
-    }
-
-    .details-Schedule{
-        min-height: 470px;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #searchResult{
-        height: 650px;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        overflow : auto;
-    }
-    .details-Spot:hover{
-        cursor : pointer;
-    }
-
-    .ui-widget-header{
-        border: none;
-        background: none;
-        color: #333333;
-        font-weight: bold;
-    }
-    #tab-frame>.tab>.ui-tabs-anchor {
-        float: left;
-        padding: 20px 4px;
-        text-decoration: none;
-        width: 100%;
-        text-align: center;
-    }
-    .ui-widget.ui-widget-content{
-        border : none;
-    }
-    #tab-frame>.tab {
-        width : 100%;
-        border-bottom-width: 1px;
-        margin : 0;
-    }
-    .resetDay{
-        padding : 0;
-        background : #e9e9e9;
-    }
-
-    #tab-frame>.ui-state-default{
-        background : none;
-    }
-
-
-    #tab-frame>.ui-state-active{
-        background: lightblue;
-        border : none;
-    }
-
-    .highlight {
-        border: 2px solid lightblue;
-    }
-
-    #day-frame>.day-Form{
-        overflow:hidden;
-        min-height: 500px;
-        height:auto;
-        padding :0;
-    }
-
-    #day-frame>.day-Form>.details-Schedule>.ui-state-highlight,
-    #searchResult>.ui-state-highlight{
-        background : aliceblue;
-        border : 1px solid lightgray;
-    }
-
-    #day-frame>.day-Form>.details-Schedule>.ui-sortable-helper,
-    #searchResult>.ui-sortable-helper{
-        opacity: 0.3;
-    }
-    #trapTerm{
-        width: 20%;
-    }
-    #searchDiv{
-        height: 40px;
-        margin: 0 auto;
-        margin-bottom : 10px;
-        position: relative;
-        background: white;
-        border-radius: 10px;
-        border: 1px solid lightblue;
-        padding: 3px;
-        width: 100%;
-    }
-    #searchDiv > input{
-        width: calc(100% - 35px);
-        height: 100%;
-        border: none;
-    }
-    #searchDiv > .btn{
-        height: 30px;
-        width: 30px;
-        padding: 0;
-        background: none;
-        transform: translateY(-3px);
-    }
-
-
-
-</style>
+<link rel="stylesheet" href="/css/schedule.css">
 {{/partial}}
 
 {{#partial "contents"}}
-<!-- Modal-->
 <div class="body-container" id="body-container">
-    <!-- Modal-->
+    <!-- 제목, 일정 Modal-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-show="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -255,12 +30,41 @@
             </div>
         </div>
     </div>
+
+    <!--내가 저장한 Spot Modal -->
+    <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="spotName">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id ="spotModal-body">
+                    <img src=""  class="spotimg">
+                    <dd class="like">
+                        <img src="">
+                        <spn class="like-cnt"></spn>
+                    </dd>
+                    <div class="budget">
+                        예산(단위:원):<input type="text" class="details-budget" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="left-frame">
         <ul id="tab-frame">
         </ul>
         <div class="left">
             <div id="title_header">
-                <input id="schedule_title" readonly>
+                <input id="schedule_title" placeholder="오른쪽의 버튼을 눌러 여행을 생성해주세요!" readonly>
                 <button type="button" data-target="#myModal" class="btn resetDay" data-toggle="modal"><img src="/image/edit.png" id="edit_image"></button>
             </div>
             <div class="startEndDate">
@@ -285,238 +89,19 @@
         <div id="searchResult">
         </div>
     </div>
+
+    <div id="scheduleResult" class="right">
+        <div class="drawSchedule">
+
+        </div>
+    </div>
 </div>
+
 {{/partial}}
 
 {{#partial "script"}}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script>
-    var nowDay;
-    var $tabs = $(".left-frame").tabs();
-
-    $("#spotSearch").on({
-        click: function() {
-            var dataValue = $("#searchKeyword").val();
-            console.log(dataValue);
-            $.ajax({
-                url: "/schedule/search",
-                method: "POST",
-                data: {
-                    dataValue : dataValue
-                },
-                success: function (spots) {
-                    let html ='';
-                    if(spots.length === 0) {
-                        return;
-                    }
-                    $("#searchResult").html(html);
-                    spots.forEach(spot => {
-                            const spotHTML = "<div class=\"details-Spot\">\n" +
-                                "                <div id=\"" + spot.id + "\" class=\"spotId\"></div>" +
-                                "                <img src=\"" + spot.imgUrl[0] + "\">\n" +
-                                "                <dl class=\"spotInfo\">\n" +
-                                "                    <dd class=\"category\">" + spot.category + "</dd>\n" +
-                                "                    <dt class=\"title\">" + spot.name + "</dt>\n" +
-                                "                    <dd class=\"like\"><img src=\"/image/fullStar.png\" alt=\"\"/> <spn class=\"like-cnt\">" + spot.likeCnt + "</spn></dd>\n" +
-                                "                </dl>" +
-                                "            </div>";
-                            html += spotHTML;
-
-                    });
-                    $("#searchResult").html(html);
-                    $("#searchResult").sortable({
-                        cursorAt : { left : 200, top : 150 },
-                        connectWith: ".details-Schedule",
-                        placeholder: "ui-state-highlight",
-                        start: function(e,ui){
-                            ui.placeholder.height(ui.item.height());
-                        },
-                        change: function(e, ui) {
-                            if ($(ui.placeholder).parent().find("#"+$(ui.item).find(".spotId").attr("id")).length!=0) {
-                                alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
-                                $(this).sortable('cancel');
-                            }
-                        },
-                        beforeStop: function(e, ui) {
-                            console.log($(ui.item).parent().attr("class"));
-                            if($(ui.item).parent().attr("class")!="ui-sortable") {
-                                var imagetag = "<img src=\"/image/x_button.png\" class=\"x_button\">";
-                                $(ui.item).prepend(imagetag);
-                            }
-                        }
-                    }).disableSelection();
-                }
-            });
-        }
-    });
-
-    $(".btn-primary").on({
-        click: function() {
-            toDate = $('#toDate').val();
-            fromDate = $('#fromDate').val();
-            schedule_title = $('#schedule-title').val();
-            if(schedule_title.replace(/ /gi, "").length==0){
-                alert("제목을 다시 한번 확인해 주세요.");
-                return;
-            }
-
-
-            var date_pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
-
-            if(!date_pattern.test(fromDate) || !date_pattern.test(toDate)){
-                alert("날짜를 확인해 주세요");
-                return;
-            }
-
-            if(new Date(fromDate)>=new Date(toDate) && (new Date(toDate).getTime() - new Date().getTime()) / (1000*60*60*24) > -1 ) {
-                console.log(new Date(fromDate)-new Date(toDate));
-                document.querySelector('#schedule_title').value = schedule_title;
-                document.querySelector('#startDate').value = toDate;
-                document.querySelector('#endDate').value = fromDate;
-                console.log("ok");
-                $("#myModal").modal('hide');
-                var day = (new Date(fromDate).getTime() - new Date(toDate).getTime()) / (1000*60*60*24)+1;
-                var textday = "(총 "+day+"일)";
-                $("#trapTerm").val(textday)
-                var count = 1;
-                var day_Form;
-                var tab_form;
-                for(count=1;count<=day;count++) {
-                    console.log(("#day"+count));
-                    if (($("#day" + count)).length == 0) {            //해당 id가 미존재한다면
-                        day_Form = "<div id=\"day" + count + "\" class=\"day-Form\">\n" +
-                            //                    "                <div class=\"whatDay\">" + count + "일차</div>\n" +
-                            "                  <div id=\"day"+count+"\" class=\"details-Schedule\">\n" +
-                            "                 </div>\n" +
-                            "            </div>";
-                        $("#day-frame").append(day_Form);
-                        tab_form = "<li class=\"tab\" id=\"tab"+count+"\"><a href=\"#day" + count + "\">"+ count +"일차</a></li>";
-                        $("#tab-frame").append(tab_form);
-                    }
-                }
-                for(count;count<=nowDay;count++){
-                    if (($("#day" + count)).length != 0) {            //해당 id가 존재한 다면
-                        $("#day"+count).remove();
-                        $("#tab"+count).remove();
-                    }
-                }
-                nowDay = day;
-
-            }
-            else{
-                if(new Date(toDate) < new Date()){
-                    alert("출발 날짜는 오늘 보다 이후여야 합니다. 다시 한번 확인해주세요.");
-                }
-                else{
-                    alert("도착 날짜가 출발 날짜보다 작습니다. 다시 한번 확인해주세요.")
-                }
-            }
-            console.log("change!");
-            $(".left-frame").tabs("refresh");
-            var left = ($(".details-Spot").width()/2);
-
-            $(".details-Schedule").sortable({
-                cursorAt : { left : 200, top : 150 },
-                placeholder: "ui-state-highlight",
-                start: function(e,ui){
-                    ui.placeholder.height(ui.item.height());
-                }
-            }).disableSelection();
-            $(".ui-tabs-anchor").droppable({
-                accept: ".details-Schedule>.details-Spot",
-                hoverClass : "highlight",
-                drop: function( event, ui ) {
-                    var $item = $(this);
-                    var $list = $($($item).attr("href")).find(".details-Schedule");
-                    var itemid = $(".ui-sortable-helper").find(".spotId").attr("id");
-                    console.log($(".ui-sortable-helper").find(".spotId").attr("id"));   //id값 뽑기
-                    console.log(itemid);
-                    console.log($item);
-                    console.log($(".ui-state-active").attr("aria-labelledby"));
-                    console.log($($item).attr("id"));
-                    console.log("#"+itemid)
-                    console.log($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id"));
-                    console.log($($list).find("#"+itemid).length);
-                    if($($list).find("#"+itemid).length!=0){
-                        alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
-                    }
-                    else if($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id")){
-                        console.log("not equal")
-                        ui.draggable.hide(function () {
-                            console.log($(this));
-                            ($(this)).appendTo($list).show("");
-                        });
-                    }
-                }
-            });
-        }
-    });
-
-
-    $(document).on("click",".x_button",function(){
-        console.log($(this));
-        $(this).parent().remove();
-    });
-
-
-    $(document).ready(function(){
-        $('#myModal').modal('show');
-        $("#myModal").on("show.bs.modal", function (event) {
-            var modal = $(this);
-            console.log(modal);
-            console.log(modal.find(".modal-body>#modalForm>#toDate"));
-            modal.find(".modal-header>.modal-title>#schedule-title").val($("#schedule_title").val());
-            modal.find(".modal-body>#modalForm>#toDate").val($("#startDate").val());
-            modal.find(".modal-body>#modalForm>#fromDate").val($("#endDate").val());
-        });
-        $("#myModal").on("hide.bs.modal", function (event) {
-            var modal = $(this);
-            console.log($("#schedule-title").val());
-            console.log(modal.find(".modal-body>#modalForm>#toDate"));
-            modal.find(".modal-header>.modal-title>#schedule-title").val("");
-            modal.find(".modal-body>#modalForm>#toDate").val("");
-            modal.find(".modal-body>#modalForm>#fromDate").val("");
-        });
-
-    });
-
-    $('#fromDate').datepicker({
-        dateFormat: 'yy-mm-dd' //Input Display Format 변경
-        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-        ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-        ,changeYear: true //콤보박스에서 년 선택 가능
-        ,changeMonth: true //콤보박스에서 월 선택 가능
-//    ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-        ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-        ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
-        ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-    });
-
-    $('#toDate').datepicker({
-        dateFormat: 'yy-mm-dd' //Input Display Format 변경
-        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-        ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-        ,changeYear: true //콤보박스에서 년 선택 가능
-        ,changeMonth: true //콤보박스에서 월 선택 가능
-//    ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-        ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-        ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
-        ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-    });
-
-</script>
-
+<script src="/js/schedule.js"></script>
 {{/partial}}
 
 {{>base}}
