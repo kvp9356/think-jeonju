@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kvp.thinkjeonju.repository.LikeToMapper">
-    <select id="findSpotsByMemberId" resultType="spot">
-        SELECT * FROM SPOT
-        WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 's')
+    <select id="getLikeSpotsCount" resultType="int">
+		SELECT COUNT(*) FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND ISSPOT = 's'
+	</select>
+
+    <select id="findSpotsByMemberIdAndPage" resultType="spot">
+        SELECT * FROM (
+            SELECT SPOT.*, ROWNUM AS RNUM FROM SPOT
+            WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 's')
+            AND ROWNUM <![CDATA[ <= ]]> #{paging.currentBlockEnd}
+        ) WHERE RNUM <![CDATA[ >= ]]> #{paging.currentBlockStart}
+    </select>
+
+    <select id="getLikeSchedulesCount" resultType="int">
+        SELECT COUNT(*) FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND ISSPOT = 'c'
     </select>
 
     <select id="findSchedulesByMemberId" resultMap="schedule">
-        SELECT * FROM SCHEDULE
-        WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
+        SELECT * FROM (
+            SELECT SCHEDULE.*, ROWNUM AS RNUM FROM SCHEDULE
+            WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
+            AND ROWNUM <![CDATA[ <= ]]> #{paging.currentBlockEnd}
+        ) WHERE RNUM <![CDATA[ >= ]]> #{paging.currentBlockStart}
     </select>
 
     <resultMap id="schedule" type="schedule">
