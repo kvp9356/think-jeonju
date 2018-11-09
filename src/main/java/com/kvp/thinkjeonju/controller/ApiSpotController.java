@@ -3,9 +3,7 @@ package com.kvp.thinkjeonju.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
-import com.kvp.thinkjeonju.dto.SpotDTO;
-import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.security.LoginUser;
 import com.kvp.thinkjeonju.service.SpotService;
 

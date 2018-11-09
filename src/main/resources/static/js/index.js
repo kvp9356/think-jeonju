@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function searchByKeyword() {
-	var searchKeyword = $("#searchKeyword").val();
+	var searchKeyword = $("#searchKeyword").val().trim();
 	
 	if(searchKeyword.length == 0) {
 		alert("검색어를 입력하세요!");
@@ -43,7 +43,7 @@ function searchByKeyword() {
 		var parm = new Array();
 		var input = new Array();
 		
-		form.action = "/spots/search";
+		form.action = "/spots/All/search";
 		form.method = "post";
 		
 		parm.push(['dataValue', searchKeyword]);

@@ -7,7 +7,7 @@
 #navbar a {
   float: left;
   display: block;
-  color: #f2f2f2;
+  color: white;
   text-align: center;
   padding: 14px;
   text-decoration: none;
@@ -18,7 +18,7 @@
 	width: 1080px;
 	margin: 0 auto;
 }
-#navbar a:hover, #navbar a:focus {
+#navbar a:hover, #navbar a:focus{
 	text-decoration: none;
     color: black;
     cursor: pointer;

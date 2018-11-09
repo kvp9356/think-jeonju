@@ -1,17 +1,28 @@
 {{#partial "head"}}
 <link rel="stylesheet" href="/css/spotList.css"/>
 <link rel="stylesheet" href="/css/spotMenu.css"/>
+<style>
+#spotNonExist {
+	width: fit-content;
+	margin: 0 auto;
+	font-size: 20px;
+	text-align: center;
+}
+#spotNonExist span {
+	color: red;
+}
+</style>
 {{/partial}}
 
 {{#partial "contents"}}
 <div id="navbar">
 	<div>
-		<a href="#">통합검색</a>
-	  	<a href="#">문화공간</a>
-	  	<a href="#">문화체험</a>
-	  	<a href="#">야외여행지</a>
- 	 	<a href="#">거리투어</a>
-	 	<a href="#">문화재</a>
+		<a href="#" id="All" onclick="spotCategorySearch(this)">통합검색</a>
+	  	<a href="#" id="CulturalSpace" onclick="spotCategorySearch(this)">문화공간</a>
+	  	<a href="#" id="CulturalExperience" onclick="spotCategorySearch(this)">문화체험</a>
+	  	<a href="#" id="OutdoorSpace" onclick="spotCategorySearch(this)">야외여행지</a>
+	  	<a href="#" id="StreetTour" onclick="spotCategorySearch(this)">거리투어</a>
+	 	<a href="#" id="CulturalProperty" onclick="spotCategorySearch(this)">문화재</a>
 	 	<div id="search">
 			<input type="text" class="form-control"/>
 			<button class="btn btn-light">검색</button>
@@ -20,8 +31,9 @@
 </div>
 
 <div id="container">
+{{#existSpot spots}}
 {{#spots}}
-<div class="spotContainer" onclick="getSpotDetail(this);" data-id="{{id}}">
+<div class="spotContainer">
 	<div class="imgContainer">
 		{{#imgUrl}}
 			{{#if @first}}
@@ -42,7 +54,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="contentContainer">
+	<div class="contentContainer" onclick="getSpotDetail(this);" data-id="{{id}}">
 	<div>{{category}}</div>
 	<div class="title">{{name}}</div>
 	<div class="likeCnt"> 
@@ -51,33 +63,36 @@
 	</div>
 	</div>
 </div>
-<input type="hidden" id="dataValue" value="{{dataValue}}"/>
 {{/spots}}
+{{else}}
+<div id="spotNonExist">
+	<img src="/image/vsh.jpg" alt="" /><br />
+	<span>"{{dataValue}}"</span> 검색 결과가 존재하지 않습니다.
 </div>
+{{/existSpot}}
+</div>
+<input type="hidden" id="dataValue" value="{{dataValue}}"/>
+<input type="hidden" name="size" id="size" value="{{size}}"/>
+<input type="hidden" name="cPage" id="cPage" value="{{cPage}}"/>
+<input type="hidden" name="category" id="category" value="{{category}}"/>
+{{#existSpot spots}}
 <div id="pagingDiv">
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-        <span class="sr-only">Previous</span>
-      </a>
-    </li>
-	<li class="page-item"><a class="page-link" onclick="moveToPage(this);">1</a></li>
-	<li class="page-item"><a class="page-link" onclick="moveToPage(this);">2</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-        <span class="sr-only">Next</span>
-      </a>
-    </li>
   </ul>
 </nav>
 </div>
+{{/existSpot}}
 {{/partial}}
 
 {{#partial "script"}}
 <script src="/js/spotList.js"></script>
+<script src="/js/spotPaging.js"></script>
+<script src="/js/spotMenu.js"></script>
+<script>
+var url = "/spots/"+$("#category").val()+"/search";
+document.getElementById($('#category').val()).style.color = "black";
+</script>
 {{/partial}}
 
 {{>base}}

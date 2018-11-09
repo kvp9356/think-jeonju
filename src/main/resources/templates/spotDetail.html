@@ -7,24 +7,23 @@
 {{#partial "contents"}}
 <div id="navbar">
 	<div>
-		<a href="#">통합검색</a>
-	  	<a href="#">문화공간</a>
-	  	<a href="#">문화체험</a>
-	  	<a href="#">야외여행지</a>
- 	 	<a href="#">거리투어</a>
-	 	<a href="#">문화재</a>
+		<a href="#" class="searchMenu" id="All" onclick="spotCategorySearch(this)">통합검색</a>
+	  	<a href="#" class="searchMenu" id="CulturalSpace" onclick="spotCategorySearch(this)">문화공간</a>
+	  	<a href="#" class="searchMenu" id="CulturalExperience" onclick="spotCategorySearch(this)">문화체험</a>
+	  	<a href="#" class="searchMenu" id="OutdoorSpace" onclick="spotCategorySearch(this)">야외여행지</a>
+	  	<a href="#" class="searchMenu" id="StreetTour" onclick="spotCategorySearch(this)">거리투어</a>
+	 	<a href="#" class="searchMenu" id="CulturalProperty" onclick="spotCategorySearch(this)">문화재</a>
 	 	<div id="search">
 			<input type="text" class="form-control"/>
 			<button class="btn btn-light">검색</button>
 		</div>
 	</div>
 </div>
-
 <div id="bodyContainer">
 	<div id="container">
 		<table id="tblContainer">
 			<tr>
-				<td rowspan="2">
+				<td rowspan="3">
 					<div class="w3-content w3-display-container" id="imgContainer">
 						{{#spot.imgUrl}}
 						<img class="mySlides" src="{{this}}">
@@ -38,21 +37,42 @@
 		  				</div>
 					</div>
 				</td>
-				<td class="verticalTop">
+				<td class="verticalTop ctg">
 					<div>
-						<div id="category">{{spot.category}}</div>
-						<div id="name">
-							{{spot.name}}
-							<img src="/image/fullStar.png" alt="" />{{spot.likeCnt}}
+						<div id="category">
+							{{spot.category}}
+						</div>
+					</div>
+				</td>
+				<td>
+					<div id="imgBtn">
+						{{#isMyLike spot.isLike}}
+							<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{spot.id}}" class="star"/>
+						{{else}}
+							<img src="/image/star2.png" alt="" onclick="switchStarImg(this)" data-id="{{spot.id}}" class="star"/>
+						{{/isMyLike}}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="verticalTop" colspan="2">
+					<div>
+						<div id="name">{{spot.name}}</div>
+						<div id="like">
+							<img src="/image/fullStar.png" alt="" />
+							<span id="likeCnt">{{spot.likeCnt}}</span>
 						</div>
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td class="verticalBottom">
+				<td class="verticalBottom" colspan="2">
 					<div class="cnt_info">
 						<ul>
-							<li class="addr">{{spot.addr}} {{spot.addrDtl}}</li>
+							<li class="addr">
+								{{spot.addr}} {{spot.addrDtl}}
+								<img src="/image/map.png" alt="" data-toggle="tooltip" data-placement="right" title="지도보기" onclick="getMapSearch()"/>
+							</li> 
 							<li class="tel">{{spot.tel}}</li>
 							<li class="url"><a href="{{spot.url}}">{{spot.url}}</a></li>
 						</ul>
@@ -65,12 +85,19 @@
 			{{spot.content}}
 		</div>
 	</div>
-
+</div>
+<input type="hidden" id="addr" value="{{spot.addr}} {{spot.addrDtl}}"/>
+<input type="hidden" id="spotName" value="{{spot.name}}"/>
+<input type="hidden" id="category" value="{{spot.category}}"/>
+<div id="mapContainer">
+	<div id="map"></div>
 </div>
 {{/partial}}
 
 {{#partial "script"}}
+<script src="/js/spotMenu.js"></script>
 <script src="/js/spotDetail.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fd0611bb02f752b4c80321d396b6b4dc&libraries=services,clusterer,drawing"></script>
 {{/partial}}
 
 {{>base}}

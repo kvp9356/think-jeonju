@@ -21,7 +21,7 @@ public class SpotDTO {
 	private Double posY;
 	private String url;
 	private String tel;
-	private int fileCnt;
+	private long fileCnt;
 	private ArrayList<String> imgUrl;
 	private String category;
 	private int likeCnt;
@@ -41,6 +41,7 @@ public class SpotDTO {
 	
 	@Getter
 	public enum Category {
+		All(99, "통합검색"),
 		CulturalSpace(0, "문화공간"),
 		CulturalExperience(1, "문화체험"),
 		OutdoorSpace(2, "야외여행지"),

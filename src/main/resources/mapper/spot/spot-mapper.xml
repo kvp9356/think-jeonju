@@ -69,8 +69,12 @@
 	<select id="getSpotDataSize" resultType="int">
 		SELECT COUNT(*)
 		FROM SPOT
-		WHERE NAME LIKE '%'||#{dataValue}||'%' 
-		OR CONTENT LIKE '%'||#{dataValue}||'%'
+		<if test="dataValue != null"> 
+       	WHERE NAME LIKE '%'||#{dataValue}||'%'
+       	</if>
+       	<if test="category != null"> 
+       	WHERE CATEGORY = #{category} 
+       	</if> 
 	</select>
 	
 	<select id="getSpotDetail" resultType="spot">
@@ -87,4 +91,31 @@
 		ORDER BY LIKE_CNT DESC nulls last, ID ASC)
 		WHERE ROWNUM <![CDATA[ <= ]]> 4
 	</select>
+	
+	<select id="getSpotData" resultType="spot">
+		SELECT ROWNUM, V.*
+		FROM (
+    		SELECT ROWNUM RNUME, E.*
+    		FROM (
+            	SELECT SPOT.* FROM SPOT
+            	LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 's'
+            	GROUP BY RELATED_ID) ON SPOT.ID = RELATED_ID
+            	<if test="dataValue != null"> 
+            	WHERE NAME LIKE '%'||#{dataValue}||'%'
+            	</if>
+            	<if test="category != null"> 
+            	WHERE CATEGORY = #{category} 
+            	</if> 
+            	ORDER BY LIKE_CNT DESC nulls last, ID ASC
+         	) E
+     	) V
+		WHERE RNUME BETWEEN #{startNum} AND #{endNum}  
+	</select>
+	
+	<select id="getSpotImg" resultType="spotImg">
+		SELECT *
+		FROM SPOTIMG
+		WHERE SPOT_ID = #{id}
+	</select>
+	
 </mapper>

@@ -23,7 +23,7 @@ public class Spot {
 	private Double posY;
 	private String url;
 	private String tel;
-	private int fileCnt;
+	private long fileCnt;
 	private int category;
 	
 	public static Spot from(SpotDTO spotDTO) {

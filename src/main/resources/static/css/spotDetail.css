@@ -52,7 +52,6 @@ ul {
 }
 ul a, ul a:hover {
 	text-decoration: underline;
-	color: blue;
 }
 ul li {
 	padding: 5px;
@@ -74,4 +73,37 @@ ul li {
 }
 .verticalBottom>div {
 	padding-left: 10px;
+}
+.addr img:hover{
+	cursor: pointer;
+}
+#mapContainer {
+	width: 1080px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+#map {
+	margin-left: 20px;
+	width: 1060px;
+	height: 400px;
+}
+#like {
+	font-size: 20px;
+}
+#like img {
+	margin-right: 5px;
+	vertical-align: sub;
+}
+#imgBtn {
+	float: right;
+}
+.star {
+	width: 30px;
+	margin-left: 5px;
+}
+.ctg {
+	width: 100%;
+}
+.mySlides {
+	height: 335px;
 }
