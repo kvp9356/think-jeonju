@@ -1,28 +1,93 @@
+#spotModal-body>.details_receipt{
+    width: 300px;
+    transform: translate(-17px,17px);
+}
+
+#spotModal-body>.details_receipt>.default_receipt{
+    transform: translateX(50px);
+}
+
+#spotModal-body>.details_receipt>.budget{
+    transform: translateX(-98px);
+}
+
+.default_receipt{
+    width: 224px;
+    transform: translateX(-17px);
+    border:none;
+}
+
+.budget_name{
+    width:34%;
+    border-radius: 10px;
+    border-color: lightblue;
+}
+
+.budget_money{
+    width:20%;
+    border-radius: 10px;
+    border-color: lightblue;
+}
+
+.plus_button{
+    width: 24px;
+    height: 24px;
+    transform: translateX(280px);
+}
+
+.minus_button{
+    width: 24px;
+    height: 24px;
+}
+
+.plus_button:hover,
+.minus_button:hover,
+.finish_flag:hover{
+    cursor:pointer;
+}
+
+.details_receipt{
+    display:none;
+    position:absolute;
+    z-index: 1;
+    width: 380px;
+    min-height: 100px;
+    border: 1px solid lightblue;
+    background-color: white;
+    padding-bottom: 10px;
+}
 
 #spotModal-body>.like{
-    display: inline-block;
     transform: translateY(40px);
 }
 
-#spotModal-body>.budget{
-    transform: translateX(80px);
-}
-
-#spotModal-body>.budget>.details-budget{
-    border :none;
+#spotModal-body>.receiptimg{
+    transform: translate(255px, 6px);
+    background-color: white;
 }
 
 .details-Schedule>.details-Spot>dl>dd.like{
     display: inline-block;
-    transform: translateX(-10px);
+    transform: translateX(-150px);
+}
+
+
+.receiptimg{
+    width: 24px;
+    height: 24px;
+    transform: translateX(150px);
+}
+
+.receiptimg:hover {
+    cursor:pointer;
 }
 
 .budget{
-    width: 300px;
+    width: 500px;
     margin-top: 5px;
-    text-align: right;
+    text-align: center;
     display: inline-block;
-    transform: translateX(20px);
+    transform: translateX(-74px);
 }
 
 .details-budget{
@@ -56,7 +121,10 @@
     background: #555;
 }
 
-.arrowimg{
+
+
+.arrowimg,
+.finish_flag{
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -83,7 +151,6 @@
     margin-bottom : 5px;
     width: 30px;
     height: 30px;
-    /*   border: 1px solid blue;*/
     display: inline-block;
 }
 
@@ -117,7 +184,7 @@
 }
 
 .x_button:hover{
-    border : 1px solid red;
+    cursor:pointer;
 }
 
 #schedule-frame::-webkit-scrollbar,
@@ -229,11 +296,10 @@
 
 .details-Spot{
     border : 1px solid #e9e9e9;
-    overflow:hidden;
-    height: 300px;
     padding : 10px 10px;
     margin-bottom : 10px;
     width : 100%;
+    position:relative;
 }
 
 .details-Schedule{
@@ -251,9 +317,7 @@
     justify-content: center;
     overflow : auto;
 }
-.details-Spot:hover{
-    cursor : pointer;
-}
+
 
 .ui-widget-header{
     border: none;
