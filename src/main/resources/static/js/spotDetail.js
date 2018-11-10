@@ -66,7 +66,7 @@ function getMapSearch() {
 
 function switchStarImg(img) {
 	
-	if(img.getAttribute("src") === '/image/star2.png') {
+	if(img.getAttribute("src") === '/image/star.png') {
 		$.ajax({
 			url: '/api/spots/'+img.dataset.id+"/spotLike",
 			type: 'post',
@@ -89,7 +89,7 @@ function switchStarImg(img) {
 			url: '/api/spots/'+img.dataset.id+"/spotLike",
 			type: 'delete',
 			success: function(data) {
-				img.setAttribute("src", '/image/star2.png');
+				img.setAttribute("src", '/image/star.png');
 				$("#likeCnt").text(data);
 			},
             statusCode: {

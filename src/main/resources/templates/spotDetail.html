@@ -49,7 +49,7 @@
 						{{#isMyLike spot.isLike}}
 							<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{spot.id}}" class="star"/>
 						{{else}}
-							<img src="/image/star2.png" alt="" onclick="switchStarImg(this)" data-id="{{spot.id}}" class="star"/>
+							<img src="/image/star.png" alt="" onclick="switchStarImg(this)" data-id="{{spot.id}}" class="star"/>
 						{{/isMyLike}}
 					</div>
 				</td>
@@ -70,8 +70,11 @@
 					<div class="cnt_info">
 						<ul>
 							<li class="addr">
+							{{#existAddr spot.addr}}
 								{{spot.addr}} {{spot.addrDtl}}
 								<img src="/image/map.png" alt="" data-toggle="tooltip" data-placement="right" title="지도보기" onclick="getMapSearch()"/>
+							{{else}}
+							{{/existAddr}}								
 							</li> 
 							<li class="tel">{{spot.tel}}</li>
 							<li class="url"><a href="{{spot.url}}">{{spot.url}}</a></li>

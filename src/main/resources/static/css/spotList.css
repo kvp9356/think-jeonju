@@ -79,3 +79,16 @@
 .spotContainer:hover {
 	border: 1px solid rgba(0,123,255,.5);
 }
+#spotNonExist {
+	width: fit-content;
+	margin: 0 auto;
+	font-size: 20px;
+	text-align: center;
+}
+#spotNonExist span {
+	color: red;
+}
+.star img {
+	width: 24px;
+	height: 24px;
+}

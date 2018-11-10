@@ -1,17 +1,6 @@
 {{#partial "head"}}
 <link rel="stylesheet" href="/css/spotList.css"/>
 <link rel="stylesheet" href="/css/spotMenu.css"/>
-<style>
-#spotNonExist {
-	width: fit-content;
-	margin: 0 auto;
-	font-size: 20px;
-	text-align: center;
-}
-#spotNonExist span {
-	color: red;
-}
-</style>
 {{/partial}}
 
 {{#partial "contents"}}
@@ -89,10 +78,6 @@
 <script src="/js/spotList.js"></script>
 <script src="/js/spotPaging.js"></script>
 <script src="/js/spotMenu.js"></script>
-<script>
-var url = "/spots/"+$("#category").val()+"/search";
-document.getElementById($('#category').val()).style.color = "black";
-</script>
 {{/partial}}
 
 {{>base}}

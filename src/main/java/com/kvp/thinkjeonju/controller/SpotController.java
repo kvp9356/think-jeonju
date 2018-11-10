@@ -46,6 +46,7 @@ public class SpotController {
 		case 1:
 		case 2:
 		case 3:
+		case 4:
 			map.put("startNum", ""+((cPage-1)*PAGESIZE+1));
 			map.put("endNum", ""+cPage*PAGESIZE);
 			map.put("category", ""+ctgNum);

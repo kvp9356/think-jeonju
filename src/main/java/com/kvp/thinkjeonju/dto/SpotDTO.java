@@ -45,7 +45,8 @@ public class SpotDTO {
 		CulturalSpace(0, "문화공간"),
 		CulturalExperience(1, "문화체험"),
 		OutdoorSpace(2, "야외여행지"),
-		StreetTour(3, "거리투어");
+		StreetTour(3, "거리투어"),
+		CulturalProperty(4, "문화재");
 		
 		private int categoryNum;
 		private String categoryName;

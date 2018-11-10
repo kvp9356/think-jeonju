@@ -35,4 +35,12 @@ public class CustomHelper {
     	return options.inverse(this);
     }
     
+    public CharSequence existAddr(Object addr, Options options) throws IOException {
+    	String address = (String)addr;
+    	
+    	if(address != null) {
+    		return options.fn(this);
+    	} 
+    	return options.inverse(this);
+    }
 }

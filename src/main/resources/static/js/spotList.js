@@ -1,3 +1,6 @@
+var url = "/spots/"+$("#category").val()+"/search";
+document.getElementById($('#category').val()).style.color = "black";
+
 function switchStarImg(img) {
 	
 	var imgCnt = img.parentElement.parentElement.parentElement.parentElement.children[1].children[2].children[1];
