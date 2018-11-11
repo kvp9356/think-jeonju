@@ -50,11 +50,9 @@ public class ApiSpotController {
 
 		if(m != null) {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
-			return new ResponseEntity(spots, HttpStatus.OK);
 		}
-		else{
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
+
+		return new ResponseEntity(spots, HttpStatus.OK);
 
 
 	}

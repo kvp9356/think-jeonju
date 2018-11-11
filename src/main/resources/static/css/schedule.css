@@ -361,7 +361,7 @@
 
 #day-frame>.day-Form{
     overflow:hidden;
-    min-height: 500px;
+    min-height: 600px;
     height:auto;
     padding :0;
 }
