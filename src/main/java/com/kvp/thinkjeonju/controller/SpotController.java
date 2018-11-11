@@ -73,7 +73,6 @@ public class SpotController {
 			spots.get(i).setLikeCnt(spotService.getLikeCnt(spots.get(i).getId()));
 		}
 		
-		
 		if(m != null) {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
 		}
@@ -108,5 +107,4 @@ public class SpotController {
 		
 		return "spotDetail";
 	}
-	
 }
