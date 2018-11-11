@@ -77,6 +77,7 @@ public class SpotController {
 		if(m != null) {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
 		}
+		
 		model.addAttribute("spots", spots);
 		model.addAttribute("dataValue", dataValue);
 		model.addAttribute("category", category);

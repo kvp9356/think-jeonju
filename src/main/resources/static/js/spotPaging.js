@@ -1,3 +1,4 @@
+document.getElementById($('#category').val()).style.color = "black";
 pagingBar($("#cPage").val());
 chkCurrentPage();
 
@@ -86,12 +87,11 @@ function chkCurrentPage() {
 
 function moveToPage(url, cPage) {
 	var dataValue = $("#dataValue").val();
-	
 	var form = document.createElement("form");
 	var parm = new Array();
 	var input = new Array();
 
-	form.action = url;
+	form.action = "/spots/"+$("#category").val()+"/search";
 	form.method = "POST";
 	
 	parm.push(['dataValue', dataValue]);

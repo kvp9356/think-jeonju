@@ -35,14 +35,12 @@ public interface SpotMapper {
 
 	int getSpotDataSize(HashMap<String, String> map);
 
-	Spot getSpotDetail(String name);
+	Spot getSpotDetail(String id);
 
 	List<Spot> findBestSpots();
 
 	ArrayList<Spot> getSpotData(HashMap<String, String> map);
 
 	ArrayList<SpotImg> getSpotImg(String id);
-
-	ArrayList<Spot> getSpotDataByCategory(int ctgNum);
 
 }

@@ -22,7 +22,7 @@
 <div id="container">
 {{#existSpot spots}}
 {{#spots}}
-<div class="spotContainer">
+<div class="spotContainer" onclick="getSpotDetail(this)" data-id="{{id}}">
 	<div class="imgContainer">
 		{{#imgUrl}}
 			{{#if @first}}
@@ -33,7 +33,7 @@
 			</div>
 			{{/if}}
 		{{/imgUrl}}
-		<div class="absolute">
+		<div class="absolute starDiv">
 			<div class="relative star">
 				{{#isMyLike isLike}}
 					<img src="/image/fullStar.png" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
@@ -43,12 +43,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="contentContainer" onclick="getSpotDetail(this);" data-id="{{id}}">
+	<div class="contentContainer">
 	<div>{{category}}</div>
 	<div class="title">{{name}}</div>
 	<div class="likeCnt"> 
 		<img src="/image/fullStar.png" alt="" />
-		<span>{{likeCnt}}</span>
+		<span id="likeCnt">{{likeCnt}}</span>
 	</div>
 	</div>
 </div>
