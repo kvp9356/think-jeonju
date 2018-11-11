@@ -1,0 +1,107 @@
+{{#partial "head"}}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/css/schedule.css">
+{{/partial}}
+
+{{#partial "contents"}}
+<div class="body-container" id="body-container">
+    <!-- 제목, 일정 Modal-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        <input type="text" id ="schedule-title" placeholder="여행 제목을 입력해주세요!">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="modalForm" id="modalForm">
+                        시작일 : <input id="toDate" /><br>
+                        종료일 : <input id="fromDate" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--내가 저장한 Spot Modal -->
+    <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="spotName">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id ="spotModal-body">
+                    <img src=""  class="spotimg">
+                    <dd class="like">
+                        <img src="">
+                        <spn class="like-cnt"></spn>
+                    </dd>
+                    <div class="budget">
+                        예산(단위:원):<input type="text" class="details-budget" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer" id="spotModal-footer">
+                    <button type="button" class="btn btn-secondary" >확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-frame">
+        <ul id="tab-frame">
+        </ul>
+        <div class="left">
+            <div id="title_header">
+                <input id="schedule_title" placeholder="오른쪽의 버튼을 눌러 여행을 생성해주세요!" readonly>
+                <button type="button" data-target="#myModal" class="btn resetDay" data-toggle="modal"><img src="/image/edit.png" id="edit_image"></button>
+            </div>
+            <div class="startEndDate">
+                <input id="startDate" class="date" readonly> ~
+                <input id="endDate" class="date" readonly>
+                <input id="trapTerm" class="date" readonly>
+            </div>
+
+            <div id="schedule-frame">
+                <div id="day-frame"> <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="search_Form" class="center">
+        <div id="searchDiv">
+            <input type="text"  id="searchKeyword"/>
+            <button class="btn" id="spotSearch" ><img src="/image/search.png" alt="" /></button>
+        </div>
+        <div id="searchResult">
+        </div>
+    </div>
+
+    <div id="scheduleResult" class="right">
+        <div class="drawSchedule">
+
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+
+{{#partial "script"}}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/schedule.js"></script>
+{{/partial}}
+
+{{>base}}
