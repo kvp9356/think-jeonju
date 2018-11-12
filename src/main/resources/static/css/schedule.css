@@ -1,0 +1,415 @@
+#spotModal-body>.details_receipt{
+    width: 300px;
+    transform: translate(-17px,17px);
+}
+
+#spotModal-body>.details_receipt>.default_receipt{
+    transform: translateX(50px);
+}
+
+#spotModal-body>.details_receipt>.budget{
+    transform: translateX(-98px);
+}
+
+.default_receipt{
+    width: 224px;
+    transform: translateX(-17px);
+    border:none;
+}
+
+.budget_name{
+    width:34%;
+    border-radius: 10px;
+    border-color: lightblue;
+}
+
+.budget_money{
+    width:20%;
+    border-radius: 10px;
+    border-color: lightblue;
+}
+
+.plus_button{
+    width: 24px;
+    height: 24px;
+    transform: translateX(280px);
+}
+
+.minus_button{
+    width: 24px;
+    height: 24px;
+}
+
+.plus_button:hover,
+.minus_button:hover,
+.finish_flag:hover{
+    cursor:pointer;
+}
+
+.details_receipt{
+    display:none;
+    position:absolute;
+    z-index: 1;
+    width: 380px;
+    min-height: 100px;
+    border: 1px solid lightblue;
+    background-color: white;
+    padding-bottom: 10px;
+}
+
+#spotModal-body>.like{
+    transform: translateY(40px);
+}
+
+#spotModal-body>.receiptimg{
+    transform: translate(255px, 6px);
+    background-color: white;
+}
+
+.details-Schedule>.details-Spot>dl>dd.like{
+    display: inline-block;
+    transform: translateX(-150px);
+}
+
+
+.receiptimg{
+    width: 24px;
+    height: 24px;
+    transform: translateX(150px);
+}
+
+.receiptimg:hover {
+    cursor:pointer;
+}
+
+.budget{
+    width: 500px;
+    margin-top: 5px;
+    text-align: center;
+    display: inline-block;
+    transform: translateX(-74px);
+}
+
+.details-budget{
+    height: 20px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid lightblue;
+    padding: 3px;
+    width: 50%;
+}
+/* width */
+::-webkit-scrollbar {
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+
+.arrowimg,
+.finish_flag{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.draw>img{
+    width: 30px;
+    height: 30px;
+}
+
+.draw-form{
+    height: 90px;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin: 10px 0;
+}
+
+.drawSchedule{
+    height: 700px;
+    overflow: auto;
+}
+
+.draw{
+    margin-bottom : 5px;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+.draw:hover{
+    cursor:pointer;
+}
+.nameDay{
+    height: 20px;
+    display: inline;
+    padding: 3px;
+    border-bottom: 2px solid green;
+}
+
+.drawDay{
+    height: 45px;
+    width: 100%;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 5px;
+}
+
+.drawDay>hr{
+    margin-top:23px;
+    margin-bottom: 0;
+}
+.x_button{
+    float:right;
+    width : 20px;
+    height: 20px;
+}
+
+.x_button:hover{
+    cursor:pointer;
+}
+
+#schedule-frame::-webkit-scrollbar,
+#tab-frame::-webkit-scrollbar,
+#searchResult::-webkit-scrollbar,
+.drawSchedule::-webkit-scrollbar/*,
+    .drawDay::-webkit-scrollbar*/{
+    display: none;
+}
+
+
+
+.body-container{
+    margin : 0 50px;
+}
+#schedule-frame {
+    float:left;
+    border : 0;
+    width:100%;
+}
+
+
+#body-container>.left-frame{
+    position: absolute;
+    padding-right : 10px;
+    border-right : 1px solid #e9e9e9;
+}
+
+.left {
+    border: 1px solid white;
+    margin: 10px 0;
+    width: 400px;
+    overflow: hidden;
+    height: 750px;
+}
+#title_header{
+    background : #e9e9e9;
+}
+#edit_image{
+    width : 20px;
+    height: 20px;
+
+}
+#edit_image:hover {
+    cursor : pointer;
+}
+
+#tab-frame {
+    float: left;
+    width: 60px;
+    margin: 10px 0;
+    height: 750px;
+    overflow: auto;
+    padding : 0px
+}
+.center{
+    position: absolute;
+    margin: 10px;
+    margin-left: 480px;
+    padding: 10px;
+    width: 400px;
+    height: 750px;
+    border-right : 1px solid #e9e9e9;
+}
+
+.right{
+    margin: 10px;
+    margin-left: 900px;
+    padding: 10px;
+    width: 900px;
+    height: 750px;
+    position: absolute;
+}
+
+#day-frame{
+    text-align: center;
+}
+
+#schedule_title{
+    border:none;
+    text-align: center;
+    background : #e9e9e9;
+    width:calc(100% - 30px);
+    font-weight: bold;
+}
+
+.date{
+    border:0px;
+    width: 30%;
+    text-align:center;
+}
+
+.startEndDate, .date{
+    text-align: center;
+    background : #e9e9e9;
+
+}
+
+#endDate{
+    margin-left : 5px;
+}
+#schedule-frame{
+    float : left;
+    text-align: center;
+    width : 100%;
+    height : 650px;
+    overflow: auto;
+}
+
+.details-Spot{
+    border : 1px solid #e9e9e9;
+    padding : 10px 10px;
+    margin-bottom : 10px;
+    width : 100%;
+    position:relative;
+}
+
+.details-Schedule{
+    min-height: 470px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+#searchResult{
+    height: 650px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    overflow : auto;
+}
+
+
+.ui-widget-header{
+    border: none;
+    background: none;
+    color: #333333;
+    font-weight: bold;
+}
+#tab-frame>.tab>.ui-tabs-anchor {
+    float: left;
+    padding: 20px 4px;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+}
+.ui-widget.ui-widget-content{
+    border : none;
+}
+#tab-frame>.tab {
+    width : 100%;
+    border-bottom-width: 1px;
+    margin : 0;
+}
+.resetDay{
+    padding : 0;
+    background : #e9e9e9;
+}
+
+#tab-frame>.ui-state-default{
+    background : none;
+}
+
+
+#tab-frame>.ui-state-active{
+    background: lightblue;
+    border : none;
+}
+
+.highlight {
+    border: 2px solid lightblue;
+}
+
+#day-frame>.day-Form{
+    overflow:hidden;
+    min-height: 600px;
+    height:auto;
+    padding :0;
+}
+
+#day-frame>.day-Form>.details-Schedule>.ui-state-highlight,
+#searchResult>.ui-state-highlight{
+    background : aliceblue;
+    border : 1px solid lightgray;
+}
+
+#day-frame>.day-Form>.details-Schedule>.ui-sortable-helper,
+#searchResult>.ui-sortable-helper{
+    opacity: 0.3;
+}
+#trapTerm{
+    width: 20%;
+}
+#searchDiv{
+    height: 40px;
+    margin: 0 auto;
+    margin-bottom : 10px;
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid lightblue;
+    padding: 3px;
+    width: 100%;
+}
+#searchDiv > input{
+    width: calc(100% - 35px);
+    height: 100%;
+    border: none;
+}
+#searchDiv > .btn{
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    background: none;
+    transform: translateY(-3px);
+}
+.default-text{
+    color : #e99c70;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.spotimg {
+	width: 350px;
+	height: 210px;
+}

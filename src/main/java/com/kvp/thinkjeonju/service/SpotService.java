@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,9 @@ import com.kvp.thinkjeonju.repository.SpotMapper;
 @Service
 public class SpotService {
 
-	final static int MAX = 999999;
+	final static int PAGESIZE = 8;
 	final static int IMGMAX = 5;
+	final static int MAX = 99999;
 	
 	private final String authApiKey = "DCSBMCAPSGRWVRX";
 	
@@ -70,14 +72,13 @@ public class SpotService {
 		return json;
 	}
 	
-	// 검색키워드를 통해 해당 값을 포함한 spot list 반환(이미지 포함)
-	public ArrayList<SpotDTO> getSpotData(String dataValue) {
+	public void getApiCulturalSpace() {
 		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/culture/getCultureFile?authApiKey="+authApiKey+"&dataSid=";
 		
 		try {
 			String addr = "http://openapi.jeonju.go.kr/rest/culture/getCultureList?authApiKey=";
-			String parameter = "&dataValue=" + URLEncoder.encode(dataValue, "UTF-8");
-			parameter += "&pageSize=" + MAX;
+			String parameter = "&pageSize=" + MAX;
 			
 			addr += authApiKey + parameter;
 			
@@ -89,38 +90,37 @@ public class SpotService {
     		obj = (JSONObject)obj.get("rfcOpenApi");
     		obj = (JSONObject)obj.get("body");
     		long totalCount = (long)obj.get("totalCount");
-    		obj = (JSONObject)obj.get("data");
-    		
-    		ArrayList<String> img = new ArrayList<>();
-    		
+            			
     		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
+    			ArrayList<String> img = new ArrayList<>();
     			// 뽑아낸 list의 길이가 1일 때
     			if(totalCount <= 1) {
 	    			obj = (JSONObject)obj.get("list");
 	    			
-	    			if(obj.getInt("fileCnt") > 0) {
-	    				img = getSpotImgData(obj.getString("dataSid"));
+	    			if((long)obj.get("fileCnt") > 0) {
+	    				img = getApiSpotImgData(imgAddr, (String)obj.get("dataSid"));
 	    			}
 	    			
-	    			spots.add(new SpotDTO(obj.getString("dataSid"), obj.getString("dataTitle"), 
-	    					obj.getString("dataContent"), obj.getString("zipCode"), obj.getString("addr"), 
-	    					""+obj.get("addrDtl"), obj.getDouble("posx"), obj.getDouble("posy"), 
-	    					obj.getString("userHomepage"), obj.getString("tel"), obj.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false));
+	    			spots.add(new SpotDTO((String)obj.get("dataSid"), (String)obj.get("dataTitle"), 
+	    					(String)obj.get("dataContent"), (String)obj.get("addr"), 
+	    					(String)(""+obj.get("addrDtl")), (double)obj.get("posx"), (double)obj.get("posy"), 
+	    					(String)obj.get("userHomepage"), (String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false));
     			} else { // 길이가 2이상일 때
     				JSONArray spot = (JSONArray)obj.get("list");
     				
     				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
-            		for(int i=0; i<totalCount; i++) {
+            		for(int i=0; i<spot.length(); i++) {
             			JSONObject tmp = (JSONObject)spot.get(i);
             			
-            			if(tmp.getInt("fileCnt") > 0) {
-    	    				img = getSpotImgData(tmp.getString("dataSid"));
+            			if((long)tmp.get("fileCnt") > 0) {
+    	    				img = getApiSpotImgData(imgAddr, (String)tmp.get("dataSid"));
     	    			}
             			
-            			SpotDTO spotDTO = new SpotDTO(tmp.getString("dataSid"), tmp.getString("dataTitle"), 
-            					tmp.getString("dataContent"), tmp.getString("zipCode"), tmp.getString("addr"), 
-            					""+tmp.get("addrDtl"), tmp.getDouble("posx"), tmp.getDouble("posy"), 
-            					tmp.getString("userHomepage"), tmp.getString("tel"), tmp.getInt("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false);
+            			SpotDTO spotDTO = new SpotDTO((String)tmp.get("dataSid"), (String)tmp.get("dataTitle"), 
+            					(String)tmp.get("dataContent"), (String)tmp.get("addr"), 
+            					(String)(""+tmp.get("addrDtl")), (double)tmp.get("posx"), (double)tmp.get("posy"), 
+            					(String)tmp.get("userHomepage"), (String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.CulturalSpace.getCategoryName(), 0, false);
             			spots.add(spotDTO);
             		}
     			}
@@ -137,11 +137,9 @@ public class SpotService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return spots;
 	}
 
-	// spot id 값을 통해 해당 spot의 이미지 리스트 반환
-	public ArrayList<String> getSpotImgData(String id) {
+	public ArrayList<String> getApiSpotImgData(String addr, String id) {
 		
 		// DB저장용 ArrayList (모든 값 포함)
 		ArrayList<SpotImgDTO> spotImgs = new ArrayList<>();
@@ -150,12 +148,8 @@ public class SpotService {
 		ArrayList<String> url = new ArrayList<>();
 		
         try {
-        	String addr = "http://openapi.jeonju.go.kr/rest/culture/getCultureFile?authApiKey=";
-            String parameter = "&dataSid=" + URLEncoder.encode(id, "UTF-8");
-			
-			addr += authApiKey + parameter;
-			
-			String json = webConnection(addr);
+        	String apiUrl = addr + URLEncoder.encode(id, "UTF-8");
+			String json = webConnection(apiUrl);
 			
 			// XML 파일을 json으로 바꿈.
     		JSONObject obj = XML.toJSONObject(json);
@@ -163,14 +157,20 @@ public class SpotService {
     		obj = (JSONObject)obj.get("rfcOpenApi");
     		obj = (JSONObject)obj.get("body");
     		long totalCount = (long)obj.get("totalCount");
-    		obj = (JSONObject)obj.get("data");
     		
     		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
     			if (totalCount <= 1) {
         			obj = (JSONObject)obj.get("list");
-        			SpotImgDTO spotImgDTO = new SpotImgDTO(obj.getString("fileSid"), obj.getString("dataSid"), obj.getString("thumbUrl"));
+        			SpotImgDTO spotImgDTO = null;
+        			if(obj.get("fileSid").getClass().equals(String.class)) {
+        				spotImgDTO = new SpotImgDTO((String)obj.get("fileSid"), (String)obj.get("dataSid"), (String)obj.get("fileUrl"));
+        			} else {
+        				spotImgDTO = new SpotImgDTO(Long.toString((long)obj.get("fileSid")), Long.toString((long)obj.get("dataSid")), (String)obj.get("fileUrl"));
+        			}
+        			
         			spotImgs.add(spotImgDTO);
-        			url.add(obj.getString("thumbUrl"));
+        			url.add((String)obj.get("fileUrl"));
     			} else {
     				JSONArray spotImg = (JSONArray)obj.get("list");
     	    		
@@ -179,9 +179,9 @@ public class SpotService {
     				
     	    		for(int i=0; i<totalCount; i++) {
     	    			JSONObject tmp = (JSONObject)spotImg.get(i);
-    	    			SpotImgDTO spotImgDTO = new SpotImgDTO(tmp.getString("fileSid"), tmp.getString("dataSid"), tmp.getString("thumbUrl"));
+    	    			SpotImgDTO spotImgDTO = new SpotImgDTO((String)(""+tmp.get("fileSid")), (String)(""+tmp.get("dataSid")), (String)tmp.get("fileUrl"));
     	    			spotImgs.add(spotImgDTO);
-    	    			url.add(tmp.getString("thumbUrl"));
+    	    			url.add((String)tmp.get("fileUrl"));
     	    		}
     			}
     			
@@ -250,6 +250,14 @@ public class SpotService {
 		return spots;
 	}
 
+	public int getSpotDataSize(HashMap<String, String> map) {
+		return spotMapper.getSpotDataSize(map);
+	}
+
+	public Spot getSpotDetail(String name) {
+		return spotMapper.getSpotDetail(name);
+	}
+
 	public List<SpotDTO> getBestSpots() {
 		return spotMapper.findBestSpots().stream()
 		.map(spot -> spot.toDTO())
@@ -260,4 +268,410 @@ public class SpotService {
 		})
 		.collect(Collectors.toList());
 	}
+	
+	public void getApiCulturalExperience() {
+		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/experience/getExperienceFile?authApiKey="+authApiKey+"&dataSid=";
+
+		try {
+			String addr = "http://openapi.jeonju.go.kr/rest/experience/getExperienceList?authApiKey=";
+			String parameter = "&pageSize=" + MAX;
+			
+			addr += authApiKey + parameter;
+			
+			String json = webConnection(addr);
+            
+            // XML 파일을 json으로 바꿈.
+    		JSONObject obj = XML.toJSONObject(json);
+    		
+    		obj = (JSONObject)obj.get("rfcOpenApi");
+    		obj = (JSONObject)obj.get("body");
+    		long totalCount = (long)obj.get("totalCount");
+    		
+    		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
+    			ArrayList<String> img = new ArrayList<>();
+    			// 뽑아낸 list의 길이가 1일 때
+    			if(totalCount <= 1) {
+	    			obj = (JSONObject)obj.get("list");
+	    			
+	    			if((long)obj.get("fileCnt") > 0) {
+	    				img = getApiSpotImgData(imgAddr, (String)obj.get("dataSid"));
+	    			}
+	    			
+	    			spots.add(new SpotDTO((String)obj.get("dataSid"), (String)obj.get("dataTitle"), 
+	    					(String)obj.get("dataContent"), (String)obj.get("addr"), 
+	    					(String)(""+obj.get("addrDtl")), (double)obj.get("posx"), (double)obj.get("posy"), 
+	    					(String)obj.get("homepage"), (String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.CulturalExperience.getCategoryName(), 0, false));
+    			} else { // 길이가 2이상일 때
+    				JSONArray spot = (JSONArray)obj.get("list");
+    				
+    				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
+            		for(int i=0; i<spot.length(); i++) {
+            			JSONObject tmp = (JSONObject)spot.get(i);
+            			
+            			if((long)tmp.get("fileCnt") > 0) {
+    	    				img = getApiSpotImgData(imgAddr, (String)tmp.get("dataSid"));
+    	    			}
+            			
+            			SpotDTO spotDTO = new SpotDTO();
+            			
+            			if(tmp.get("posx").getClass().equals(Double.class) && tmp.get("posy").getClass().equals(Double.class)) {
+            				spotDTO = new SpotDTO((String)tmp.get("dataSid"), (String)tmp.get("dataTitle"), 
+                					(String)tmp.get("dataContent"), (String)tmp.get("addr"), 
+                					(String)(""+tmp.get("addrDtl")), (double)tmp.get("posx"), (double)tmp.get("posy"), 
+                					(String)tmp.get("homepage"), (String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.CulturalExperience.getCategoryName(), 0, false);
+            			} else {
+            				spotDTO = new SpotDTO((String)tmp.get("dataSid"), (String)tmp.get("dataTitle"), 
+                					(String)tmp.get("dataContent"), (String)tmp.get("addr"), 
+                					(String)(""+tmp.get("addrDtl")), (double)tmp.getLong("posx"), (double)tmp.getLong("posy"), 
+                					(String)tmp.get("homepage"), (String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.CulturalExperience.getCategoryName(), 0, false);
+            			}            			
+            			spots.add(spotDTO);
+            		}
+    			}
+    			
+    			// DB에 존재하지 않는 장소만 저장
+        		for(int i=0; i<spots.size(); i++) {
+        			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
+        				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
+        			}
+        		}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void getApiOutdoorSpace() {
+		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/greentour/getGreentourFile?authApiKey="+authApiKey+"&dataSid=";
+		
+		try {
+			String addr = "http://openapi.jeonju.go.kr/rest/greentour/getGreentourList?authApiKey=";
+			String parameter = "&pageSize=" + MAX;
+			
+			addr += authApiKey + parameter;
+			
+			String json = webConnection(addr);
+            // XML 파일을 json으로 바꿈.
+    		JSONObject obj = XML.toJSONObject(json);
+    		    		
+    		obj = (JSONObject)obj.get("rfcOpenApi");
+    		obj = (JSONObject)obj.get("body");
+    		long totalCount = (long)obj.get("totalCount");
+    		
+    		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
+    			ArrayList<String> img = new ArrayList<>();
+    			// 뽑아낸 list의 길이가 1일 때
+    			if(totalCount <= 1) {
+	    			obj = (JSONObject)obj.get("list");
+	    			
+	    			if((long)obj.get("fileCnt") > 0) {
+	    				img = getApiSpotImgData(imgAddr, Long.toString((long)obj.get("dataSid")));
+	    			}
+	    			
+	    			SpotDTO spotDTO = null;
+	    			if(obj.get("posx").getClass().equals(Double.class) && obj.get("posy").getClass().equals(Double.class)) {
+        				spotDTO = new SpotDTO((String)(""+obj.get("dataSid")), (String)obj.get("dataTitle"), 
+    	    					(String)obj.get("dataContent"), (String)obj.get("addr"),
+    	    					"", (Double)obj.get("posx"),
+    	    					(Double)obj.get("posy"), (String)obj.get("userHomepage"),
+    	    					(String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+        			} else if(obj.get("posx").getClass().equals(String.class) && obj.get("posy").getClass().equals(Double.class)) {
+        				spotDTO = new SpotDTO((String)(""+obj.get("dataSid")), (String)obj.get("dataTitle"), 
+    	    					(String)obj.get("dataContent"), (String)obj.get("addr"),
+    	    					"", Double.parseDouble((String)obj.get("posx")),
+    	    					(Double)obj.get("posy"), (String)obj.get("userHomepage"),
+    	    					(String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+        			} else if(obj.get("posx").getClass().equals(Double.class) && obj.get("posy").getClass().equals(String.class)) {
+        				spotDTO = new SpotDTO((String)(""+obj.get("dataSid")), (String)obj.get("dataTitle"), 
+    	    					(String)obj.get("dataContent"), (String)obj.get("addr"),
+    	    					"", (Double)obj.get("posx"),
+    	    					Double.parseDouble((String)obj.get("posy")), (String)obj.get("userHomepage"),
+    	    					(String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+        			} else {
+        				spotDTO = new SpotDTO((String)(""+obj.get("dataSid")), (String)obj.get("dataTitle"), 
+    	    					(String)obj.get("dataContent"), (String)obj.get("addr"),
+    	    					"", Double.parseDouble((String)obj.get("posx")),
+    	    					Double.parseDouble((String)obj.get("posy")), (String)obj.get("userHomepage"),
+    	    					(String)obj.get("tel"), (long)obj.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+        			}
+	    			
+	    			spots.add(spotDTO);
+    			} else { // 길이가 2이상일 때
+    				JSONArray spot = (JSONArray)obj.get("list");
+    				
+    				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
+            		for(int i=0; i<spot.length(); i++) {
+            			JSONObject tmp = (JSONObject)spot.get(i);
+            			
+            			if((long)tmp.get("fileCnt") > 0) {
+    	    				img = getApiSpotImgData(imgAddr, Long.toString((long)tmp.get("dataSid")));
+    	    			}
+            			
+            			SpotDTO spotDTO = null;
+            			
+            			if(tmp.get("posx").getClass().equals(Double.class) && tmp.get("posy").getClass().equals(Double.class)) {
+            				spotDTO = new SpotDTO((String)(""+tmp.get("dataSid")), (String)tmp.get("dataTitle"), 
+        	    					(String)tmp.get("dataContent"), (String)tmp.get("addr"),
+        	    					"", (Double)tmp.get("posx"),
+        	    					(Double)tmp.get("posy"), (String)tmp.get("userHomepage"),
+        	    					(String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+            			} else if(tmp.get("posx").getClass().equals(String.class) && tmp.get("posy").getClass().equals(Double.class)) {
+            				spotDTO = new SpotDTO((String)(""+tmp.get("dataSid")), (String)tmp.get("dataTitle"), 
+        	    					(String)tmp.get("dataContent"), (String)tmp.get("addr"),
+        	    					"", Double.parseDouble((String)tmp.get("posx")),
+        	    					(Double)tmp.get("posy"), (String)tmp.get("userHomepage"),
+        	    					(String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+            			} else if(tmp.get("posx").getClass().equals(Double.class) && tmp.get("posy").getClass().equals(String.class)) {
+            				spotDTO = new SpotDTO((String)(""+tmp.get("dataSid")), (String)tmp.get("dataTitle"), 
+        	    					(String)tmp.get("dataContent"), (String)tmp.get("addr"),
+        	    					"", (Double)tmp.get("posx"),
+        	    					Double.parseDouble((String)tmp.get("posy")), (String)tmp.get("userHomepage"),
+        	    					(String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+            			} else {
+            				spotDTO = new SpotDTO((String)(""+tmp.get("dataSid")), (String)tmp.get("dataTitle"), 
+        	    					(String)tmp.get("dataContent"), (String)tmp.get("addr"),
+        	    					"", Double.parseDouble((String)tmp.get("posx")),
+        	    					Double.parseDouble((String)tmp.get("posy")), (String)tmp.get("userHomepage"),
+        	    					(String)tmp.get("tel"), (long)tmp.get("fileCnt"), img, SpotDTO.Category.OutdoorSpace.getCategoryName(), 0, false);
+            			}
+            			spots.add(spotDTO);
+            		}
+    			}
+    			
+    			// DB에 존재하지 않는 장소만 저장
+        		for(int i=0; i<spots.size(); i++) {
+        			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
+        				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
+        			}
+        		}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void getApiStreetTour() {
+		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/tourstreet/getTourstreetFile?authApiKey="+authApiKey+"&dataSid=";
+		
+		try {
+			String addr = "http://openapi.jeonju.go.kr/rest/tourstreet/getTourstreetList?authApiKey=";
+			String parameter = "&pageSize=" + MAX;
+			
+			addr += authApiKey + parameter;
+			
+			String json = webConnection(addr);
+            
+            // XML 파일을 json으로 바꿈.
+    		JSONObject obj = XML.toJSONObject(json);
+
+    		obj = (JSONObject)obj.get("rfcOpenApi");
+    		obj = (JSONObject)obj.get("body");
+    		long totalCount = (long)obj.get("totalCount");
+    		
+    		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
+    			ArrayList<String> img = new ArrayList<>();
+    			// 뽑아낸 list의 길이가 1일 때
+    			if(totalCount <= 1) {
+	    			obj = (JSONObject)obj.get("list");
+	    			
+	    			if((long)obj.get("fileCnt") > 0) {
+	    				img = getApiSpotImgData(imgAddr, Long.toString((long)obj.get("dataSid")));
+	    			}
+	    			
+	    			spots.add(new SpotDTO(Long.toString((long)obj.get("dataSid")), (String)obj.get("dataTitle"), 
+	    					(String)obj.get("topDataContent"), "", "", 
+	    					(double)obj.get("posx"), (double)obj.get("posy"), 
+	    					"", "", (long)obj.get("fileCnt"), img, SpotDTO.Category.StreetTour.getCategoryName(), 0, false));
+    			} else { // 길이가 2이상일 때
+    				JSONArray spot = (JSONArray)obj.get("list");
+    				
+    				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
+            		for(int i=0; i<spot.length(); i++) {
+            			JSONObject tmp = (JSONObject)spot.get(i);
+            			
+            			if((long)tmp.get("fileCnt") > 0) {
+    	    				img = getApiSpotImgData(imgAddr, Long.toString((long)tmp.get("dataSid")));
+    	    			}
+            			
+            			SpotDTO spotDTO = new SpotDTO(Long.toString((long)tmp.get("dataSid")), (String)tmp.get("dataTitle"), 
+            					(String)tmp.get("topDataContent"), "", "", 
+            					(double)tmp.get("posx"), (double)tmp.get("posy"), 
+            					"", "", (long)tmp.get("fileCnt"), img, SpotDTO.Category.StreetTour.getCategoryName(), 0, false);
+            			spots.add(spotDTO);
+            		}
+    			}
+    			
+    			// DB에 존재하지 않는 장소만 저장
+        		for(int i=0; i<spots.size(); i++) {
+        			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
+        				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
+        			}
+        		}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<SpotDTO> getSpotData(HashMap<String, String> map) {
+		ArrayList<Spot> spots = spotMapper.getSpotData(map);
+		return (ArrayList)spots.stream().map(spot -> spot.toDTO()).collect(Collectors.toList());
+	}
+
+	public ArrayList<String> getSpotImg(String id) {
+		ArrayList<SpotImg> img = spotMapper.getSpotImg(id);
+		ArrayList<String> url = new ArrayList<>();
+		
+		for(int i=0; i<img.size(); i++) {
+			url.add(img.get(i).toDTO().getUrl());
+		}
+		return url;
+	}
+
+	public void getApiCulturalProperty() {
+		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/historic/getHistoricFile?authApiKey="+authApiKey+"&dataSid=";
+		
+		try {
+			String addr = "http://openapi.jeonju.go.kr/rest/historic/getHistoricList?authApiKey=";
+			String parameter = "&pageSize=" + MAX;
+			
+			addr += authApiKey + parameter;
+			
+			String json = webConnection(addr);
+            
+            // XML 파일을 json으로 바꿈.
+    		JSONObject obj = XML.toJSONObject(json);
+
+    		obj = (JSONObject)obj.get("rfcOpenApi");
+    		obj = (JSONObject)obj.get("body");
+    		long totalCount = (long)obj.get("totalCount");
+    		
+    		if(totalCount > 0) {
+    			obj = (JSONObject)obj.get("data");
+    			ArrayList<String> img = new ArrayList<>();
+    			// 뽑아낸 list의 길이가 1일 때
+    			if(totalCount <= 1) {
+	    			obj = (JSONObject)obj.get("list");
+	    			
+	    			if((long)obj.get("fileCnt") > 0) {
+	    				img = getApiSpotImgData(imgAddr, (String)obj.get("dataSid"));
+	    			}
+	    			
+	    			spots.add(new SpotDTO((String)obj.get("dataSid"), (String)obj.get("dataTitle"), 
+	    					(String)obj.get("dataContent"), (String)obj.get("addr"), (String)obj.get("addrDtl"), 
+	    					(double)obj.get("posx"), (double)obj.get("posy"), 
+	    					"", "", (long)obj.get("fileCnt"), img, SpotDTO.Category.CulturalProperty.getCategoryName(), 0, false));
+    			} else { // 길이가 2이상일 때
+    				JSONArray spot = (JSONArray)obj.get("list");
+    				
+    				// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
+            		for(int i=0; i<spot.length(); i++) {
+            			JSONObject tmp = (JSONObject)spot.get(i);
+            			
+            			if((long)tmp.get("fileCnt") > 0) {
+    	    				img = getApiSpotImgData(imgAddr, (String)tmp.get("dataSid"));
+    	    			}
+            			
+            			SpotDTO spotDTO = new SpotDTO((String)tmp.get("dataSid"), (String)tmp.get("dataTitle"), 
+            					(String)tmp.get("dataContent"), (String)tmp.get("addr"), (String)tmp.get("addrDtl"), 
+            					(double)tmp.get("posx"), (double)tmp.get("posy"), 
+            					"", "", (long)tmp.get("fileCnt"), img, SpotDTO.Category.CulturalProperty.getCategoryName(), 0, false);
+            			spots.add(spotDTO);
+            		}
+    			}
+    			
+    			// DB에 존재하지 않는 장소만 저장
+        		for(int i=0; i<spots.size(); i++) {
+        			if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
+        				addSpot(Spot.from(spots.get(i)));
+        			} else {
+        				spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
+        			}
+        		}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getApiLocalProperty() {
+		ArrayList<SpotDTO> spots = new ArrayList<>();
+		String imgAddr = "http://openapi.jeonju.go.kr/rest/local/getLocalFile?authApiKey="+authApiKey+"&dataSid=";
+		
+		try {
+			String addr = "http://openapi.jeonju.go.kr/rest/local/getLocalList?authApiKey=";
+			String parameter = "&pageSize=" + MAX;
+			
+			addr += authApiKey + parameter;
+			
+			String json = webConnection(addr);
+			
+			// XML 파일을 json으로 바꿈.
+			JSONObject obj = XML.toJSONObject(json);
+			
+			obj = (JSONObject)obj.get("rfcOpenApi");
+			obj = (JSONObject)obj.get("body");
+			long totalCount = (long)obj.get("totalCount");
+			
+			if(totalCount > 0) {
+				obj = (JSONObject)obj.get("data");
+				ArrayList<String> img = new ArrayList<>();
+				// 뽑아낸 list의 길이가 1일 때
+				if(totalCount <= 1) {
+					obj = (JSONObject)obj.get("list");
+					
+					if((long)obj.get("fileCnt") > 0) {
+						img = getApiSpotImgData(imgAddr, (String)obj.get("dataSid"));
+					}
+					
+					spots.add(new SpotDTO((String)obj.get("dataSid"), (String)obj.get("dataTitle"), 
+							(String)obj.get("dataContent"), "", "",
+							(Double)obj.get("posx"), (Double)obj.get("posy"), "", "", 
+							(long)obj.get("fileCnt"), img, SpotDTO.Category.CulturalProperty.getCategoryName(), 0, false));
+				} else { // 길이가 2이상일 때
+					JSONArray spot = (JSONArray)obj.get("list");
+					
+					// JSONArray의 각 값을 spotDTO로 바꿔서 ArrayList<SpotDTO>에 저장
+					for(int i=0; i<spot.length(); i++) {
+						JSONObject tmp = (JSONObject)spot.get(i);
+						
+						if((long)tmp.get("fileCnt") > 0) {
+							img = getApiSpotImgData(imgAddr, (String)tmp.get("dataSid"));
+						}
+						
+						SpotDTO spotDTO = new SpotDTO((String)tmp.get("dataSid"), (String)tmp.get("dataTitle"), 
+								(String)tmp.get("dataContent"), "", "",
+								(Double)tmp.get("posx"), (Double)tmp.get("posy"), "", "", 
+								(long)tmp.get("fileCnt"), img, SpotDTO.Category.CulturalProperty.getCategoryName(), 0, false);
+						spots.add(spotDTO);
+					}
+				}
+				
+				// DB에 존재하지 않는 장소만 저장
+				for(int i=0; i<spots.size(); i++) {
+					if(checkSpotIdDuplicate(spots.get(i).getId()) == 0) {	
+						addSpot(Spot.from(spots.get(i)));
+					} else {
+						spots.get(i).setLikeCnt(getLikeCnt(spots.get(i).getId()));
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
