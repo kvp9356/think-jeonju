@@ -25,7 +25,7 @@ public class MyPageService {
 
     public PageDTO<SpotDTO> getLikeSpotsByPageNo(MemberDTO user, int pageNo) {
         Paging paging = new Paging();
-        paging.makeLastPage(likeToMapper.getLikeSpotsCount(user.getId()));
+        paging.makeLastPage(likeToMapper.getLikeSpotsCountByMemberId(user.getId()));
         paging.makeBlock(pageNo);
         paging.makeCurrentBlock(pageNo);
         return new PageDTO<>(getLikeSpots(user, paging), paging);
@@ -44,7 +44,7 @@ public class MyPageService {
 
     public PageDTO<ScheduleDTO> getLikeSchedulesByPageNo(MemberDTO user, int pageNo) {
         Paging paging = new Paging();
-        paging.makeLastPage(likeToMapper.getLikeSchedulesCount(user.getId()));
+        paging.makeLastPage(likeToMapper.getLikeSchedulesCountByMemberId(user.getId()));
         paging.makeBlock(pageNo);
         paging.makeCurrentBlock(pageNo);
         return new PageDTO<>(getLikeSchedules(user, paging), paging);

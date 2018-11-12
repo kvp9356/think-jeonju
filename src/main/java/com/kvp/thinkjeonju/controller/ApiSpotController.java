@@ -42,7 +42,6 @@ public class ApiSpotController {
 
 	@PostMapping("/search")
 	public ResponseEntity<ArrayList<SpotDTO>> getSpotData(@RequestParam(value = "dataValue") String dataValue, HttpSession session) {
-
 		log.debug("[Search] Schedule에서 Spot Data 검색");
 
 		HashMap<String, String> map = new HashMap<>();

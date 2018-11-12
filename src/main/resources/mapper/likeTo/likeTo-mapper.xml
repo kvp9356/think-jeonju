@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kvp.thinkjeonju.repository.LikeToMapper">
-    <select id="getLikeSpotsCount" resultType="int">
+    <select id="getLikeSpotsCountByMemberId" resultType="int">
 		SELECT COUNT(*) FROM LIKE_TO
 		WHERE MEMBER_ID = #{memberId}
 		AND ISSPOT = 's'
@@ -15,7 +15,7 @@
         ) WHERE RNUM <![CDATA[ >= ]]> #{paging.currentBlockStart}
     </select>
 
-    <select id="getLikeSchedulesCount" resultType="int">
+    <select id="getLikeSchedulesCountByMemberId" resultType="int">
         SELECT COUNT(*) FROM LIKE_TO
 		WHERE MEMBER_ID = #{memberId}
 		AND ISSPOT = 'c'
@@ -27,6 +27,30 @@
             WHERE ID IN (SELECT RELATED_ID FROM LIKE_TO WHERE MEMBER_ID = #{memberId} AND ISSPOT = 'c')
             AND ROWNUM <![CDATA[ <= ]]> #{paging.currentBlockEnd}
         ) WHERE RNUM <![CDATA[ >= ]]> #{paging.currentBlockStart}
+    </select>
+
+    <insert id="setLike">
+        INSERT INTO LIKE_TO
+        VALUES(#{memberId}, #{relatedId}, #{isSpot})
+    </insert>
+
+    <delete id="cancelLike">
+        DELETE FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND RELATED_ID = #{relatedId}
+		AND ISSPOT = #{isSpot}
+    </delete>
+
+    <select id="getLikeCountByScheduleId" resultType="int">
+        SELECT COUNT(*) FROM LIKE_TO
+		WHERE RELATED_ID = #{relatedId}
+		AND ISSPOT = 'c'
+    </select>
+
+    <select id="getLikeCountBySpotId" resultType="int">
+        SELECT COUNT(*) FROM LIKE_TO
+		WHERE RELATED_ID = #{relatedId}
+		AND ISSPOT = 's'
     </select>
 
     <resultMap id="schedule" type="schedule">

@@ -84,9 +84,18 @@ class MyPage {
             return;
         }
         const img = evt.target;
+        
+        //schedule과 spot에 따라 url 나뉨
+        let url;
+        if(img.closest(".my-spot") !== null) {
+            url = '/api/spots/'+img.dataset.id+"/spotLike";
+        } else if(img.closest(".my-schedule") !== null) {
+            url = '/api/schedules/'+img.dataset.id+"/like";
+        }
+
         if(img.getAttribute("src") === '/image/star.png') {
             $.ajax({
-                url: '/api/spots/'+img.dataset.id+"/spotLike",
+                url: url,
                 type: 'post',
                 success: function(data) {
                     img.setAttribute("src", '/image/fullStar.png');
@@ -99,7 +108,7 @@ class MyPage {
             });
         } else {
             $.ajax({
-                url: '/api/spots/'+img.dataset.id+"/spotLike",
+                url: url,
                 type: 'delete',
                 success: function(data) {
                     img.setAttribute("src", '/image/star.png');
