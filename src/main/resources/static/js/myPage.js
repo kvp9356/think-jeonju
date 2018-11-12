@@ -15,6 +15,32 @@ class MyPage {
             method: "GET",
             success: this.myScheduleCallback.bind(this)
         });
+
+        //상세페이지 이동
+        $_(".mypage-container").addEventListener("click", this.changePageHandler);
+    }
+    changePageHandler(evt) {
+        const target = evt.target;
+        //별인 경우, 제외
+        if(target.className === "star") {
+            return;
+        }
+        //내스케쥴, 좋아요 장소, 좋아요 스케줄이 아닌 경우, 제외
+        if(target.closest(".my-spot") === null && target.closest(".my-schedule") === null) {
+            return;
+        }
+
+        //장소 상세페이지
+        if(target.closest(".my-spot") !== null) {
+            location.href = "/spots/" + target.closest(".my-spot").dataset.spotId + "/detail";
+            return;
+        }
+
+        //스케쥴 상세페이지
+        if(target.closest(".my-schedule") !== null) {
+            location.href = "/schedules/" + target.closest(".my-schedule").dataset.scheduleId + "/detail";
+            return;
+        }
     }
     insertPageNumbers(paging) {
         let pageHTML = ``;
@@ -88,7 +114,7 @@ class MyPage {
     }
     insertLikeScheduleHTML(schedule) {
         const scheduleHTML = `
-            <div class='my-schedule my-content' data-scehdule-id='{id}'>
+            <div class='my-schedule my-content' data-schedule-id='{id}'>
                 <img src="{imgUrl}" class="my-schedule-img my-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
                 <div class="star-container">
                     <img src="/image/fullStar.png" alt="" class="star" data-id="{id}"/>
@@ -166,7 +192,7 @@ class MyPage {
     }
     insertMyScheduleHTML(schedule) {
         const scheduleHTML = `
-            <div class='my-schedule my-content' data-scehdule-id='{id}'>
+            <div class='my-schedule my-content' data-schedule-id='{id}'>
                 <img src="{imgUrl}" class="my-schedule-img my-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
                 <dl class="my-schedule-info my-content-info">
                     <dt class="title">{title}</dt>
