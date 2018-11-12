@@ -32,13 +32,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function searchByKeyword() {
-	var searchKeyword = $("#searchKeyword").val();
+	var searchKeyword = $("#searchKeyword").val().trim();
 	
 	if(searchKeyword.length == 0) {
 		alert("검색어를 입력하세요!");
 	} else if(searchKeyword.length > 10) {
 		alert("검색어의 길이는 10이하입니다.");
 	} else {
-		location.href = "/spots/search?dataValue=" + searchKeyword;
+		var form = document.createElement("form");
+		var parm = new Array();
+		var input = new Array();
+		
+		form.action = "/spots/All/search";
+		form.method = "post";
+		
+		parm.push(['dataValue', searchKeyword]);
+		
+		for(var i=0; i<parm.length; i++) {
+			input[i] = document.createElement("input");
+			input[i].setAttribute("type", "hidden");
+			input[i].setAttribute("name", parm[i][0]);
+			input[i].setAttribute("value", parm[i][1]);
+			
+			form.appendChild(input[i]);
+		}
+		
+		document.body.appendChild(form);
+		form.submit();
+		
 	}
 }

@@ -1,15 +1,16 @@
 package com.kvp.thinkjeonju.repository;
 
-import com.kvp.thinkjeonju.model.SpotImg;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
+import com.kvp.thinkjeonju.dto.SpotDTO;
+import com.kvp.thinkjeonju.dto.SpotImgDTO;
 import com.kvp.thinkjeonju.model.Spot;
 import com.kvp.thinkjeonju.model.SpotImg;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Mapper
 public interface SpotMapper {
@@ -32,5 +33,14 @@ public interface SpotMapper {
 
 	int getIsLike(LikeToDTO like);
 
+	int getSpotDataSize(HashMap<String, String> map);
+
+	Spot getSpotDetail(String id);
+
 	List<Spot> findBestSpots();
+
+	ArrayList<Spot> getSpotData(HashMap<String, String> map);
+
+	ArrayList<SpotImg> getSpotImg(String id);
+
 }
