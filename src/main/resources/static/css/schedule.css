@@ -409,3 +409,7 @@
     display: flex;
     justify-content: center;
 }
+.spotimg {
+	width: 350px;
+	height: 210px;
+}

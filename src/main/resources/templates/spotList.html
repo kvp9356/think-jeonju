@@ -6,15 +6,15 @@
 {{#partial "contents"}}
 <div id="navbar">
 	<div>
-		<a href="#" id="All" onclick="spotCategorySearch(this)">통합검색</a>
-	  	<a href="#" id="CulturalSpace" onclick="spotCategorySearch(this)">문화공간</a>
-	  	<a href="#" id="CulturalExperience" onclick="spotCategorySearch(this)">문화체험</a>
-	  	<a href="#" id="OutdoorSpace" onclick="spotCategorySearch(this)">야외여행지</a>
-	  	<a href="#" id="StreetTour" onclick="spotCategorySearch(this)">거리투어</a>
-	 	<a href="#" id="CulturalProperty" onclick="spotCategorySearch(this)">문화재</a>
+		<a href="#" class="searchMenu" id="All" onclick="spotCategorySearch(this)">통합검색</a>
+	  	<a href="#" class="searchMenu" id="CulturalSpace" onclick="spotCategorySearch(this)">문화공간</a>
+	  	<a href="#" class="searchMenu" id="CulturalExperience" onclick="spotCategorySearch(this)">문화체험</a>
+	  	<a href="#" class="searchMenu" id="OutdoorSpace" onclick="spotCategorySearch(this)">야외여행지</a>
+	  	<a href="#" class="searchMenu" id="StreetTour" onclick="spotCategorySearch(this)">거리투어</a>
+	 	<a href="#" class="searchMenu" id="CulturalProperty" onclick="spotCategorySearch(this)">문화재</a>
 	 	<div id="search">
-			<input type="text" class="form-control"/>
-			<button class="btn btn-light">검색</button>
+			<input type="text" class="form-control" id="searchKeyword"/>
+			<button class="btn btn-light" onclick="spotCategorySearch(this)">검색</button>
 		</div>
 	</div>
 </div>
@@ -44,12 +44,12 @@
 		</div>
 	</div>
 	<div class="contentContainer">
-	<div>{{category}}</div>
-	<div class="title">{{name}}</div>
-	<div class="likeCnt"> 
-		<img src="/image/fullStar.png" alt="" />
-		<span id="likeCnt">{{likeCnt}}</span>
-	</div>
+		<div>{{category}}</div>
+		<div class="title">{{name}}</div>
+		<div class="likeCnt"> 
+			<img src="/image/fullStar.png" alt="" />
+			<span>{{likeCnt}}</span>
+		</div>
 	</div>
 </div>
 {{/spots}}

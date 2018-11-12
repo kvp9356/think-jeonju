@@ -48,6 +48,7 @@ public class SpotController {
 		case 3:
 		case 4:
 			map.put("startNum", ""+((cPage-1)*PAGESIZE+1));
+			map.put("dataValue", dataValue);
 			map.put("endNum", ""+cPage*PAGESIZE);
 			map.put("category", ""+ctgNum);
 			spots = spotService.getSpotData(map);

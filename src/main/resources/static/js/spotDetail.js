@@ -25,7 +25,7 @@ function showDivs(n) {
 	dots[slideIndex-1].className += " w3-white";
 }
 function getMapSearch() {
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	var mapContainer = $_("#map"), // 지도를 표시할 div 
 	mapOption = {
 	    center: new daum.maps.LatLng(35, 127), // 지도의 중심좌표
 	    level: 3 // 지도의 확대 레벨

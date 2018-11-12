@@ -54,8 +54,15 @@ public class ApiSpotController {
 			spots = spotService.setLikeInSpotDTOs(m, spots);
 		}
 
+		ArrayList<String> img = new ArrayList<>();
+		
+		for(int i=0; i<spots.size(); i++) {
+			img = spotService.getSpotImg(spots.get(i).getId());
+			spots.get(i).setImgUrl(img);
+			spots.get(i).setLikeCnt(spotService.getLikeCnt(spots.get(i).getId()));
+		}
+		
 		return new ResponseEntity(spots, HttpStatus.OK);
-
 
 	}
 }

@@ -26,6 +26,11 @@
 #category {
 	font-size: 18px;
 	margin-top: 5px;
+	width: fit-content;
+	background: #b5b5b5;
+	color: white;
+	padding-left: 7px;
+	padding-right: 7px;
 }
 #name {
 	font-size: 35px;

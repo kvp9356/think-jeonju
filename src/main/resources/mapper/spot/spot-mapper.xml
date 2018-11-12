@@ -73,7 +73,7 @@
        	WHERE NAME LIKE '%'||#{dataValue}||'%'
        	</if>
        	<if test="category != null"> 
-       	WHERE CATEGORY = #{category} 
+       	AND CATEGORY = #{category} 
        	</if> 
 	</select>
 	
@@ -104,7 +104,7 @@
             	WHERE NAME LIKE '%'||#{dataValue}||'%'
             	</if>
             	<if test="category != null"> 
-            	WHERE CATEGORY = #{category} 
+            	AND CATEGORY = #{category} 
             	</if> 
             	ORDER BY LIKE_CNT DESC nulls last, ID ASC
          	) E

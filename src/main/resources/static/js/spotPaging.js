@@ -1,6 +1,7 @@
 document.getElementById($('#category').val()).style.color = "black";
 pagingBar($("#cPage").val());
 chkCurrentPage();
+var url = "/spots/"+$("#category").val()+"/search";
 
 function pagingBar(cPage) {
 	var size = $("#size").val();
@@ -91,7 +92,7 @@ function moveToPage(url, cPage) {
 	var parm = new Array();
 	var input = new Array();
 
-	form.action = "/spots/"+$("#category").val()+"/search";
+	form.action = url;
 	form.method = "POST";
 	
 	parm.push(['dataValue', dataValue]);
