@@ -70,7 +70,7 @@
 					<div class="cnt_info">
 						<ul>
 							<li class="addr">
-							{{#existAddr spot.addr}}
+							{{#existAddr spot.addr spot.addrDtl}}
 								{{spot.addr}} {{spot.addrDtl}}
 								<img src="/image/map.png" alt="" data-toggle="tooltip" data-placement="right" title="지도보기" onclick="getMapSearch()"/>
 							{{else}}
