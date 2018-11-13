@@ -356,6 +356,8 @@ $(document).on("click",".draw",function(){
 
 
 $(document).ready(function(){
+    $_("#schedule-create-menu").style.color = "lightblue";
+
     $('#myModal').modal('show');
     $("#myModal").on("show.bs.modal", function (event) {
         var modal = $(this);

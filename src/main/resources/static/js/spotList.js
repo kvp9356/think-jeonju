@@ -47,3 +47,7 @@ function switchStarImg(img) {
 function getSpotDetail(div) {
 	location.href = "/spots/" + div.dataset.id + "/detail";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    $_("#spot-menu").style.color = "lightblue";
+});
