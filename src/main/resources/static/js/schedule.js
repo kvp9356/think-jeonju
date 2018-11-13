@@ -7,11 +7,10 @@ var drawSchedule = function(){
     var a = $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".spotimg");
     let html="";
     for(count=0;count<a.length;count++){
-        var name = $(a[count]).parent().find(".spotId").attr("class").split(' ')[0]
+        var name = $(a[count]).parent().data().spotId;
         var x = a[count].getAttribute("src");
-        const constHTML ="<div class='draw'>\n" +
+        const constHTML ="<div class='draw' data-spot-id='"+ name +"'>\n" +
             "                        <img src='"+ x +"'  class='spotimg'>\n" +
-            "                        <div class='"+ name +" spotId'></div>\n" +
             "                    </div>\n" +
             "<img src='/image/right-arrow.png' class='arrowimg'>\n";
         html+=constHTML;
@@ -26,11 +25,10 @@ var drawdropSchedule = function(move){
     var a = $(move.attr("href")).find(".spotimg")
     let html="";
     for(count=0;count<a.length;count++){
-        var name = $(a[count]).parent().find(".spotId").attr("class").split(' ')[0]
+        var name = $(a[count]).parent().data().spotId;
         var x = a[count].getAttribute("src");
-        const constHTML ="<div class='draw'>\n" +
+        const constHTML ="<div class='draw' data-spot-id='"+ name +"'>\n" +
             "                        <img src='"+ x +"'  class='spotimg'>\n" +
-            "                        <div class='"+ name +" spotId'></div>\n" +
             "                    </div>\n" +
             "<img src='/image/right-arrow.png' class='arrowimg'>\n";
         html+=constHTML;
@@ -58,8 +56,7 @@ $("#spotSearch").on({
                 }
                 $("#searchResult").html(html);
                 spots.forEach(spot => {
-                    const spotHTML = "<div class='details-Spot'>\n" +
-                        "                <div class='" + spot.id + " spotId'></div>" +
+                    const spotHTML = "<div class='details-spot' data-spot-id='"+ spot.id +"'>\n" +
                         "                <img src='" + spot.imgUrl[0] + "' class='spotimg'>\n" +
                         "                <dl class='spotInfo'>\n" +
                         "                    <dd class='category'>" + spot.category + "</dd>\n" +
@@ -73,7 +70,7 @@ $("#spotSearch").on({
                 $("#searchResult").html(html);
                 $("#searchResult").sortable({
                     cursorAt : { left : 200, top : 150 },
-                    connectWith: ".details-Schedule",
+                    connectWith: ".details-schedule",
                     placeholder: "ui-state-highlight",
                     start: function(e,ui){
                         ui.item.height(300);
@@ -85,13 +82,13 @@ $("#spotSearch").on({
                         $(ui.placeholder).parent().find(".default-text").hide();
                     },
                     stop: function(e, ui) {
-                        if ($("#searchResult").find("."+$(ui.item).find(".spotId").attr("class").replace(' ',".")).length==0) {
+                        if ($("#searchResult").find("[data-spot-id='"+ $(ui.item).data().spotId +"']").length==0) {
                             $("#searchResult").append($(ui.item).clone());
                         }
-                        $("#searchResult>.details-Spot>.x_button").remove();
-                        $("#searchResult>.details-Spot>dl>.receiptimg").remove();
-                        $("#searchResult>.details-Spot>dl>.details_receipt").remove();
-                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==1){
+                        $("#searchResult>.details-spot>.x_button").remove();
+                        $("#searchResult>.details-spot>dl>.receiptimg").remove();
+                        $("#searchResult>.details-spot>dl>.details_receipt").remove();
+                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==1){
                             $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
                         }
                     }
@@ -138,8 +135,8 @@ $(".btn-primary").on({
             for(count=1;count<=day;count++) {
                 if (($("#scheduleday" + count)).length == 0) {            //해당 id가 미존재한다면
                     day_Form = "<div id='scheduleday" + count + "' class='day-Form day'>\n" +
-                        "                  <div id='detailday"+count+"' class='details-Schedule'>\n" +
-                        "                 <div class='details-Spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
+                        "                  <div id='detailday"+count+"' class='details-schedule'>\n" +
+                        "                 <div class='details-spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
                         "                 </div>\n" +
                         "            </div>";
                     $("#day-frame").append(day_Form);
@@ -176,7 +173,7 @@ $(".btn-primary").on({
             active : 0
         });
 
-        $(".details-Schedule").sortable({
+        $(".details-schedule").sortable({
             cursorAt : { left : 200, top : 150 },
             placeholder: "ui-state-highlight",
             cancel: ".default-text,.details_receipt",
@@ -190,16 +187,16 @@ $(".btn-primary").on({
                 drawSchedule();
             },
             receive: function(e, ui) {
-                if ($(ui.item).parent().find("."+$(ui.item).find(".spotId").attr("class").replace(' ',".")).length>1 && $(ui.item).parent().attr("class")=="details-Schedule ui-sortable") {
+                if ($(ui.item).parent().find("[data-spot-id='"+ $(ui.item).data().spotId +"']").length>1 && $(ui.item).parent().attr("class")=="details-schedule ui-sortable") {
                     alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
                     ui.sender.sortable('cancel');
                 }
                 else if($(ui.item).parent().attr("id")!="searchResult"&& $(ui.item).find(".x_button").length==0) {
                     var imagetag = "<img src='/image/x_button.png' class='x_button'>";
                     var receipttag =
-                            "<img src='/image/receipt.png' class='receiptimg'>" +
+                        "<img src='/image/receipt.png' class='receiptimg'>" +
                         "<div class='details_receipt'>" +
-                            "<img src='/image/plus_button.png' class='plus_button'>" +
+                        "<img src='/image/plus_button.png' class='plus_button'>" +
                         "   <input type='text' class='default_receipt' value='이름(ex.식대) : 금액(단위:원)' readonly>" +
                         "</div>";
 
@@ -210,14 +207,14 @@ $(".btn-primary").on({
             }
         }).disableSelection();
         $(".ui-tabs-anchor").droppable({
-            accept: ".details-Schedule>.details-Spot",
+            accept: ".details-schedule>.details-spot",
             hoverClass : "highlight",
             drop: function( event, ui ) {
                 var $item = $(this);
-                var $list = $($($item).attr("href")).find(".details-Schedule");
-                var itemid = $(".ui-sortable-helper").find(".spotId").attr("class").replace(' ',".");
+                var $list = $($($item).attr("href")).find(".details-schedule");
+                var itemid = $(".ui-sortable-helper").data().spotId;
                 if($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id")){
-                    if($($list).find("."+itemid).length!=0){
+                    if($($list).find("[data-spot-id='"+ itemid +"']").length!=0){
                         alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
                     }
                     else {
@@ -227,7 +224,7 @@ $(".btn-primary").on({
                             drawSchedule();
                             drawdropSchedule(($item));
                         });
-                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==2){
+                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==2){
                             $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
                         }
                     }
@@ -313,15 +310,15 @@ $(document).on("keyup",".budget_money",function(e){
 $(document).on("click",".x_button",function(){
     $(this).parent().remove();
     drawSchedule();
-    if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==1){
+    if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==1){
         $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
     }
 });
 
 $(document).on("click",".draw",function(){
     var day = $(this).parent().parent().attr("id").substring(7);
-    var spotname = $(this).find(".spotId").attr("class").split(' ')[0];
-    var spot = $("#detailday"+day).find("."+spotname).parent();
+    var spotname = $(this).data().spotId;
+    var spot = $("#detailday"+day).find("[data-spot-id='"+ spotname +"']");
     var head = '';
     head += spot.find(".title").text();
     var html='';

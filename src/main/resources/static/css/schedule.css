@@ -1,6 +1,10 @@
+#spotModal-body{
+    width: 380px;
+}
+
 #spotModal-body>.details_receipt{
     width: 300px;
-    transform: translate(-17px,17px);
+    transform: translate(25px,17px);
 }
 
 #spotModal-body>.details_receipt>.default_receipt{
@@ -62,11 +66,11 @@
 }
 
 #spotModal-body>.receiptimg{
-    transform: translate(255px, 6px);
+    transform: translate(310px, 6px);
     background-color: white;
 }
 
-.details-Schedule>.details-Spot>dl>dd.like{
+.details-schedule>.details-spot>dl>dd.like{
     display: inline-block;
     transform: translateX(-150px);
 }
@@ -190,8 +194,8 @@
 #schedule-frame::-webkit-scrollbar,
 #tab-frame::-webkit-scrollbar,
 #searchResult::-webkit-scrollbar,
-.drawSchedule::-webkit-scrollbar/*,
-    .drawDay::-webkit-scrollbar*/{
+.drawSchedule::-webkit-scrollbar,
+.details-schedule::-webkit-scrollbar{
     display: none;
 }
 
@@ -294,7 +298,7 @@
     overflow: auto;
 }
 
-.details-Spot{
+.details-spot{
     border : 1px solid #e9e9e9;
     padding : 10px 10px;
     margin-bottom : 10px;
@@ -302,12 +306,13 @@
     position:relative;
 }
 
-.details-Schedule{
+.details-schedule{
     min-height: 470px;
     text-align: center;
     align-items: center;
     justify-content: center;
     padding-top: 10px;
+    overflow: auto;
 }
 
 #searchResult{
@@ -366,13 +371,13 @@
     padding :0;
 }
 
-#day-frame>.day-Form>.details-Schedule>.ui-state-highlight,
+#day-frame>.day-Form>.details-schedule>.ui-state-highlight,
 #searchResult>.ui-state-highlight{
     background : aliceblue;
     border : 1px solid lightgray;
 }
 
-#day-frame>.day-Form>.details-Schedule>.ui-sortable-helper,
+#day-frame>.day-Form>.details-schedule>.ui-sortable-helper,
 #searchResult>.ui-sortable-helper{
     opacity: 0.3;
 }
@@ -410,6 +415,6 @@
     justify-content: center;
 }
 .spotimg {
-	width: 350px;
-	height: 210px;
+    width: 350px;
+    height: 210px;
 }
