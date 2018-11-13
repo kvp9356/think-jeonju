@@ -28,6 +28,17 @@
         WHERE ROWNUM <![CDATA[ <= ]]> 4
     </select>
 
+    <select id="getSchedulesCount" resultType="int">
+        SELECT COUNT(*) FROM SCHEDULE
+    </select>
+
+    <select id="findSchedulesByPage" resultMap="schedule">
+        SELECT * FROM (
+        SELECT SCHEDULE.*, ROWNUM AS RNUM FROM SCHEDULE
+        WHERE ROWNUM <![CDATA[ <= ]]> #{currentBlockEnd}
+        ) WHERE RNUM <![CDATA[ >= ]]> #{currentBlockStart}
+    </select>
+
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>
         <result column="title" property="title"/>

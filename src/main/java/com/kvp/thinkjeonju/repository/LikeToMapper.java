@@ -26,4 +26,6 @@ public interface LikeToMapper {
     int getLikeCountByScheduleId(String relatedId);
 
     int getLikeCountBySpotId(String relatedId);
+
+    int isLikeScheduleByMemberId(LikeToDTO likeToDTO);
 }
