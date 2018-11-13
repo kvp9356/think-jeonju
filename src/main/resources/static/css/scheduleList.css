@@ -1,0 +1,98 @@
+.schedule-container {
+    width: 1080px;
+    margin: 30px auto;
+    padding: 0 14px;
+}
+
+.schedule {
+    display: inline-block;
+    width: 250px;
+    margin: 20px 5px;
+    border: 1px solid white;
+}
+
+.schedule:hover {
+    border: 1px solid rgba(0,123,255,.5);
+    cursor: pointer;
+}
+
+.schedule-img-cover{
+    overflow: hidden;
+}
+
+.schedule-img {
+    width: 250px;
+    height: 150px;
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1);
+    -o-transform:scale(1);
+    transform:scale(1);
+    -webkit-transition:1.2s;
+    -moz-transition:1.2s;
+    -ms-transition:1.2s;
+    -o-transition:1.2s;
+    transition:1.2s;
+}
+
+.schedule-img:hover {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+}
+
+.schedule-info {
+    padding-left: 5px;
+    margin-bottom: 10px;
+}
+
+.schedule-info .title {
+    font-size: 20px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.schedule-info .title {
+    margin-top: 0;
+}
+
+.schedule-info .category {
+    margin-top: 5px;
+}
+
+.schedule-info dd {
+    margin-bottom: 0;
+}
+
+.schedule-info .like img{
+    width: 16px;
+    vertical-align: baseline;
+}
+
+.star {
+    top: 5px;
+    left: 220px;
+}
+
+.star-container {
+    position: absolute;
+}
+
+.star {
+    position: relative;
+    top: -145px;
+    left: 220px;
+    width: 24px;
+    height: 24px;
+}
+
+.schedule-container-paging {
+    text-align: center;
+}
+.pagination, .page-item {
+    display: inline-block;
+}

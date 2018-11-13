@@ -1,0 +1,42 @@
+{{#partial "head"}}
+<link rel="stylesheet" href="/css/scheduleList.css"/>
+{{/partial}}
+
+{{#partial "contents"}}
+<div class="schedule-container">
+    {{#schedules}}
+    <div class='schedule' data-schedule-id='{{id}}'>
+        <div class="schedule-img-cover">
+            <img src="{{imgUrl}}" class="schedule-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
+        </div>
+        <div class="star-container">
+            {{#isMyLike isLike}}
+            <img src="/image/fullStar.png" class="star" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+            {{else}}
+            <img src="/image/star.png" class="star" alt="" onclick="switchStarImg(this)" data-id="{{id}}"/>
+            {{/isMyLike}}
+        </div>
+        <dl class="schedule-info">
+            <dt class="title">{{title}}</dt>
+            <dd class="date">{{diffDate startDate endDate}}일</dd>
+            <dd class="like"><img src="/image/fullStar.png" alt=""/> <spn class="like-cnt">{{like}}</spn></dd>
+        </dl>
+    </div>
+    {{/schedules}}
+</div>
+
+{{#paging}}
+<nav aria-label="Page navigation example" class="schedule-container-paging">
+    <ul class="pagination">
+        {{#makeBlock paging}}
+            {{this}}
+        {{/makeBlock}}
+    </ul>
+</nav>
+{{/paging}}
+{{/partial}}
+
+{{#partial "script"}}
+{{/partial}}
+
+{{> base}}
