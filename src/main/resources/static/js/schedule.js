@@ -409,3 +409,16 @@ $('#toDate').datepicker({
     ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
     ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
 });
+
+$(document).on("click",".arrowimg",function(){
+	// finish 직전 화살표가 아닌 경우
+	if($(this).next().prop('tagName') != "IMG") {
+		var day = $(this).parent().parent().attr("id").substring(7);
+		var startSpotId = $(this).prev().find(".spotId").attr("class").split(' ')[0];
+		var endSpotId = $(this).next().find(".spotId").attr("class").split(' ')[0];
+		var startSpotName = $("#detailday"+day).find("."+startSpotId).parent().find(".title").text();
+		var endSpotName = $("#detailday"+day).find("."+endSpotId).parent().find(".title").text();
+		var url = "http://map.daum.net/?sName=" + startSpotName + "&eName=" + endSpotName;
+		window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
+	}
+});

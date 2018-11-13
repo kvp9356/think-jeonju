@@ -128,3 +128,7 @@ ul li {
 	width: 350px;
 	height: 350px;
 }
+#hashtag img {
+	vertical-align: text-bottom;
+	margin-right: 5px;
+}

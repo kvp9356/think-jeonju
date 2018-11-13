@@ -36,10 +36,11 @@ public class CustomHelper {
     	return options.inverse(this);
     }
     
-    public CharSequence existAddr(Object addr, Options options) throws IOException {
+    public CharSequence existAddr(Object addr, Object addrDtl, Options options) throws IOException {
     	String address = (String)addr;
+    	String addressDtl = (String)addrDtl;
     	
-    	if(address != null) {
+    	if(address != null || addressDtl != null) {
     		return options.fn(this);
     	} 
     	return options.inverse(this);
