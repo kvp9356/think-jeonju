@@ -28,6 +28,12 @@
         WHERE ROWNUM <![CDATA[ <= ]]> 4
     </select>
 
+    <select id="isExistSchedule" resultType="int">
+        SELECT COUNT(*) FROM
+        SCHEDULE
+        WHERE ID = #{id}
+    </select>
+
     <insert id="addSchedule">
         INSERT INTO SCHEDULE
         VALUES(
@@ -41,6 +47,19 @@
         #{isWriting}
         )
     </insert>
+
+    <update id="updateSchedule">
+        UPDATE SCHEDULE
+        SET
+        TITLE=#{title},
+        START_DATE=#{startDate},
+        END_DATE=#{endDate},
+        IS_PUBLIC=#{isPublic},
+        THUMNAIL_URL=#{thumnailUrl},
+        IS_WRITING=#{isWriting}
+        WHERE
+        ID=#{id}
+    </update>
 
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>

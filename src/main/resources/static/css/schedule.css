@@ -1,3 +1,10 @@
+.save_button{
+    width: 50%;
+    border-radius: 10px;
+    background: none;
+    height: 40px;
+    display: inline;
+}
 #spotModal-body{
     width: 380px;
 }
@@ -413,6 +420,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    border: none;
 }
 .spotimg {
     width: 350px;

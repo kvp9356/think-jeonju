@@ -19,4 +19,9 @@ public interface ScheduleMapper {
     List<Schedule> findBestSchedules();
 
     void addSchedule(ScheduleDTO shedule);
+
+    void updateSchedule(ScheduleDTO shedule);
+
+    int isExistSchedule(String id);
+
 }

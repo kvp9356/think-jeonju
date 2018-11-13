@@ -24,6 +24,11 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    스케줄 공개 여부&nbsp;&nbsp;&nbsp;
+                    <select name="isPublic">
+                        <option value="1">공개</option>
+                        <option value="0">비공개</option>
+                    </select>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                     <button type="button" class="btn btn-primary">확인</button>
                 </div>
@@ -96,6 +101,8 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="uuid" name="uuid">
 
 {{/partial}}
 
