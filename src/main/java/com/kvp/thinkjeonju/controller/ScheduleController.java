@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/schedules")
 public class ScheduleController {
 
-    @GetMapping("")
-    public String schedule(@LoginUser MemberDTO user) { return "schedule";}
-
+    @GetMapping("/create")
+    public String createSchedule(@LoginUser MemberDTO user) { return "schedule";}
 }
