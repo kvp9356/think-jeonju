@@ -27,10 +27,6 @@ public interface SpotMapper {
 
 	int getLikeCnt(String id);
 
-	void setSpotLike(LikeToDTO like);
-
-	void cancelSpotLike(LikeToDTO like);
-
 	int getIsLike(LikeToDTO like);
 
 	int getSpotDataSize(HashMap<String, String> map);

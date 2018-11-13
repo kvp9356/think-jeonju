@@ -77,7 +77,11 @@ class Join {
             contentType: "application/json",
             success: () => {
                 $_("#join-error").style.display = "none";
-                reloadHome();
+                if(location.href.includes('/loginError')) {
+                    reloadHome();
+                } else {
+                    location.reload();
+                }
             },
             error: () => {
                 $_("#join-error span").innerText = "아이디, 비밀번호, 이름을 다시 확인해주세요.";

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.kvp.thinkjeonju.repository.LikeToMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -37,6 +38,9 @@ public class SpotService {
 	
 	@Autowired
 	private SpotMapper spotMapper;
+
+	@Autowired
+	private LikeToMapper likeToMapper;
 	
 	public String webConnection(String apiUrl) {
 		
@@ -220,15 +224,15 @@ public class SpotService {
 	}
 	
 	public int getLikeCnt(String id) {
-		return spotMapper.getLikeCnt(id);
+		return likeToMapper.getLikeCountBySpotId(id);
 	}
 
 	public void setSpotLike(LikeToDTO like) {
-		spotMapper.setSpotLike(like);
+		likeToMapper.setLike(like);
 	}
 
 	public void cancelSpotLike(LikeToDTO like) {
-		spotMapper.cancelSpotLike(like);
+		likeToMapper.cancelLike(like);
 	}
 
 	public int getIsLike(LikeToDTO like) {
