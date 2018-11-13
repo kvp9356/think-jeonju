@@ -87,12 +87,20 @@
 		<div id="content">
 			{{spot.content}}
 		</div>
+		<hr>
+		<div class="instagram-container">
+			<h4 id="hashtag"> #{{spot.name}} </h4><span id="more-view">더보기</span>
+			<div class="hashtag-container">
+
+			</div>
+		</div>
 	</div>
 </div>
 <input type="hidden" id="addr" value="{{spot.addr}} {{spot.addrDtl}}"/>
 <input type="hidden" id="spotName" value="{{spot.name}}"/>
 <input type="hidden" id="category" value="{{spot.category}}"/>
 <div id="mapContainer">
+	<hr>
 	<div id="map"></div>
 </div>
 {{/partial}}
