@@ -60,8 +60,9 @@ function getMapSearch() {
 		    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 		    map.setCenter(coords);
 		} 
-	});  
-	document.getElementById('map').scrollIntoView();
+	});
+	$_("#map").style.display = '';
+    $_("#map").scrollIntoView();
 }
 
 function switchStarImg(img) {
@@ -111,4 +112,25 @@ for(var i=0; i<a.length; i++) {
 	if(a[i].innerHTML == category) {
 		a[i].style.color = "black";
 	}
-} 
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	//장소 이름의 공백 제거
+	const hashtag = $_("#name").innerText.replace(" ", "");
+	
+	const url = "https://www.instagram.com/explore/tags/"+ hashtag +"/?__a=1";
+	$.get(url, function(data, status) {
+		let html = ``;
+		for(let i = 0; i < 9; i++) {
+			if(i >= data.graphql.hashtag.edge_hashtag_to_media.edges.length) {
+				break;
+			}
+			const hashtagContent = data.graphql.hashtag.edge_hashtag_to_media.edges[i].node;
+			html += `<img class='hashtag-img' src='` + hashtagContent.thumbnail_resources[2].src + `'>`;
+		}
+        $(".hashtag-container").append(html);
+	});
+
+	$_("#map").style.display = "none";
+	$_("#more-view").addEventListener("click", () => { location.href = "https://www.instagram.com/explore/tags/"+hashtag+"/?hl=ko";  });
+});

@@ -26,10 +26,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("#logout").on("click", logout);
 
+    $("#spot-menu").on("click", () => {
+        const form = document.createElement("form");
+        let parm = new Array();
+        let input = new Array();
+
+        form.action = "/spots/All/search";
+        form.method = "POST";
+
+        document.body.appendChild(form);
+        form.submit();
+    });
+
     $("#login").removeAttr("href");
     $("#join").removeAttr("href");
     $("#logout").removeAttr("href");
+
+    if($(".best-container").length > 0) {
+        $(".best-container").click(changePageHandler);
+    }
 });
+
+function changePageHandler(evt) {
+    const target = evt.target;
+
+    //장소, 스케쥴 카드가 아닌 경우, 제외
+    if(target.closest(".best-content") === null) {
+        return;
+    }
+
+    //베스트 장소 상세 페이지
+    if(target.closest(".best-spot") !== null) {
+        location.href = "/spots/" + target.closest(".best-spot").dataset.spotId + "/detail";
+        return;
+    }
+
+    //베스트 스케쥴 상세 페이지
+    if(target.closest(".best-schedule") !== null) {
+        location.href = "/schedules/" + target.closest(".best-schedule").dataset.scheduleId + "/detail";
+        return;
+    }
+}
 
 function searchByKeyword() {
 	var searchKeyword = $("#searchKeyword").val().trim();
