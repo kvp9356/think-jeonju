@@ -60,8 +60,9 @@ function getMapSearch() {
 		    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 		    map.setCenter(coords);
 		} 
-	});  
-	document.getElementById('map').scrollIntoView();
+	});
+	$_("#map").style.display = '';
+    $_("#map").scrollIntoView();
 }
 
 function switchStarImg(img) {
@@ -130,5 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
         $(".hashtag-container").append(html);
 	});
 
+	$_("#map").style.display = "none";
 	$_("#more-view").addEventListener("click", () => { location.href = "https://www.instagram.com/explore/tags/"+hashtag+"/?hl=ko";  });
 });
