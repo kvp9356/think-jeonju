@@ -1,5 +1,6 @@
 .schedule-container {
     width: 1080px;
+    min-height: 560px;
     margin: 30px auto;
     padding: 0 14px;
 }
