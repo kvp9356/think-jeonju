@@ -2,6 +2,7 @@ package com.kvp.thinkjeonju.controller;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
+import com.kvp.thinkjeonju.dto.ScheduleDTO;
 import com.kvp.thinkjeonju.security.LoginUser;
 import com.kvp.thinkjeonju.service.ScheduleService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,5 +29,10 @@ public class ApiScheduleController {
     public ResponseEntity<Integer> cancelScheduleLike(@PathVariable String scheduleId, @LoginUser MemberDTO user) {
         log.debug("[좋아요] {} 스케쥴 좋아요 취소", scheduleId);
         return new ResponseEntity(scheduleService.cancelScheduleLike(new LikeToDTO(user.getId(), scheduleId, 'c')), HttpStatus.OK);
+    }
+
+    @PostMapping("/{scheduleId}")   //스케줄 생성
+    public ResponseEntity<Void> addSchedule(@RequestBody ScheduleDTO ScheduleDTO,@LoginUser MemberDTO user){
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

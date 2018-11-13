@@ -2,6 +2,7 @@ package com.kvp.thinkjeonju.service;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.ScheduleDTO;
+import com.kvp.thinkjeonju.model.Schedule;
 import com.kvp.thinkjeonju.repository.LikeToMapper;
 import com.kvp.thinkjeonju.repository.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,9 @@ public class ScheduleService {
     public int cancelScheduleLike(LikeToDTO likeDTO) {
         likeToMapper.cancelLike(likeDTO);
         return likeToMapper.getLikeCountByScheduleId(likeDTO.getRelatedId());
+    }
+
+    public void addSchedule(ScheduleDTO ScheduleDTO){
+        scheduleMapper.addSchedule(ScheduleDTO);
     }
 }

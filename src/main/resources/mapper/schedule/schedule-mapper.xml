@@ -28,6 +28,20 @@
         WHERE ROWNUM <![CDATA[ <= ]]> 4
     </select>
 
+    <insert id="addSchedule">
+        INSERT INTO SCHEDULE
+        VALUES(
+        #{id},
+        #{title},
+        #{memberId},
+        #{startDate},
+        #{endDate},
+        #{isPublic},
+        #{thumnailUrl},
+        #{isWriting}
+        )
+    </insert>
+
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>
         <result column="title" property="title"/>
