@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kvp.thinkjeonju.repository.ScheduleMapper">
-    <select id="findByMemberId" resultMap="schedule">
-        SELECT * FROM SCHEDULE
+    <select id="getPersonalSchedulesCount" resultType="int">
+        SELECT COUNT(*) FROM SCHEDULE
         WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="findByMemberId" resultMap="schedule">
+        SELECT * FROM (
+            SELECT SCHEDULE.*, ROWNUM AS RNUM FROM SCHEDULE
+            WHERE MEMBER_ID = #{memberId}
+            AND ROWNUM <![CDATA[ <= ]]> #{paging.currentBlockEnd}
+        ) WHERE RNUM <![CDATA[ >= ]]> #{paging.currentBlockStart}
     </select>
 
     <select id="getLikeCnt" resultType="int">

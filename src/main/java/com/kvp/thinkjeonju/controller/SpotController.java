@@ -8,10 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MemberDTO;
@@ -87,18 +84,18 @@ public class SpotController {
 		return "spotList";
 	}
 	
-	@PostMapping("/detail")
-	public String getSpotDetail(@RequestParam String id, Model model, HttpSession session) {
+	@GetMapping("/{spotId}/detail")
+	public String getSpotDetail(@PathVariable String spotId, Model model, HttpSession session) {
 		log.debug("[Spot] 상세보기 페이지 이동");
 		
-		SpotDTO spot = spotService.getSpotDetail(id).toDTO();
-		spot.setImgUrl(spotService.getSpotImg(id));
-		spot.setLikeCnt(spotService.getLikeCnt(id));
+		SpotDTO spot = spotService.getSpotDetail(spotId).toDTO();
+		spot.setImgUrl(spotService.getSpotImg(spotId));
+		spot.setLikeCnt(spotService.getLikeCnt(spotId));
 		
 		MemberDTO m = (MemberDTO)session.getAttribute("loginUser");
 		
 		if(m != null) {
-			if(spotService.getIsLike(new LikeToDTO(m.getId(), id, 's')) == 1) {
+			if(spotService.getIsLike(new LikeToDTO(m.getId(), spotId, 's')) == 1) {
 				spot.setIsLike(true);
 			} else {
 				spot.setIsLike(false);
