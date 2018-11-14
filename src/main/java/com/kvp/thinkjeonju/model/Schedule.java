@@ -1,5 +1,6 @@
 package com.kvp.thinkjeonju.model;
 
+import com.kvp.thinkjeonju.dto.MoneyDTO;
 import com.kvp.thinkjeonju.dto.ScheSpotDTO;
 import com.kvp.thinkjeonju.dto.ScheduleDTO;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,15 @@ public class Schedule {
     private String thumnailUrl;
     private int isWriting;
     private List<ScheSpotDTO> ScheSpot;
+    private List<MoneyDTO> Money;
 
     public static Schedule from(ScheduleDTO scheduleDTO) {
         return new Schedule(scheduleDTO.getId(), scheduleDTO.getTitle(), scheduleDTO.getMemberId(),
                 scheduleDTO.getStartDate(), scheduleDTO.getEndDate(), scheduleDTO.getIsPublic(),
-                scheduleDTO.getThumnailUrl(), scheduleDTO.getIsWriting() ,scheduleDTO.getScheSpot());
+                scheduleDTO.getThumnailUrl(), scheduleDTO.getIsWriting() ,scheduleDTO.getScheSpot(), scheduleDTO.getMoney());
     }
 
     public ScheduleDTO toDTO() {
-        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting,0,null,null);
+        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting,0,false,null,null);
     }
 }

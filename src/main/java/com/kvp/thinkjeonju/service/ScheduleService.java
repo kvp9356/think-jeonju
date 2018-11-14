@@ -3,12 +3,12 @@ package com.kvp.thinkjeonju.service;
 import com.kvp.thinkjeonju.dto.LikeToDTO;
 import com.kvp.thinkjeonju.dto.MoneyDTO;
 import com.kvp.thinkjeonju.dto.ScheSpotDTO;
+import com.kvp.thinkjeonju.dto.MemberDTO;
 import com.kvp.thinkjeonju.dto.ScheduleDTO;
+import com.kvp.thinkjeonju.model.Money;
 import com.kvp.thinkjeonju.model.Schedule;
-import com.kvp.thinkjeonju.repository.MoneyMapper;
-import com.kvp.thinkjeonju.repository.ScheSpotMapper;
-import com.kvp.thinkjeonju.repository.LikeToMapper;
-import com.kvp.thinkjeonju.repository.ScheduleMapper;
+import com.kvp.thinkjeonju.repository.*;
+import com.kvp.thinkjeonju.support.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,9 @@ public class ScheduleService {
 
     @Autowired
     private ScheSpotMapper scheSpotMapper;
+
+    @Autowired
+    private SpotMapper spotMapper;
 
     @Autowired
     private MoneyMapper moneyMapper;
@@ -50,6 +53,29 @@ public class ScheduleService {
         likeToMapper.cancelLike(likeDTO);
         return likeToMapper.getLikeCountByScheduleId(likeDTO.getRelatedId());
     }
+
+    public ScheduleDTO getScheduleById(String scheduleId){
+        return scheduleMapper.getScheduleById(scheduleId).toDTO();
+    }
+
+    public List<MoneyDTO> getMoneyById(String scheduleId){
+        return moneyMapper.getMoneyById(scheduleId).stream()
+                .map(Money -> Money.toDTO())
+                .collect(Collectors.toList());
+    }
+
+    public List<ScheSpotDTO> getScheSpotById(String scheduleId){
+        System.out.println("씨발" + scheduleId);
+        return scheSpotMapper.getScheSpotById(scheduleId).stream()
+                .map(scheSpot -> scheSpot.toDTO())
+                .map(scheSpotDTO ->{
+                    scheSpotDTO.setSpotimg(spotMapper.findSpotImgUrlById(scheSpotDTO.getSpotId()).get(0));
+                    scheSpotDTO.setLikeCnt(spotMapper.getLikeCnt(scheSpotDTO.getSpotId()));
+                    return scheSpotDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
 
     public void addSchedule(ScheduleDTO ScheduleDTO){
         scheduleMapper.addSchedule(ScheduleDTO);
@@ -88,4 +114,30 @@ public class ScheduleService {
     }
 
 
+    public List<ScheduleDTO> getSchedulesByPageNo(Paging paging) {
+        return scheduleMapper.findSchedulesByPage(paging).stream()
+                .map(schedule -> schedule.toDTO())
+                .map(scheduleDTO -> {
+                    scheduleDTO.setLike(likeToMapper.getLikeCountByScheduleId(scheduleDTO.getId()));
+                    return scheduleDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public Paging getPaging(int page) {
+        Paging paging = new Paging();
+        paging.makeLastPage(scheduleMapper.getSchedulesCount());
+        paging.makeBlock(page);
+        paging.makeCurrentBlock(page);
+        return paging;
+    }
+
+    public List<ScheduleDTO> setLike(MemberDTO user, List<ScheduleDTO> schedules) {
+        return schedules.stream()
+                .map(scheduleDTO -> {
+                    scheduleDTO.setIsLike(likeToMapper.isLikeScheduleByMemberId(new LikeToDTO(user.getId(), scheduleDTO.getId(), 'c')));
+                    return scheduleDTO;
+                })
+                .collect(Collectors.toList());
+    }
 }

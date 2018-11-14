@@ -18,6 +18,12 @@
         WHERE ID=#{id}
     </delete>
 
+    <select id="getMoneyById" resultMap="money">
+        SELECT *
+        FROM MONEY
+        WHERE ID=#{id}
+    </select>
+
     <resultMap id="money" type="money">
         <result column="id" property="id"/>
         <result column="schespot_id" property="scheSpotId"/>

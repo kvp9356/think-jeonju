@@ -53,4 +53,8 @@ public class ApiScheduleController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @GetMapping("/schespot")
+    public ResponseEntity<>
+
+
 }

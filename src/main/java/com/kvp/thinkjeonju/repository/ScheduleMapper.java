@@ -3,6 +3,7 @@ package com.kvp.thinkjeonju.repository;
 import com.kvp.thinkjeonju.dto.PagingDTO;
 import com.kvp.thinkjeonju.dto.ScheduleDTO;
 import com.kvp.thinkjeonju.model.Schedule;
+import com.kvp.thinkjeonju.support.Paging;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Arrays;
@@ -24,4 +25,9 @@ public interface ScheduleMapper {
 
     int isExistSchedule(String id);
 
+    int getSchedulesCount();
+
+    List<Schedule> findSchedulesByPage(Paging paging);
+
+    Schedule getScheduleById(String scheduleId);
 }

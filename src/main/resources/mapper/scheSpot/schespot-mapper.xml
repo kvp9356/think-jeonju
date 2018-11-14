@@ -16,6 +16,12 @@
         FROM SCHESPOT
         WHERE ID=#{id}
     </delete>
+    
+    <select id="getScheSpotById" resultMap="scheSpot">
+        SELECT *
+        FROM SCHESPOT
+        WHERE ID=#{id}
+    </select>
 
     <resultMap id="scheSpot" type="scheSpot">
         <result column="id" property="id"/>

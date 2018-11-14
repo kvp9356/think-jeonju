@@ -17,12 +17,14 @@ public class ScheSpot {
     private LocalDate scheDate;
     private int sequence;
     private String spotId;
+    private String spotimg;
+    private int likeCnt;
 
     public static ScheSpot from(ScheSpotDTO ScheSpotDTO) {
-        return new ScheSpot(ScheSpotDTO.getId(),ScheSpotDTO.getScheDate(),ScheSpotDTO.getSequence(),ScheSpotDTO.getSpotId());
+        return new ScheSpot(ScheSpotDTO.getId(),ScheSpotDTO.getScheDate(),ScheSpotDTO.getSequence(),ScheSpotDTO.getSpotId(),ScheSpotDTO.getSpotimg(),ScheSpotDTO.getLikeCnt());
     }
 
     public ScheSpotDTO toDTO() {
-        return new ScheSpotDTO(id,scheDate,sequence,spotId);
+        return new ScheSpotDTO(id,scheDate,sequence,spotId,null,0);
     }
 }

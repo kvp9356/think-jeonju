@@ -10,7 +10,7 @@ import java.util.List;
 public interface ScheSpotMapper {
     void insertScheSpot(ScheSpotDTO schespot);
 
-    List<ScheSpot> getScheSpot(String id);
+    List<ScheSpot> getScheSpotById(String scheduleId);
 
     void deleteScheSpot(String Id);
 }

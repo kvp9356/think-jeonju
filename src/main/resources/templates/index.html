@@ -34,7 +34,7 @@
 	<div class="best-sub-title"> 스케쥴 짜기 힘들 때, 이런 스케쥴은 어때요? </div>
 	{{#bestSchedules}}
 	<div class='best-schedule best-content' data-schedule-id='{{id}}'>
-		<img src="{{imgUrl}}" class="best-schedule-img best-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
+		<img src="{{thumnailUrl}}" class="best-schedule-img best-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
 		<dl class="best-schedule-info best-content-info">
 			<dt class="title">{{title}}</dt>
 			<dd class="date">{{diffDate startDate endDate}}일</dd>
@@ -46,7 +46,6 @@
 {{/partial}}
 
 {{#partial "script"}}
-<script src="/js/index.js"></script>
 {{/partial}}
 
 {{>base}}
