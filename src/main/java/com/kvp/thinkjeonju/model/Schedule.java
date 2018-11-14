@@ -27,6 +27,6 @@ public class Schedule {
     }
 
     public ScheduleDTO toDTO() {
-        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting, 0);
+        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting, 0, false);
     }
 }
