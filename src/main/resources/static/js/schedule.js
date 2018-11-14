@@ -58,6 +58,13 @@ $("#spotSearch").on({
                 }
                 $("#searchResult").html(html);
                 spots.forEach(spot => {
+                	var addr = '';
+                	if(spot.addr != null) {
+                		addr += spot.addr;
+                	}
+                	if(spot.addrDtl != null) {
+                		addr += spot.addrDtl;
+                	}
                     const spotHTML = "<div class='details-Spot'>\n" +
                         "                <div class='" + spot.id + " spotId'></div>" +
                         "                <img src='" + spot.imgUrl[0] + "' class='spotimg'>\n" +
@@ -66,6 +73,7 @@ $("#spotSearch").on({
                         "                    <dt class='title'>" + spot.name + "</dt>\n" +
                         "                    <dd class='like'><img src='/image/fullStar.png' alt=''/> <spn class='like-cnt'>" + spot.likeCnt + "</spn></dd>\n" +
                         "                </dl>" +
+                        "			 	 <input type='hidden' class='addr' value='" + addr + "'/>" +
                         "            </div>";
                 html += spotHTML;
 
@@ -416,9 +424,9 @@ $(document).on("click",".arrowimg",function(){
 		var day = $(this).parent().parent().attr("id").substring(7);
 		var startSpotId = $(this).prev().find(".spotId").attr("class").split(' ')[0];
 		var endSpotId = $(this).next().find(".spotId").attr("class").split(' ')[0];
-		var startSpotName = $("#detailday"+day).find("."+startSpotId).parent().find(".title").text();
-		var endSpotName = $("#detailday"+day).find("."+endSpotId).parent().find(".title").text();
-		var url = "http://map.daum.net/?sName=" + startSpotName + "&eName=" + endSpotName;
+		var startSpotAddr = $("#detailday"+day).find("."+startSpotId).parent().find(".addr").val();
+		var endSpotAddr = $("#detailday"+day).find("."+endSpotId).parent().find(".addr").val();
+		var url = "http://map.daum.net/?sName=" + startSpotAddr + "&eName=" + endSpotAddr;
 		window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
 	}
 });
