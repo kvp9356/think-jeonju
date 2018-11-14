@@ -53,6 +53,13 @@
 		AND ISSPOT = 's'
     </select>
 
+    <select id="isLikeScheduleByMemberId" resultType="int">
+        SELECT COUNT(*) FROM LIKE_TO
+        WHERE MEMBER_ID = #{memberId}
+        AND RELATED_ID = #{relatedId}
+        AND ISSPOT = 'c'
+    </select>
+
     <resultMap id="schedule" type="schedule">
         <result column="id" property="id"/>
         <result column="title" property="title"/>

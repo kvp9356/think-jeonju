@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import com.kvp.thinkjeonju.support.Paging;
 import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Options;
@@ -43,5 +44,31 @@ public class CustomHelper {
     		return options.fn(this);
     	} 
     	return options.inverse(this);
+    }
+
+    public String makeBlock(Paging paging) {
+        String html = "";
+        int start = paging.getBlockStart();
+        int end = paging.getBlockEnd();
+        int current = paging.getCurrentBlock();
+        int last = paging.getLastPage();
+
+        if(start != 1) {
+            html += "<li class='page-item'> <a href='/schedules?page="+(start - 1)+"' class='page-link' data-page='"+(start - 1)+"'> &laquo; </a></li>";
+        }
+
+        for(int i = start; i <= end; i++) {
+            if(current == i) {
+                html += "<li class='active page-item'><span class='page-link' data-page='" + i + "'>" + i + "</span></li>";
+            } else {
+                html += "<li class='page-item'><a href='/schedules?page="+i+"' class='page-link' data-page='" + i + "'>" + i + "</a></li>";
+            }
+        }
+
+        if(end < last) {
+            html += "<li class='page-item'> <a href='/schedules?page="+ (end + 1)+"'  class='page-link' data-page='"+(end + 1)+"'> &raquo; </a></li>";
+        }
+
+        return html;
     }
 }
