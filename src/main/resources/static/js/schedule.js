@@ -324,7 +324,73 @@ $(document).on("click","#temp_save_button",function(){
 $(document).on("click","#complete_save_button",function(){
     var message = confirm("스케줄 작성을 완료하시겠습니까?\n" +
         "완료 후에도 언제든지 수정이 가능합니다.");
+    if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
+        var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
+    }
+    else{
+        var thumnail_url = $($("#day-frame").find(".spotimg")[0]).attr("src");
+    }
     if(message==true){
+        if($("#uuid").val() == "") {        //신규 생성
+            console.log("신규 생성");
+            var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            $("#uuid").val(uuid);
+        }
+        var budget_name = $(".left-frame").find(".budget_name");
+        var budget_money=$(".left-frame").find(".budget_money");
+        var money=[];
+        for(var i=0;i<budget_name.length;i++){
+            if(budget_name[i].value.trim().length>0&&budget_money[i].value.length>0){
+                var detailspot = $(budget_money[i]).parent().parent().parent().parent();
+                var spotid = $(budget_money[i]).parent().parent().parent().parent().data().spotId;
+                var day = new Date($("#startDate").val());
+                var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
+                money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
+                console.log(money)
+            }
+        }
+        var list = $(".left-frame").find(".details-spot").not(".default-text");
+        var seq = 0;
+        var schespot=[];
+        for(var i =0; i< list.length;i++){
+            var id = $("#uuid").val();
+            var day = new Date($("#startDate").val());
+            var sche_date =formatDate(new Date(day.setDate(day.getDate() + ($(list[i].parentElement).attr("id").substring(9)*1)-1)));
+            if(i>=1 && list[i].parentElement == list[i-1].parentElement){
+                seq +=1;
+            }
+            else{
+                seq =1;
+            }
+            var sequence = seq;
+            var spotid = list[i].dataset.spotId;
+            schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
+            console.log(schespot);
+        }
+        const addForm = {
+            "id" : $("#uuid").val(),
+            "title" : $("#schedule_title").val(),
+            "startDate" : $("#startDate").val(),
+            "endDate" : $("#endDate").val(),
+            "isPublic" : $("select[name=isPublic]").val(),
+            "thumnailUrl" : thumnail_url,
+            "isWriting" : 1,
+            "scheSpot" : schespot,
+            "money" : money
+        };
+        $.ajax({
+            url: "/api/schedules/"+$("#uuid").val(),
+            method: "POST",
+            data: JSON.stringify(addForm),
+            contentType: "application/json",
+            success: () => {
+                console.log("성공");
+            location.href = "/";
+        },
+            error: () => {
+        }
+    });
+
 
     }
 });
