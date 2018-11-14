@@ -275,4 +275,7 @@ class MyPage {
     }
 }
 
-document.addEventListener("DOMContentLoaded", new MyPage());
+document.addEventListener("DOMContentLoaded", () => {
+    new MyPage();
+    $_("#my-page").style.color = "lightblue";
+});

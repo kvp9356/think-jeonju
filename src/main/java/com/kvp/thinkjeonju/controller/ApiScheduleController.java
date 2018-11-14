@@ -50,9 +50,7 @@ public class ApiScheduleController {
         System.out.println("돈 넣자");
         List<MoneyDTO> money = ScheduleDTO.getMoney();
         scheduleService.insertMoney(money);
-
-
-
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
 }

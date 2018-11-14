@@ -26,6 +26,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("#logout").on("click", logout);
 
+    $("#spot-menu").on("click", () => {
+        const form = document.createElement("form");
+        let parm = new Array();
+        let input = new Array();
+
+        form.action = "/spots/All/search";
+        form.method = "POST";
+
+        document.body.appendChild(form);
+        form.submit();
+    });
+
     $("#login").removeAttr("href");
     $("#join").removeAttr("href");
     $("#logout").removeAttr("href");

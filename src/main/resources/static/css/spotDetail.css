@@ -112,3 +112,23 @@ ul li {
 .mySlides {
 	height: 335px;
 }
+
+#hashtag {
+	font-weight: bold;
+	width: 95%;
+	display: inline-block;
+	margin-bottom: 25px;
+}
+
+#more-view {
+	cursor: pointer;
+}
+
+.hashtag-img {
+	width: 350px;
+	height: 350px;
+}
+#hashtag img {
+	vertical-align: text-bottom;
+	margin-right: 5px;
+}

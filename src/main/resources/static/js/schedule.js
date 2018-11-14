@@ -324,7 +324,73 @@ $(document).on("click","#temp_save_button",function(){
 $(document).on("click","#complete_save_button",function(){
     var message = confirm("스케줄 작성을 완료하시겠습니까?\n" +
         "완료 후에도 언제든지 수정이 가능합니다.");
+    if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
+        var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
+    }
+    else{
+        var thumnail_url = $($("#day-frame").find(".spotimg")[0]).attr("src");
+    }
     if(message==true){
+        if($("#uuid").val() == "") {        //신규 생성
+            console.log("신규 생성");
+            var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            $("#uuid").val(uuid);
+        }
+        var budget_name = $(".left-frame").find(".budget_name");
+        var budget_money=$(".left-frame").find(".budget_money");
+        var money=[];
+        for(var i=0;i<budget_name.length;i++){
+            if(budget_name[i].value.trim().length>0&&budget_money[i].value.length>0){
+                var detailspot = $(budget_money[i]).parent().parent().parent().parent();
+                var spotid = $(budget_money[i]).parent().parent().parent().parent().data().spotId;
+                var day = new Date($("#startDate").val());
+                var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
+                money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
+                console.log(money)
+            }
+        }
+        var list = $(".left-frame").find(".details-spot").not(".default-text");
+        var seq = 0;
+        var schespot=[];
+        for(var i =0; i< list.length;i++){
+            var id = $("#uuid").val();
+            var day = new Date($("#startDate").val());
+            var sche_date =formatDate(new Date(day.setDate(day.getDate() + ($(list[i].parentElement).attr("id").substring(9)*1)-1)));
+            if(i>=1 && list[i].parentElement == list[i-1].parentElement){
+                seq +=1;
+            }
+            else{
+                seq =1;
+            }
+            var sequence = seq;
+            var spotid = list[i].dataset.spotId;
+            schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
+            console.log(schespot);
+        }
+        const addForm = {
+            "id" : $("#uuid").val(),
+            "title" : $("#schedule_title").val(),
+            "startDate" : $("#startDate").val(),
+            "endDate" : $("#endDate").val(),
+            "isPublic" : $("select[name=isPublic]").val(),
+            "thumnailUrl" : thumnail_url,
+            "isWriting" : 1,
+            "scheSpot" : schespot,
+            "money" : money
+        };
+        $.ajax({
+            url: "/api/schedules/"+$("#uuid").val(),
+            method: "POST",
+            data: JSON.stringify(addForm),
+            contentType: "application/json",
+            success: () => {
+                console.log("성공");
+            location.href = "/";
+        },
+            error: () => {
+        }
+    });
+
 
     }
 });
@@ -440,6 +506,8 @@ $(document).on("click",".draw",function(){
 
 
 $(document).ready(function(){
+    $_("#schedule-create-menu").style.color = "lightblue";
+
     $('#myModal').modal('show');
     $("#myModal").on("show.bs.modal", function (event) {
         var modal = $(this);
@@ -490,4 +558,17 @@ $('#toDate').datepicker({
     ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
     ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
     ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+});
+
+$(document).on("click",".arrowimg",function(){
+	// finish 직전 화살표가 아닌 경우
+	if($(this).next().prop('tagName') != "IMG") {
+		var day = $(this).parent().parent().attr("id").substring(7);
+		var startSpotId = $(this).prev().find(".spotId").attr("class").split(' ')[0];
+		var endSpotId = $(this).next().find(".spotId").attr("class").split(' ')[0];
+		var startSpotName = $("#detailday"+day).find("."+startSpotId).parent().find(".title").text();
+		var endSpotName = $("#detailday"+day).find("."+endSpotId).parent().find(".title").text();
+		var url = "http://map.daum.net/?sName=" + startSpotName + "&eName=" + endSpotName;
+		window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
+	}
 });
