@@ -109,7 +109,7 @@ $("#spotSearch").on({
     }
 });
 
-$(".btn-primary").on({
+$("#schedule_modal_footer>.btn-primary").on({
     click: function() {
         toDate = $('#toDate').val();
         fromDate = $('#fromDate').val();
@@ -252,6 +252,13 @@ $(".btn-primary").on({
 
 $(document).on("click","#temp_save_button",function(){
     var message = confirm("현재까지의 스케줄을 임시 저장하시겠습니까?");
+    toDate = $('#startDate').val();
+
+    if(new Date(toDate) < new Date()){
+        alert("출발 날짜는 오늘 보다 이후여야 합니다. 다시 한번 확인해주세요.");
+        return false;
+    }
+
     if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
         var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
     }
@@ -292,27 +299,28 @@ $(document).on("click","#temp_save_button",function(){
             var spotid = list[i].dataset.spotId;
             schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
         }
-            const addForm = {
-                "id" : $("#uuid").val(),
-                "title" : $("#schedule_title").val(),
-                "startDate" : $("#startDate").val(),
-                "endDate" : $("#endDate").val(),
-                "isPublic" : $("select[name=isPublic]").val(),
-                "thumnailUrl" : thumnail_url,
-                "isWriting" : 0,
-                "scheSpot" : schespot,
-                "money" : money
-             };
-            $.ajax({
-                url: "/api/schedules/"+$("#uuid").val(),
-                method: "POST",
-                data: JSON.stringify(addForm),
-                contentType: "application/json",
-                success: () => {
-            },
-                error: () => {
-            }
-        });
+        const addForm = {
+            "id" : $("#uuid").val(),
+            "title" : $("#schedule_title").val(),
+            "startDate" : $("#startDate").val(),
+            "endDate" : $("#endDate").val(),
+            "isPublic" : $("select[name=isPublic]").val(),
+            "thumnailUrl" : thumnail_url,
+            "isWriting" : 0,
+            "scheSpot" : schespot,
+            "money" : money
+        };
+        $.ajax({
+            url: "/api/schedules/"+$("#uuid").val(),
+            method: "POST",
+            data: JSON.stringify(addForm),
+            contentType: "application/json",
+            success: () => {
+            alert("저장에 성공하였습니다.");
+    },
+        error: () => {
+        }
+    });
 
 
     }
@@ -321,6 +329,12 @@ $(document).on("click","#temp_save_button",function(){
 $(document).on("click","#complete_save_button",function(){
     var message = confirm("스케줄 작성을 완료하시겠습니까?\n" +
         "완료 후에도 언제든지 수정이 가능합니다.");
+    toDate = $('#startDate').val();
+
+    if(new Date(toDate) < new Date()){
+        alert("출발 날짜는 오늘 보다 이후여야 합니다. 다시 한번 확인해주세요.");
+        return false;
+    }
     if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
         var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
     }
@@ -378,9 +392,10 @@ $(document).on("click","#complete_save_button",function(){
             data: JSON.stringify(addForm),
             contentType: "application/json",
             success: () => {
-            location.href = "/";
-        },
-            error: () => {
+            alert("저장에 성공하였습니다.");
+        location.href = "/schedules/"+$("#uuid").val()+"/detail";
+    },
+        error: () => {
         }
     });
 
@@ -496,12 +511,8 @@ $(document).on("click",".draw",function(){
 
 
 
-
-
 $(document).ready(function(){
-    $_("#schedule-create-menu").style.color = "lightblue";
-
-    $('#myModal').modal('show');
+    var name = $("#schedule").val();
     $("#myModal").on("show.bs.modal", function (event) {
         var modal = $(this);
         modal.find(".modal-header>.modal-title>#schedule-title").val($("#schedule_title").val());
@@ -513,6 +524,158 @@ $(document).ready(function(){
         modal.find(".modal-header>.modal-title>#schedule-title").val("");
         modal.find(".modal-body>#modalForm>#toDate").val("");
         modal.find(".modal-body>#modalForm>#fromDate").val("");
+    });
+
+
+    toDate = $('#startDate').val();
+    fromDate = $('#endDate').val();
+    schedule_title = $('#schedule_title').val();
+
+    var day = (new Date(fromDate).getTime() - new Date(toDate).getTime()) / (1000*60*60*24)+1;
+    var textday = "(총 "+day+"일)";
+    $("#trapTerm").val(textday)
+    var count = 1;
+    var day_Form;
+    var tab_form;
+    var draw_form;
+    for(count=1;count<=day;count++) {
+        if (($("#scheduleday" + count)).length == 0) {            //해당 id가 미존재한다면
+            day_Form = "<div id='scheduleday" + count + "' class='day-Form day'>\n" +
+                "                  <div id='detailday"+count+"' class='details-schedule'>\n" +
+                "                 <div class='details-spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
+                "                 </div>\n" +
+                "            </div>";
+            $("#day-frame").append(day_Form);
+            tab_form = "<li class='tab' id='tab"+count+"'><a href='#scheduleday" + count + "'>"+ count +"일차</a></li>";
+            $("#tab-frame").append(tab_form);
+            draw_form="<div id='drawDay"+count+"' class='draw-form day"+count+"'>\n" +
+                "                <div class='nameDay'>"+count+" 일차</div>\n" +
+                "                <div class='drawDay'>\n" +
+                "                </div>\n" +
+                "            </div>";
+            $(".drawSchedule").append(draw_form);
+        }
+    }
+    $.ajax({
+        url: "/api/schedules/"+$("#uuid").val(),
+        method: "GET",
+        success: function (data) {
+            var spot = data.spot;
+
+
+            for(count=1;count<=day;count++) {
+
+                var html2='';
+                for(var i=0; i<spot.length;i++){
+                    var now = (new Date(fromDate).getTime() - new Date(spot[i].scheDate).getTime()) / (1000*60*60*24)+1;
+                    if((day-now+1)==count){
+                        var html='';
+                        html +="<div class='details-spot' data-spot-id='"+spot[i].spotId+"'>\n" +
+                            "<img src='/image/x_button.png' class='x_button'>\n" +
+                            "                <img src='"+spot[i].spotimg+"' class='spotimg'>\n" +
+                            "                <dl class='spotInfo'>\n" +
+                            "                    <dd class='category'>"+spot[i].spot.category+"</dd>\n" +
+                            "                    <dt class='title'>"+spot[i].spot.name+"</dt>\n" +
+                            "                    <dd class='like'><img src='/image/fullStar.png' alt=''> <spn class='like-cnt'>"+spot[i].likeCnt+"</spn></dd>\n" +
+                            "                <img src='/image/receipt.png' class='receiptimg'>\n" +
+                            "<div class='details_receipt'>\n" +
+                            "<img src='/image/plus_button.png' class='plus_button'>\n" +
+                            "   <input type='text' class='default_receipt' value='이름(ex.식대) : 금액(단위:원)' readonly=''>\n";
+                        for(var j=0; j<spot[i].money.length;j++){
+                            html+="<div class='budget'>" +
+                                "<input type='text' class='budget_name' value='" + spot[i].money[j].name+ "' readonly>:" +
+                                "<input type='number' class='budget_money' value='" + spot[i].money[j].amount+ "' readonly> " +
+                                "</div>"
+                        }
+                        "</div>\n" +
+                        "</dl>            \n" +
+                        "</div>\n";
+                        $("#detailday"+count).append(html);
+                        drawdropSchedule($("#ui-id-"+count));
+                        $("#detailday"+count).find(".default-text").hide();
+                    }
+                }
+
+            }
+
+        }
+    });
+    let save_button ="<button type='button' id='temp_save_button' class='save_button'>임시 저장</button>" +
+        "<button type='button' id='complete_save_button' class='save_button'>저장하기</button>";
+    $(".left").append(save_button);
+    for(count;count<=nowDay;count++){
+        if (($("#scheduleday" + count)).length != 0) {            //해당 id가 존재한 다면
+            $("#scheduleday"+count).remove();
+            $("#tab"+count).remove()
+            $("#drawDay"+count).remove();
+        }
+    }
+    nowDay = day;
+
+    $(".left-frame").tabs("refresh");
+    $(".left-frame").tabs({
+        active : 0
+    });
+
+    $(".details-schedule").sortable({
+        cursorAt : { left : 200, top : 150 },
+        placeholder: "ui-state-highlight",
+        cancel: ".default-text,.details_receipt",
+        start: function(e,ui){
+            ui.item.height(300);
+            ui.placeholder.height(ui.item.height());
+            $(".details_receipt").css("display","none");
+            $(".receiptimg").css("background-color","white");
+        },
+        beforeStop: function(e, ui) {
+            drawSchedule();
+        },
+        receive: function(e, ui) {
+            if ($(ui.item).parent().find("[data-spot-id='"+ $(ui.item).data().spotId +"']").length>1 && $(ui.item).parent().attr("class")=="details-schedule ui-sortable") {
+                alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
+                ui.sender.sortable('cancel');
+            }
+            else if($(ui.item).parent().attr("id")!="searchResult"&& $(ui.item).find(".x_button").length==0) {
+                var imagetag = "<img src='/image/x_button.png' class='x_button'>";
+                var receipttag =
+                    "<img src='/image/receipt.png' class='receiptimg'>" +
+                    "<div class='details_receipt'>" +
+                    "<img src='/image/plus_button.png' class='plus_button'>" +
+                    "   <input type='text' class='default_receipt' value='이름(ex.식대) : 금액(단위:원)' readonly>" +
+                    "</div>";
+
+                $(ui.item).prepend(imagetag);
+                $(ui.item).find(".spotInfo").append(receipttag);
+                drawSchedule();
+            }
+        }
+    }).disableSelection();
+    $(".ui-tabs-anchor").droppable({
+        accept: ".details-schedule>.details-spot",
+        hoverClass : "highlight",
+        drop: function( event, ui ) {
+            var $item = $(this);
+            var $list = $($($item).attr("href")).find(".details-schedule");
+            var itemid = $(".ui-sortable-helper").data().spotId;
+            if($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id")){
+                if($($list).find("[data-spot-id='"+ itemid +"']").length!=0){
+                    alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
+                }
+                else {
+                    ui.draggable.hide(function () {
+                        ($(this)).appendTo($list).show("");
+                        $($list).find(".default-text").hide();
+                        drawSchedule();
+                        drawdropSchedule(($item));
+                    });
+                    if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==2){
+                        $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
+                    }
+                }
+            }
+            $(".details_receipt").css("display","none");
+            $(".receiptimg").css("background-color","white");
+        }
     });
 
 });
@@ -554,14 +717,14 @@ $('#toDate').datepicker({
 });
 
 $(document).on("click",".arrowimg",function(){
-	// finish 직전 화살표가 아닌 경우
-	if($(this).next().prop('tagName') != "IMG") {
-		var day = $(this).parent().parent().attr("id").substring(7);
-		var startSpotId = $(this).prev().data().spotId;
-		var endSpotId = $(this).next().data().spotId;
-		var startSpotName = $("#detailday"+day).find("[data-spot-id='"+ startSpotId +"']").find(".title").text();
-		var endSpotName = $("#detailday"+day).find("[data-spot-id='"+ endSpotId +"']").find(".title").text();
-		var url = "http://map.daum.net/?sName=" + startSpotName + "&eName=" + endSpotName;
-		window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
-	}
+    // finish 직전 화살표가 아닌 경우
+    if($(this).next().prop('tagName') != "IMG") {
+        var day = $(this).parent().parent().attr("id").substring(7);
+        var startSpotId = $(this).prev().data().spotId;
+        var endSpotId = $(this).next().data().spotId;
+        var startSpotName = $("#detailday"+day).find("[data-spot-id='"+ startSpotId +"']").find(".title").text();
+        var endSpotName = $("#detailday"+day).find("[data-spot-id='"+ endSpotId +"']").find(".title").text();
+        var url = "http://map.daum.net/?sName=" + startSpotName + "&eName=" + endSpotName;
+        window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
+    }
 });

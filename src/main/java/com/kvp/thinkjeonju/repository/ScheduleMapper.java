@@ -1,6 +1,7 @@
 package com.kvp.thinkjeonju.repository;
 
 import com.kvp.thinkjeonju.dto.PagingDTO;
+import com.kvp.thinkjeonju.dto.ScheduleDTO;
 import com.kvp.thinkjeonju.model.Schedule;
 import com.kvp.thinkjeonju.support.Paging;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,7 +19,17 @@ public interface ScheduleMapper {
 
     List<Schedule> findBestSchedules();
 
+    void addSchedule(ScheduleDTO shedule);
+
+    void updateSchedule(ScheduleDTO shedule);
+
+    void changeWriting(String scheduleId);
+
+    int isExistSchedule(String id);
+
     int getSchedulesCount();
 
     List<Schedule> findSchedulesByPage(Paging paging);
+
+    Schedule getScheduleById(String scheduleId);
 }

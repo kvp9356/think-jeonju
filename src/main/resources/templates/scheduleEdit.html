@@ -23,7 +23,7 @@
                         종료일 : <input id="fromDate" />
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" id="schedule_modal_footer">
                     스케줄 공개 여부&nbsp;&nbsp;&nbsp;
                     <select name="isPublic">
                         <option value="1">공개</option>
@@ -68,18 +68,21 @@
         <ul id="tab-frame">
         </ul>
         <div class="left">
+            {{#schedule}}
             <div id="title_header">
-                <input id="schedule_title" placeholder="오른쪽의 버튼을 눌러 여행을 생성해주세요!" readonly>
+                <input id="schedule_title" value="{{title}}" readonly>
                 <button type="button" data-target="#myModal" class="btn resetDay" data-toggle="modal"><img src="/image/edit.png" id="edit_image"></button>
             </div>
+
             <div class="startEndDate">
-                <input id="startDate" class="date" readonly> ~
-                <input id="endDate" class="date" readonly>
+                <input id="startDate" class="date" value="{{startDate}}" valuereadonly> ~
+                <input id="endDate" class="date" value="{{endDate}}" readonly>
                 <input id="trapTerm" class="date" readonly>
             </div>
+            {{/schedule}}
 
             <div id="schedule-frame">
-                <div id="day-frame"> <!---->
+                <div id="day-frame">
                 </div>
             </div>
         </div>
@@ -102,12 +105,14 @@
     </div>
 </div>
 
-<input type="hidden" id="uuid" name="uuid">
-
+<input type="hidden" id="uuid" name="uuid" value="{{scheduleId}}">
+{{#scheSpot}}
+<input type="hidden" id="schedule" name="schedule" value="{{spotId}}">
+{{/scheSpot}}
 {{/partial}}
 
 {{#partial "script"}}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/js/schedule.js"></script>
+<script src="/js/scheduleEdit.js"></script>
 {{/partial}}
 {{>base}}
