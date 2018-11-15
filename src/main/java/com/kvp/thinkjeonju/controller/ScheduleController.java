@@ -32,25 +32,18 @@ public class ScheduleController {
 
     @GetMapping("{scheduleId}/detail")
     public String scheduleDetail(@PathVariable String scheduleId, Model model, HttpSession session){
-        System.out.println("매핑 왔음따");
         ScheduleDTO schedule = scheduleService.getScheduleById(scheduleId);
         List<MoneyDTO> money = scheduleService.getMoneyById(scheduleId);
         List<ScheSpotDTO> scheSpot = scheduleService.getScheSpotById(scheduleId);
-        System.out.println(schedule.getId());
-        for(int i=0; i<scheSpot.size();i++) {
-            System.out.println(scheSpot.get(i).getSpotId());
-        }
-        for(int i=0; i<money.size();i++) {
-            System.out.println(money.get(i).getName());
-        }
+
         model.addAttribute("schedule", schedule);
         model.addAttribute("scheSpot", scheSpot);
         model.addAttribute("money", money);
-
-        if(schedule.getIsWriting()==1){             //완성된것이라면
+        if(schedule.getIsWriting()==1){               //완성된것이라면
             return "scheduleComplete";
         }
         else{                                       //미완성이라면
+            model.addAttribute("scheduleId",scheduleId);
             return "scheduleEdit";
         }
 

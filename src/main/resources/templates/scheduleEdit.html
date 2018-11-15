@@ -1,178 +1,118 @@
 {{#partial "head"}}
-<style>
-    .detailInfo{
-        width: 500px;
-        height: 770px;
-        border: 1px solid red;
-        display: inline-block;
-        margin-left: 1150px;
-        position: absolute;
-    }
-    .contents-container{
-        height: 771px;
-    }
-    .scheduledetail {
-        margin-left: 20px;
-        width: 1080px;
-        margin-right: 0;
-        display: inline-block;
-        position: absolute;
-    }
-    .date{
-        width: 500px;
-        margin: 0 auto;
-    }
-    #startDate,
-    #endDate{
-        display: inline;
-        width: 50%;
-    }
-    .nameDay{
-        height: 20px;
-        display: inline;
-        padding: 3px;
-        border-bottom: 2px solid green;
-    }
-    .drawDay{
-        height: 45px;
-        width: 100%;
-        margin-top: 10px;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 0 5px;
-    }
-    .draw-form {
-        height: 90px;
-        width: 100%;
-        border-bottom: 1px solid lightgray;
-        margin: 10px 0;
-    }
-    .drawSchedule {
-        height: 650px;
-        overflow: auto;
-    }
-
-    .draw{
-        margin-bottom : 5px;
-        width: 30px;
-        height: 30px;
-        display: inline-block;
-    }
-
-    .draw>img {
-        width: 30px;
-        height: 30px;
-    }
-
-    .draw:hover,
-    .finish_flag:hover{
-        cursor : pointer;
-    }
-
-    .arrowimg, .finish_flag {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-    }
-</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/css/schedule.css">
 {{/partial}}
 
 {{#partial "contents"}}
-
-<div class="modal fade" id="spotModal" tabindex="-1" role="dialog" data-show="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="spotName">
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id ="spotModal-body">
-                <img src=""  class="spotimg">
-                <dd class="like">
-                    <img src="">
-                    <spn class="like-cnt"></spn>
-                </dd>
-                <div class="budget">
-                    예산(단위:원):<input type="text" class="details-budget" readonly>
+<div class="body-container" id="body-container">
+    <!-- 제목, 일정 Modal-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        <input type="text" id ="schedule-title" placeholder="여행 제목을 입력해주세요!">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="modalForm" id="modalForm">
+                        시작일 : <input id="toDate" /><br>
+                        종료일 : <input id="fromDate" />
+                    </form>
+                </div>
+                <div class="modal-footer" id="schedule_modal_footer">
+                    스케줄 공개 여부&nbsp;&nbsp;&nbsp;
+                    <select name="isPublic">
+                        <option value="1">공개</option>
+                        <option value="0">비공개</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">확인</button>
                 </div>
             </div>
-            <div class="modal-footer" id="spotModal-footer">
-                <button type="button" class="btn btn-secondary" >확인</button>
+        </div>
+    </div>
+
+    <!--내가 저장한 Spot Modal -->
+    <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="spotName">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id ="spotModal-body">
+                    <img src=""  class="spotimg">
+                    <dd class="like">
+                        <img src="">
+                        <spn class="like-cnt"></spn>
+                    </dd>
+                    <div class="budget">
+                        예산(단위:원):<input type="text" class="details-budget" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer" id="spotModal-footer">
+                    <button type="button" class="btn btn-secondary" >확인</button>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <div class="left-frame">
+        <ul id="tab-frame">
+        </ul>
+        <div class="left">
+            {{#schedule}}
+            <div id="title_header">
+                <input id="schedule_title" value="{{title}}" readonly>
+                <button type="button" data-target="#myModal" class="btn resetDay" data-toggle="modal"><img src="/image/edit.png" id="edit_image"></button>
+            </div>
+
+            <div class="startEndDate">
+                <input id="startDate" class="date" value="{{startDate}}" valuereadonly> ~
+                <input id="endDate" class="date" value="{{endDate}}" readonly>
+                <input id="trapTerm" class="date" readonly>
+            </div>
+            {{/schedule}}
+
+            <div id="schedule-frame">
+                <div id="day-frame">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="search_Form" class="center">
+        <div id="searchDiv">
+            <input type="text"  id="searchKeyword"/>
+            <button class="btn" id="spotSearch" ><img src="/image/search.png" alt="" /></button>
+        </div>
+        <div id="searchResult">
+        </div>
+    </div>
+
+    <div id="scheduleResult" class="right">
+        <div class="drawSchedule">
+
         </div>
     </div>
 </div>
 
-
-<div class="scheduledetail">
-{{#schedule}}
-<div id="scheduleinfo">
-    <div class="title"><h5>{{title}}</h5></div>
-    <div class="date">
-        <input id="startDate" class="date" value="{{startDate}}"readonly> ~
-        <input id="endDate" class="date" value="{{endDate}}"readonly>
-        <input id="trapTerm" class="date" readonly>
-    </div>
-</div>
-{{/schedule}}
-
-<div id="scheduleResult">
-    <div class="drawSchedule">
-        {{#draw schedule scheSpot money}}
-
-        {{/draw}}
-    </div>
-</div>
-</div>
-<div class="detailInfo">
-
-</div>
-
-<input type="hidden" id="uuid" name="uuid" value="{{schedule.id}}">
+<input type="hidden" id="uuid" name="uuid" value="{{scheduleId}}">
+{{#scheSpot}}
+<input type="hidden" id="schedule" name="schedule" value="{{spotId}}">
+{{/scheSpot}}
 {{/partial}}
 
 {{#partial "script"}}
-<script>
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
-        return [year, month, day].join('-');
-    }
-
-    $(document).on("click",".draw",function(){
-        var day = new Date($("#startDate").val());
-        var sche_date = formatDate(new Date(day.setDate(day.getDate() +$(this).parent().parent().attr("id").substring(7)-1)));
-        console.log(sche_date);
-        const addForm = {
-            "id" : $("#uuid").val(),
-            "Date" : $(this).parent().parent().attr("id").substring(7),
-            "spotId" : $(this).data().spotId
-        };
-        $.ajax({
-            url: "/api/spots/search",
-            method: "GET",
-            data: {
-                dataValue: dataValue
-            },
-            success: function (spots) {
-                let html = '';
-                if (spots.length === 0) {
-                    return;
-                }
-            }
-    });
-
-    });
-</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/scheduleEdit.js"></script>
 {{/partial}}
-
 {{>base}}

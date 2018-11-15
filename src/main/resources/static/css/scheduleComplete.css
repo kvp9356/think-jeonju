@@ -1,0 +1,188 @@
+.detailInfo{
+    width: 500px;
+    height: 770px;
+    display: inline-block;
+    margin-left: 1300px;
+    position: absolute;
+    overflow: auto;
+}
+.detailInfo::-webkit-scrollbar{
+    display: none;
+}
+.contents-container{
+    height: 771px;
+}
+.scheduledetail {
+    margin-left: 150px;
+    width: 1080px;
+    margin-right: 0;
+    display: inline-block;
+    position: absolute;
+}
+.date{
+    margin: 0 auto;
+}
+#startDate,
+#endDate,
+#trapTerm{
+    display: inline;
+    width: 10%;
+    border: none;
+    text-align: center;
+}
+.nameDay{
+    height: 20px;
+    display: inline;
+    padding: 3px;
+    border-bottom: 2px solid green;
+}
+.drawDay{
+    height: 45px;
+    width: 100%;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 5px;
+}
+.draw-form {
+    height: 110px;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin: 10px 0;
+}
+.drawSchedule {
+    height: 650px;
+    overflow: auto;
+}
+
+.resultDay{
+    text-align: right;
+}
+
+.draw{
+    margin-bottom : 5px;
+    width: 33px;
+    height: 33px;
+    display: inline-block;
+}
+
+.draw>img {
+    width: 30px;
+    height: 30px;
+}
+
+.draw:hover,
+.finish_flag:hover{
+    cursor : pointer;
+}
+
+.arrowimg, .finish_flag {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.spotimg{
+    width: 100%;
+}
+ul>li{
+    padding-bottom:10px;
+}
+ul>.addr{
+    list-style-image: url("/image/placeholder.png");
+}
+ul>.tel{
+    list-style-image: url("/image/phone-call.png");
+}
+ul>.url{
+    list-style-image: url("/image/homepage.png");
+}
+
+.likeCnt{
+    display: inline;
+}
+
+.like{
+    padding: 10px 10px;
+}
+.budgetset>.name,
+.budgetset>.money{
+    width: 48%;
+    display: inline-block;
+    text-align: center;
+}
+
+.budgetset>.name{
+    border-right : 1px solid;
+    width: 50%;
+}
+.budgetset{
+    border-bottom: 1px solid;
+}
+
+.budget_result{
+    border-bottom: 1px solid;
+}
+
+.otherInfo{
+    border-bottom: 1px solid;
+}
+
+.budget_result>h6{
+    margin: 0;
+    padding: 5px 0;
+    text-align: right;
+}
+
+.hashtag-container{
+    padding-left: 40px;
+}
+
+.hashtag-img{
+    width:40%;
+    margin: 10px;
+}
+.budget_title{
+    text-align: center;
+}
+
+.budget_title>h6{
+    margin:0;
+    background-color: lightblue;
+    border-bottom: 1px solid;
+}
+
+#more-view{
+    margin-left:10px;
+}
+#hashtag{
+    margin-left:10px;
+}
+.default_budget{
+    background-color: lightblue;
+}
+
+.category>h6{
+    display: inline;
+    padding: 0 5px;
+    background-color: lightgray;
+}
+
+#more-view:hover{
+    cursor:pointer;
+}
+
+#sum_all{
+    border:none;
+    margin-left: 500px;
+    text-align: right;
+}
+#trapTerm{
+    text-align: left;
+}
+#fix_button{
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+}

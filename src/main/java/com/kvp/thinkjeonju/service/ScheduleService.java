@@ -12,6 +12,7 @@ import com.kvp.thinkjeonju.support.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +65,13 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    public List<MoneyDTO> getSpotMoney(String id, String scheDate, String scheSpotId){
+        return moneyMapper.getSpotMoney(new MoneyDTO(id,scheSpotId,null,0,LocalDate.parse(scheDate))).stream()
+                .map(Money -> Money.toDTO())
+                .collect(Collectors.toList());
+    }
+
     public List<ScheSpotDTO> getScheSpotById(String scheduleId){
-        System.out.println("씨발" + scheduleId);
         return scheSpotMapper.getScheSpotById(scheduleId).stream()
                 .map(scheSpot -> scheSpot.toDTO())
                 .map(scheSpotDTO ->{
@@ -83,6 +89,10 @@ public class ScheduleService {
 
     public void updateSchedule(ScheduleDTO ScheduleDTO){
         scheduleMapper.updateSchedule(ScheduleDTO);
+    }
+
+    public void changeWriting(String scheduleId){
+        scheduleMapper.changeWriting(scheduleId);
     }
 
     public int isExistSchedule(String id){

@@ -61,6 +61,14 @@
         ID=#{id}
     </update>
 
+    <update id="changeWriting">
+        UPDATE SChEDULE
+        SET
+        IS_WRITING=0
+        WHERE
+        ID=#{id}
+    </update>
+
     <select id="getSchedulesCount" resultType="int">
         SELECT COUNT(*) FROM SCHEDULE
     </select>

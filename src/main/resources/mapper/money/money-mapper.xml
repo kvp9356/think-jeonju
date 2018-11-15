@@ -24,6 +24,14 @@
         WHERE ID=#{id}
     </select>
 
+    <select id="getSpotMoney" resultMap="money">
+        SELECT *
+        FROM MONEY
+        WHERE ID=#{id}
+        AND SCHE_DATE=#{scheDate}
+        AND SCHESPOT_ID=#{scheSpotId}
+    </select>
+
     <resultMap id="money" type="money">
         <result column="id" property="id"/>
         <result column="schespot_id" property="scheSpotId"/>

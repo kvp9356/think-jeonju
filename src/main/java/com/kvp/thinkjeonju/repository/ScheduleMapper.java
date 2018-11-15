@@ -23,6 +23,8 @@ public interface ScheduleMapper {
 
     void updateSchedule(ScheduleDTO shedule);
 
+    void changeWriting(String scheduleId);
+
     int isExistSchedule(String id);
 
     int getSchedulesCount();

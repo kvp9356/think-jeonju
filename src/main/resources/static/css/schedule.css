@@ -198,6 +198,10 @@
     cursor:pointer;
 }
 
+.arrowimg:hover{
+    cursor:pointer;
+}
+
 #schedule-frame::-webkit-scrollbar,
 #tab-frame::-webkit-scrollbar,
 #searchResult::-webkit-scrollbar,

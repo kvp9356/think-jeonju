@@ -19,5 +19,7 @@ public class ScheSpotDTO {
     private String spotId;
     private String spotimg;
     private int likeCnt;
+    private List<MoneyDTO> Money;
+    private SpotDTO spot;
 
 }
