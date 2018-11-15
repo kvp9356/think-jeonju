@@ -1,17 +1,27 @@
 var nowDay;
 var $tabs = $(".left-frame").tabs();
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+    return [year, month, day].join('-');
+}
 
 
 var drawSchedule = function(){
     var a = $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".spotimg");
     let html="";
     for(count=0;count<a.length;count++){
-        var name = $(a[count]).parent().find(".spotId").attr("class").split(' ')[0]
+        var name = $(a[count]).parent().data().spotId;
         var x = a[count].getAttribute("src");
-        const constHTML ="<div class='draw'>\n" +
+        const constHTML ="<div class='draw' data-spot-id='"+ name +"'>\n" +
             "                        <img src='"+ x +"'  class='spotimg'>\n" +
-            "                        <div class='"+ name +" spotId'></div>\n" +
             "                    </div>\n" +
             "<img src='/image/right-arrow.png' class='arrowimg'>\n";
         html+=constHTML;
@@ -26,11 +36,10 @@ var drawdropSchedule = function(move){
     var a = $(move.attr("href")).find(".spotimg")
     let html="";
     for(count=0;count<a.length;count++){
-        var name = $(a[count]).parent().find(".spotId").attr("class").split(' ')[0]
+        var name = $(a[count]).parent().data().spotId;
         var x = a[count].getAttribute("src");
-        const constHTML ="<div class='draw'>\n" +
+        const constHTML ="<div class='draw' data-spot-id='"+ name +"'>\n" +
             "                        <img src='"+ x +"'  class='spotimg'>\n" +
-            "                        <div class='"+ name +" spotId'></div>\n" +
             "                    </div>\n" +
             "<img src='/image/right-arrow.png' class='arrowimg'>\n";
         html+=constHTML;
@@ -65,8 +74,7 @@ $("#spotSearch").on({
                 	if(spot.addrDtl != null) {
                 		addr += spot.addrDtl;
                 	}
-                    const spotHTML = "<div class='details-Spot'>\n" +
-                        "                <div class='" + spot.id + " spotId'></div>" +
+                    const spotHTML = "<div class='details-spot' data-spot-id='"+ spot.id +"'>\n" +
                         "                <img src='" + spot.imgUrl[0] + "' class='spotimg'>\n" +
                         "                <dl class='spotInfo'>\n" +
                         "                    <dd class='category'>" + spot.category + "</dd>\n" +
@@ -81,7 +89,7 @@ $("#spotSearch").on({
                 $("#searchResult").html(html);
                 $("#searchResult").sortable({
                     cursorAt : { left : 200, top : 150 },
-                    connectWith: ".details-Schedule",
+                    connectWith: ".details-schedule",
                     placeholder: "ui-state-highlight",
                     start: function(e,ui){
                         ui.item.height(300);
@@ -93,13 +101,13 @@ $("#spotSearch").on({
                         $(ui.placeholder).parent().find(".default-text").hide();
                     },
                     stop: function(e, ui) {
-                        if ($("#searchResult").find("."+$(ui.item).find(".spotId").attr("class").replace(' ',".")).length==0) {
+                        if ($("#searchResult").find("[data-spot-id='"+ $(ui.item).data().spotId +"']").length==0) {
                             $("#searchResult").append($(ui.item).clone());
                         }
-                        $("#searchResult>.details-Spot>.x_button").remove();
-                        $("#searchResult>.details-Spot>dl>.receiptimg").remove();
-                        $("#searchResult>.details-Spot>dl>.details_receipt").remove();
-                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==1){
+                        $("#searchResult>.details-spot>.x_button").remove();
+                        $("#searchResult>.details-spot>dl>.receiptimg").remove();
+                        $("#searchResult>.details-spot>dl>.details_receipt").remove();
+                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==1){
                             $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
                         }
                     }
@@ -146,8 +154,8 @@ $(".btn-primary").on({
             for(count=1;count<=day;count++) {
                 if (($("#scheduleday" + count)).length == 0) {            //해당 id가 미존재한다면
                     day_Form = "<div id='scheduleday" + count + "' class='day-Form day'>\n" +
-                        "                  <div id='detailday"+count+"' class='details-Schedule'>\n" +
-                        "                 <div class='details-Spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
+                        "                  <div id='detailday"+count+"' class='details-schedule'>\n" +
+                        "                 <div class='details-spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
                         "                 </div>\n" +
                         "            </div>";
                     $("#day-frame").append(day_Form);
@@ -161,6 +169,9 @@ $(".btn-primary").on({
                     $(".drawSchedule").append(draw_form);
                 }
             }
+            let save_button ="<button type='button' id='temp_save_button' class='save_button'>임시 저장</button>" +
+                "<button type='button' id='complete_save_button' class='save_button'>저장하기</button>";
+            $(".left").append(save_button);
             for(count;count<=nowDay;count++){
                 if (($("#scheduleday" + count)).length != 0) {            //해당 id가 존재한 다면
                     $("#scheduleday"+count).remove();
@@ -184,7 +195,7 @@ $(".btn-primary").on({
             active : 0
         });
 
-        $(".details-Schedule").sortable({
+        $(".details-schedule").sortable({
             cursorAt : { left : 200, top : 150 },
             placeholder: "ui-state-highlight",
             cancel: ".default-text,.details_receipt",
@@ -198,16 +209,16 @@ $(".btn-primary").on({
                 drawSchedule();
             },
             receive: function(e, ui) {
-                if ($(ui.item).parent().find("."+$(ui.item).find(".spotId").attr("class").replace(' ',".")).length>1 && $(ui.item).parent().attr("class")=="details-Schedule ui-sortable") {
+                if ($(ui.item).parent().find("[data-spot-id='"+ $(ui.item).data().spotId +"']").length>1 && $(ui.item).parent().attr("class")=="details-schedule ui-sortable") {
                     alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
                     ui.sender.sortable('cancel');
                 }
                 else if($(ui.item).parent().attr("id")!="searchResult"&& $(ui.item).find(".x_button").length==0) {
                     var imagetag = "<img src='/image/x_button.png' class='x_button'>";
                     var receipttag =
-                            "<img src='/image/receipt.png' class='receiptimg'>" +
+                        "<img src='/image/receipt.png' class='receiptimg'>" +
                         "<div class='details_receipt'>" +
-                            "<img src='/image/plus_button.png' class='plus_button'>" +
+                        "<img src='/image/plus_button.png' class='plus_button'>" +
                         "   <input type='text' class='default_receipt' value='이름(ex.식대) : 금액(단위:원)' readonly>" +
                         "</div>";
 
@@ -218,14 +229,14 @@ $(".btn-primary").on({
             }
         }).disableSelection();
         $(".ui-tabs-anchor").droppable({
-            accept: ".details-Schedule>.details-Spot",
+            accept: ".details-schedule>.details-spot",
             hoverClass : "highlight",
             drop: function( event, ui ) {
                 var $item = $(this);
-                var $list = $($($item).attr("href")).find(".details-Schedule");
-                var itemid = $(".ui-sortable-helper").find(".spotId").attr("class").replace(' ',".");
+                var $list = $($($item).attr("href")).find(".details-schedule");
+                var itemid = $(".ui-sortable-helper").data().spotId;
                 if($(".ui-state-active").attr("aria-labelledby")!=$($item).attr("id")){
-                    if($($list).find("."+itemid).length!=0){
+                    if($($list).find("[data-spot-id='"+ itemid +"']").length!=0){
                         alert("같은 날 같은 장소를 두번 갈 수 없습니다.");
                     }
                     else {
@@ -235,7 +246,7 @@ $(".btn-primary").on({
                             drawSchedule();
                             drawdropSchedule(($item));
                         });
-                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==2){
+                        if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==2){
                             $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
                         }
                     }
@@ -244,6 +255,144 @@ $(".btn-primary").on({
                 $(".receiptimg").css("background-color","white");
             }
         });
+    }
+});
+
+$(document).on("click","#temp_save_button",function(){
+    var message = confirm("현재까지의 스케줄을 임시 저장하시겠습니까?");
+    if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
+        var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
+    }
+    else{
+        var thumnail_url = $($("#day-frame").find(".spotimg")[0]).attr("src");
+    }
+    if(message==true){
+        if($("#uuid").val() == "") {        //신규 생성
+            var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            $("#uuid").val(uuid);
+        }
+        var budget_name = $(".left-frame").find(".budget_name");
+        var budget_money=$(".left-frame").find(".budget_money");
+        var money=[];
+        for(var i=0;i<budget_name.length;i++){
+            if(budget_name[i].value.trim().length>0&&budget_money[i].value.length>0){
+                var detailspot = $(budget_money[i]).parent().parent().parent().parent();
+                var spotid = $(budget_money[i]).parent().parent().parent().parent().data().spotId;
+                var day = new Date($("#startDate").val());
+                var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
+                money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
+            }
+        }
+        var list = $(".left-frame").find(".details-spot").not(".default-text");
+        var seq = 0;
+        var schespot=[];
+        for(var i =0; i< list.length;i++){
+            var id = $("#uuid").val();
+            var day = new Date($("#startDate").val());
+            var sche_date =formatDate(new Date(day.setDate(day.getDate() + ($(list[i].parentElement).attr("id").substring(9)*1)-1)));
+            if(i>=1 && list[i].parentElement == list[i-1].parentElement){
+                seq +=1;
+            }
+            else{
+                seq =1;
+            }
+            var sequence = seq;
+            var spotid = list[i].dataset.spotId;
+            schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
+        }
+            const addForm = {
+                "id" : $("#uuid").val(),
+                "title" : $("#schedule_title").val(),
+                "startDate" : $("#startDate").val(),
+                "endDate" : $("#endDate").val(),
+                "isPublic" : $("select[name=isPublic]").val(),
+                "thumnailUrl" : thumnail_url,
+                "isWriting" : 0,
+                "scheSpot" : schespot,
+                "money" : money
+             };
+            $.ajax({
+                url: "/api/schedules/"+$("#uuid").val(),
+                method: "POST",
+                data: JSON.stringify(addForm),
+                contentType: "application/json",
+                success: () => {
+            },
+                error: () => {
+            }
+        });
+
+
+    }
+});
+
+$(document).on("click","#complete_save_button",function(){
+    var message = confirm("스케줄 작성을 완료하시겠습니까?\n" +
+        "완료 후에도 언제든지 수정이 가능합니다.");
+    if($($("#day-frame").find(".spotimg")[0]).attr("src")==null){
+        var thumnail_url = "http://tour.jeonju.go.kr/planweb/upload/9be517a74f72e96b014f820463970068/inine/content/preview/31fcbcdc-6884-429c-9305-bf7e7b761b13.jpg.png";
+    }
+    else{
+        var thumnail_url = $($("#day-frame").find(".spotimg")[0]).attr("src");
+    }
+    if(message==true){
+        if($("#uuid").val() == "") {        //신규 생성
+            var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            $("#uuid").val(uuid);
+        }
+        var budget_name = $(".left-frame").find(".budget_name");
+        var budget_money=$(".left-frame").find(".budget_money");
+        var money=[];
+        for(var i=0;i<budget_name.length;i++){
+            if(budget_name[i].value.trim().length>0&&budget_money[i].value.length>0){
+                var detailspot = $(budget_money[i]).parent().parent().parent().parent();
+                var spotid = $(budget_money[i]).parent().parent().parent().parent().data().spotId;
+                var day = new Date($("#startDate").val());
+                var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
+                money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
+            }
+        }
+        var list = $(".left-frame").find(".details-spot").not(".default-text");
+        var seq = 0;
+        var schespot=[];
+        for(var i =0; i< list.length;i++){
+            var id = $("#uuid").val();
+            var day = new Date($("#startDate").val());
+            var sche_date =formatDate(new Date(day.setDate(day.getDate() + ($(list[i].parentElement).attr("id").substring(9)*1)-1)));
+            if(i>=1 && list[i].parentElement == list[i-1].parentElement){
+                seq +=1;
+            }
+            else{
+                seq =1;
+            }
+            var sequence = seq;
+            var spotid = list[i].dataset.spotId;
+            schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
+        }
+        const addForm = {
+            "id" : $("#uuid").val(),
+            "title" : $("#schedule_title").val(),
+            "startDate" : $("#startDate").val(),
+            "endDate" : $("#endDate").val(),
+            "isPublic" : $("select[name=isPublic]").val(),
+            "thumnailUrl" : thumnail_url,
+            "isWriting" : 1,
+            "scheSpot" : schespot,
+            "money" : money
+        };
+        $.ajax({
+            url: "/api/schedules/"+$("#uuid").val(),
+            method: "POST",
+            data: JSON.stringify(addForm),
+            contentType: "application/json",
+            success: () => {
+            location.href = "/";
+        },
+            error: () => {
+        }
+    });
+
+
     }
 });
 
@@ -277,12 +426,6 @@ $(document).on("click",".finish_flag",function(){
     $("#spotModal-body").html(body);
     $("#spotModal").modal("show");
 });
-
-
-/*$("#schedule-frame").scroll(function () {
-    $(".details_receipt").css("display","none");
-    $(".receiptimg").css("background-color","white");
-});*/
 
 $(document).on("click",".plus_button",function(){
     let a =$(this).parent().find(".budget").length;
@@ -321,15 +464,15 @@ $(document).on("keyup",".budget_money",function(e){
 $(document).on("click",".x_button",function(){
     $(this).parent().remove();
     drawSchedule();
-    if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-Spot").length==1){
+    if($($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".details-spot").length==1){
         $($("#tab-frame>.ui-tabs-active>a").attr("href")).find(".default-text").show();
     }
 });
 
 $(document).on("click",".draw",function(){
     var day = $(this).parent().parent().attr("id").substring(7);
-    var spotname = $(this).find(".spotId").attr("class").split(' ')[0];
-    var spot = $("#detailday"+day).find("."+spotname).parent();
+    var spotname = $(this).data().spotId;
+    var spot = $("#detailday"+day).find("[data-spot-id='"+ spotname +"']");
     var head = '';
     head += spot.find(".title").text();
     var html='';
@@ -345,7 +488,7 @@ $(document).on("click",".draw",function(){
     let budget_money = spot.find(".budget_money");
     for(var i =0; i< budget_name.length;i++)
     {
-        if(budget_name[0].value.replace(/ /gi, "").length!=0&&budget_money[i].value.length!=0) {
+        if(budget_name[i].value.replace(/ /gi, "").length!=0&&budget_money[i].value.length!=0) {
             var receipt = "<div class='budget'>" +
                 "<input type='text' class='budget_name' value='" + budget_name[i].value + "' readonly>:" +
                 "<input type='number' class='budget_money' value='" + budget_money[i].value + "' readonly> " +

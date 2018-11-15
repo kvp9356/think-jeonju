@@ -1,11 +1,14 @@
 package com.kvp.thinkjeonju.model;
 
+import com.kvp.thinkjeonju.dto.MoneyDTO;
+import com.kvp.thinkjeonju.dto.ScheSpotDTO;
 import com.kvp.thinkjeonju.dto.ScheduleDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Alias("schedule")
 @NoArgsConstructor
@@ -27,6 +30,6 @@ public class Schedule {
     }
 
     public ScheduleDTO toDTO() {
-        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting, 0, false);
+        return new ScheduleDTO(id, title, memberId, startDate, endDate, isPublic, thumnailUrl,  isWriting,0,false,null,null);
     }
 }
