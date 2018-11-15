@@ -22,13 +22,11 @@ public class Schedule {
     private int isPublic;
     private String thumnailUrl;
     private int isWriting;
-    private List<ScheSpotDTO> ScheSpot;
-    private List<MoneyDTO> Money;
 
     public static Schedule from(ScheduleDTO scheduleDTO) {
         return new Schedule(scheduleDTO.getId(), scheduleDTO.getTitle(), scheduleDTO.getMemberId(),
                 scheduleDTO.getStartDate(), scheduleDTO.getEndDate(), scheduleDTO.getIsPublic(),
-                scheduleDTO.getThumnailUrl(), scheduleDTO.getIsWriting() ,scheduleDTO.getScheSpot(), scheduleDTO.getMoney());
+                scheduleDTO.getThumnailUrl(), scheduleDTO.getIsWriting());
     }
 
     public ScheduleDTO toDTO() {

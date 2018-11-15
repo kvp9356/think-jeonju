@@ -260,7 +260,6 @@ $(document).on("click","#temp_save_button",function(){
     }
     if(message==true){
         if($("#uuid").val() == "") {        //신규 생성
-            console.log("신규 생성");
             var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             $("#uuid").val(uuid);
         }
@@ -274,7 +273,6 @@ $(document).on("click","#temp_save_button",function(){
                 var day = new Date($("#startDate").val());
                 var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
                 money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
-                console.log(money)
             }
         }
         var list = $(".left-frame").find(".details-spot").not(".default-text");
@@ -293,7 +291,6 @@ $(document).on("click","#temp_save_button",function(){
             var sequence = seq;
             var spotid = list[i].dataset.spotId;
             schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
-            console.log(schespot);
         }
             const addForm = {
                 "id" : $("#uuid").val(),
@@ -332,7 +329,6 @@ $(document).on("click","#complete_save_button",function(){
     }
     if(message==true){
         if($("#uuid").val() == "") {        //신규 생성
-            console.log("신규 생성");
             var uuid = ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) + ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             $("#uuid").val(uuid);
         }
@@ -346,7 +342,6 @@ $(document).on("click","#complete_save_button",function(){
                 var day = new Date($("#startDate").val());
                 var sche_date =formatDate(new Date(day.setDate(day.getDate() + (detailspot.parent().attr("id").substring(9)*1)-1)));
                 money.push({id : $("#uuid").val(), scheSpotId : spotid, name : budget_name[i].value, amount : budget_money[i].value, scheDate :sche_date});
-                console.log(money)
             }
         }
         var list = $(".left-frame").find(".details-spot").not(".default-text");
@@ -365,7 +360,6 @@ $(document).on("click","#complete_save_button",function(){
             var sequence = seq;
             var spotid = list[i].dataset.spotId;
             schespot.push({id : id, scheDate : sche_date, sequence : seq, spotId : spotid});
-            console.log(schespot);
         }
         const addForm = {
             "id" : $("#uuid").val(),
@@ -384,7 +378,6 @@ $(document).on("click","#complete_save_button",function(){
             data: JSON.stringify(addForm),
             contentType: "application/json",
             success: () => {
-                console.log("성공");
             location.href = "/";
         },
             error: () => {
@@ -561,11 +554,9 @@ $('#toDate').datepicker({
 });
 
 $(document).on("click",".arrowimg",function(){
-    console.log("화살표 클릭");
 	// finish 직전 화살표가 아닌 경우
 	if($(this).next().prop('tagName') != "IMG") {
 		var day = $(this).parent().parent().attr("id").substring(7);
-		console.log(day);
 		var startSpotId = $(this).prev().data().spotId;
 		var endSpotId = $(this).next().data().spotId;
 		var startSpotName = $("#detailday"+day).find("[data-spot-id='"+ startSpotId +"']").find(".title").text();

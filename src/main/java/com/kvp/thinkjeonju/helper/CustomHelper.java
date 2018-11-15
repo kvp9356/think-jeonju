@@ -21,68 +21,18 @@ import pl.allegro.tech.boot.autoconfigure.handlebars.HandlebarsHelper;
 @HandlebarsHelper
 public class CustomHelper {
 
-   /* public String drawform(ScheduleDTO schedule) throws IOException {
-        LocalDate startDate =schedule.getStartDate();
-        LocalDate endDate = schedule.getEndDate();
-        String html ="";
-        int day = (int)startDate.until(endDate, ChronoUnit.DAYS) + 1;
-
-        for(int count=1; count<=day;count++) {
-            html +="<div id='scheduleday" + count + "' class='day-Form day'>\n" +
-                    "                  <div id='detailday"+count+"' class='details-schedule'>\n" +
-                    "                 <div class='details-spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
-                    "                 </div>\n" +
-                    "            </div>";
-        }
-        return html;
-    }
-
-    public String drawselect(ScheduleDTO schedule) throws IOException {
-        LocalDate startDate =schedule.getStartDate();
-        LocalDate endDate = schedule.getEndDate();
-        String html ="";
-        int day = (int)startDate.until(endDate, ChronoUnit.DAYS) + 1;
-
-        for(int count=1; count<=day;count++) {
-            html +="<div id='scheduleday" + count + "' class='day-Form day'>\n" +
-                    "                  <div id='detailday"+count+"' class='details-schedule'>\n" +
-                    "                 <div class='details-spot default-text'>원하는 장소를 드래그해서 가져오세요!</div>\n" +
-            "                 </div>\n" +
-                    "            </div>";
-        }
-        return html;
-    }
-
-    public String drawtab(ScheduleDTO schedule, List<ScheSpotDTO> scheSpot) throws IOException {
-        LocalDate startDate =schedule.getStartDate();
-        LocalDate endDate = schedule.getEndDate();
-        String html ="";
-        int day = (int)startDate.until(endDate, ChronoUnit.DAYS) + 1;
-
-        for(int count=1; count<=day;count++) {
-            html +="<li class='tab' id='tab"+count+"'><a href='#scheduleday" + count + "'>"+ count +"일차</a></li>\n";
-        }
-        return html;
-    }*/
-
     public String otherInfo( List<ScheSpotDTO> scheSpot, List<MoneyDTO> money) throws IOException {
-        System.out.println("아더인포");
         int allspot = scheSpot.size();
-        System.out.println("시발"+allspot);
         int sum =0;
         for(int i=0;i<money.size();i++){
             sum+=money.get(i).getAmount();
         }
-        System.out.println("합계");
-        System.out.println(sum);
-        System.out.println(allspot);
         String html ="<input id='sum_all' value='총 "+allspot+"개 장소/ "+sum+"원' readonly>";
         return html;
 
     }
 
     public String draw( ScheduleDTO schedule, List<ScheSpotDTO> scheSpot, List<MoneyDTO> money) throws IOException {
-        System.out.println("여기 들어옴!");
         LocalDate startDate =schedule.getStartDate();
         LocalDate endDate = schedule.getEndDate();
         String html ="";
@@ -97,14 +47,10 @@ public class CustomHelper {
                     "                <div class='drawDay'>\n";
            String constHTML ="";
            for(int j=0;j<scheSpot.size();j++){
-               System.out.println("count : "+ count);
                LocalDate nowDate = scheSpot.get(j).getScheDate();
                int now =(int)nowDate.until(endDate, ChronoUnit.DAYS) + 1;
-               System.out.println("now:"+now);
-               System.out.println("day : "+ (day - now +1));
                if((day - now +1) == count){
                    allspot++;
-                   System.out.println("같음");
                    constHTML += "<div class='draw' data-spot-id='"+ scheSpot.get(j).getSpotId() +"'>\n" +
                            "                        <img src='"+ scheSpot.get(j).getSpotimg()+"'  class='spotimg'>\n" +
                            "                    </div>\n" +
@@ -118,13 +64,11 @@ public class CustomHelper {
             for(int j=0;j<money.size();j++){
                 LocalDate nowDate = money.get(j).getScheDate();
                 int now =(int)nowDate.until(endDate, ChronoUnit.DAYS) + 1;
-                System.out.println("now:"+now);
-                System.out.println("day : "+ (day - now +1));
+
                 if((day - now +1) == count){
                     sum+=money.get(j).getAmount();
                 }
             }
-            System.out.println("합계 :"+sum);
            html+=   "                </div>\n";
             if(constHTML!=""){
                 String resultday = "<div class='resultDay'>총 "+allspot+"개 장소/ "+sum+"원</div>";

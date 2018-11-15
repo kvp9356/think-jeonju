@@ -21,12 +21,10 @@ public class ScheSpot {
     private String spotId;
     private String spotimg;
     private int likeCnt;
-    private List<MoneyDTO> Money;
-    private SpotDTO spot;
 
 
-    public static ScheSpot from(ScheSpotDTO ScheSpotDTO) {
-        return new ScheSpot(ScheSpotDTO.getId(),ScheSpotDTO.getScheDate(),ScheSpotDTO.getSequence(),ScheSpotDTO.getSpotId(),ScheSpotDTO.getSpotimg(),ScheSpotDTO.getLikeCnt(), ScheSpotDTO.getMoney(), ScheSpotDTO.getSpot());
+    public static ScheSpot from(ScheSpotDTO scheSpotDTO) {
+        return new ScheSpot(scheSpotDTO.getId(),scheSpotDTO.getScheDate(),scheSpotDTO.getSequence(),scheSpotDTO.getSpotId(),scheSpotDTO.getSpotimg(),scheSpotDTO.getLikeCnt());
     }
 
     public ScheSpotDTO toDTO() {

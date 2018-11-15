@@ -83,12 +83,12 @@ public class ScheduleService {
     }
 
 
-    public void addSchedule(ScheduleDTO ScheduleDTO){
-        scheduleMapper.addSchedule(ScheduleDTO);
+    public void addSchedule(ScheduleDTO scheduleDTO){
+        scheduleMapper.addSchedule(scheduleDTO);
     }
 
-    public void updateSchedule(ScheduleDTO ScheduleDTO){
-        scheduleMapper.updateSchedule(ScheduleDTO);
+    public void updateSchedule(ScheduleDTO scheduleDTO){
+        scheduleMapper.updateSchedule(scheduleDTO);
     }
 
     public void changeWriting(String scheduleId){
@@ -102,9 +102,7 @@ public class ScheduleService {
     public void insertScheSpot(List<ScheSpotDTO> scheSpot){
         for(int i =0; i<scheSpot.size();i++){
             scheSpotMapper.insertScheSpot(scheSpot.get(i));
-            System.out.println("실시");
         }
-        System.out.println("종료");
     }
 
     public void deleteScheSpot(String id){
@@ -114,9 +112,7 @@ public class ScheduleService {
     public void insertMoney(List<MoneyDTO> money){
         for(int i =0; i<money.size();i++){
             moneyMapper.insertMoney(money.get(i));
-            System.out.println("돈 실시");
         }
-        System.out.println("돈 종료");
     }
 
     public void deleteMoney(String id){

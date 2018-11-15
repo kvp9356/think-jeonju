@@ -14,7 +14,7 @@ function formatDate(date) {
 $(document).on("click","#fix_button",function() {
     $.ajax({
         url: "/api/schedules/changewriting",
-        method: "POST",
+        method: "PUT",
         data: {
             id: $("#uuid").val(),
         }, success: function () {
@@ -31,12 +31,10 @@ $(document).on("click",".draw",function(){
 
     var sche_date = formatDate(new Date(day.setDate(day.getDate() +$(this).parent().parent().attr("id").substring(7)*1-1)));
     $.ajax({
-        url: "/api/schedules/schespot",
+        url: "/api/schedules/"+$("#uuid").val()+"/schespot/"+$(this).data().spotId,
         method: "GET",
         data: {
-            id: $("#uuid").val(),
             date : sche_date,
-            spotId : $(this).data().spotId
         },
         success: function (data) {
             let html = '';
@@ -111,3 +109,4 @@ $(document).ready(function(){
     $("#trapTerm").val(textday);
 
 });
+

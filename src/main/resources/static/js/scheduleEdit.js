@@ -557,11 +557,8 @@ $(document).ready(function(){
         }
     }
     $.ajax({
-        url: "/api/schedules/setbeforedata",
+        url: "/api/schedules/"+$("#uuid").val(),
         method: "GET",
-        data: {
-            id: $("#uuid").val()
-        },
         success: function (data) {
             var spot = data.spot;
 

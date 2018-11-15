@@ -42,31 +42,32 @@ public class ApiScheduleController {
     }
 
     @PostMapping("/{scheduleId}")   //스케줄 생성
-    public ResponseEntity<Void> addSchedule(@RequestBody ScheduleDTO ScheduleDTO, @LoginUser MemberDTO user){
-        int isNew = scheduleService.isExistSchedule(ScheduleDTO.getId());
-        ScheduleDTO.setMemberId(user.getId());
+    public ResponseEntity<Void> addSchedule(@RequestBody ScheduleDTO scheduleDTO, @LoginUser MemberDTO user){
+        int isNew = scheduleService.isExistSchedule(scheduleDTO.getId());
+        scheduleDTO.setMemberId(user.getId());
         if(isNew == 0) { //등록 되어있지 않은 스케줄이라면
-            scheduleService.addSchedule(ScheduleDTO);
+            scheduleService.addSchedule(scheduleDTO);
         }
         else{
-            scheduleService.updateSchedule(ScheduleDTO);
-            scheduleService.deleteScheSpot(ScheduleDTO.getId());
-            scheduleService.deleteMoney(ScheduleDTO.getId());
+            scheduleService.updateSchedule(scheduleDTO);
+            scheduleService.deleteScheSpot(scheduleDTO.getId());
+            scheduleService.deleteMoney(scheduleDTO.getId());
         }
-        List<ScheSpotDTO> schespot = ScheduleDTO.getScheSpot();
-        scheduleService.insertScheSpot(schespot);
-        List<MoneyDTO> money = ScheduleDTO.getMoney();
-        scheduleService.insertMoney(money);
+
+        scheduleService.insertScheSpot(scheduleDTO.getScheSpot());
+
+        scheduleService.insertMoney(scheduleDTO.getMoney());
         return new ResponseEntity(HttpStatus.CREATED);
 }
 
-    @PostMapping("/changewriting")   //스케줄 생성
-    public ResponseEntity<Void> changewriting(@RequestParam(value = "id") String scheduleId, @LoginUser MemberDTO user){
+    @PutMapping("/changewriting")   //스케줄 생성
+    public ResponseEntity<Void> changeWriting(@RequestParam(value = "id") String scheduleId, @LoginUser MemberDTO user){
         scheduleService.changeWriting(scheduleId);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @GetMapping("/schespot")
-    public ResponseEntity<Void> schespot(@RequestParam(value = "id") String scheduleId, @RequestParam(value = "date") String date, @RequestParam(value = "spotId") String spotId, Model model){
+
+    @GetMapping("/{scheduleId}/schespot/{schespotId}")
+    public ResponseEntity<Void> getSpotData(@PathVariable("scheduleId")  String scheduleId, @RequestParam(value = "date") String date, @PathVariable("schespotId") String spotId, Model model){
         SpotDTO spot = spotService.getSpotDetail(spotId).toDTO();
         spot.setImgUrl(spotService.getSpotImg(spot.getId()));
         spot.setLikeCnt(spotService.getLikeCnt(spot.getId()));
@@ -78,8 +79,8 @@ public class ApiScheduleController {
         return new ResponseEntity(model,HttpStatus.OK);
     }
 
-    @GetMapping("/setbeforedata")
-    public ResponseEntity<Void> setbeforedata(@RequestParam(value = "id") String scheduleId, Model model){
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<Void> getBeforeScheduleData(@PathVariable String scheduleId, Model model){
         List<ScheSpotDTO> scheSpot = scheduleService.getScheSpotById(scheduleId);
         for(int i =0;i<scheSpot.size();i++){
             scheSpot.get(i).setSpotimg(spotService.getSpotImg(scheSpot.get(i).getSpotId()).get(0));
