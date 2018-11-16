@@ -205,13 +205,16 @@ class MyPage {
                 <img src="{imgUrl}" class="my-schedule-img my-content-img" onerror="this.src='/image/defaultThumnail.jpg'"/>
                 <dl class="my-schedule-info my-content-info">
                     <dt class="title">{title}</dt>
+                    {isWriting}
                     <dd class="date">{date}일 ({startDate} ~ {endDate})</dd>
                     <dd class="like"><img src="/image/fullStar.png" alt=""> <spn class="like-cnt">{like}</spn></dd>
                 </dl>
             </div>`;
+
         return scheduleHTML.replace(/{id}/g, schedule.id)
             .replace(/{imgUrl}/g, schedule.thumnailUrl)
             .replace(/{title}/g, schedule.title)
+            .replace(/{isWriting}/g, schedule.isWriting === 0 ? `<dd class="writing"><img src="/image/writing.png"> </dd>` : '')
             .replace(/{date}/g, (new Date(schedule.endDate) - new Date(schedule.startDate)) / 86400000 + 1)
             .replace(/{startDate}/g, schedule.startDate)
             .replace(/{endDate}/g, schedule.endDate)

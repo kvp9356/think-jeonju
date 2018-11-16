@@ -75,6 +75,11 @@
     white-space: nowrap;
 }
 
+.my-schedule-info .title {
+    width: 88%;
+    display: inline-block;
+}
+
 .my-spot-info .title {
     margin-top: 0;
 }
@@ -90,6 +95,16 @@
 .my-content-info .like img{
     width: 16px;
     vertical-align: baseline;
+}
+
+.writing {
+    display: inline-block;
+}
+
+.writing img {
+    width: 25px;
+    height: 25px;
+    margin-top: -23px;
 }
 
 .mypage-container-paging {
