@@ -115,6 +115,7 @@ for(var i=0; i<a.length; i++) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    $_("#schedule-menu").style.color = "lightblue";
 	//장소 이름의 공백 제거
 	const hashtag = $_("#name").innerText.replace(" ", "");
 	
