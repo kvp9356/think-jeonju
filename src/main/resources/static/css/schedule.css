@@ -430,3 +430,6 @@
     width: 350px;
     height: 210px;
 }
+.modal-footer select {
+	width: 100px;
+}
