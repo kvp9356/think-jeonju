@@ -174,7 +174,7 @@ ul>.url{
 
 #sum_all{
     border:none;
-    margin-left: 500px;
+    float: right;
     text-align: right;
 }
 #trapTerm{
@@ -185,4 +185,14 @@ ul>.url{
     height: 50px;
     border-radius: 10px;
     background-color: white;
+}
+.title {
+	margin-bottom: 10px;
+}
+.title h4 {
+	width: fit-content;
+	display: inline;
+}
+.title img {
+	float: right;
 }
