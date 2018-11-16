@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">
-                        <input type="text" id ="schedule-title" placeholder="여행 제목을 입력해주세요!">
+                        <input type="text" id ="schedule-title" placeholder="여행 제목을 입력해주세요!" class="form-control">
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -19,13 +19,13 @@
                 </div>
                 <div class="modal-body">
                     <form name="modalForm" id="modalForm">
-                        시작일 : <input id="toDate" /><br>
-                        종료일 : <input id="fromDate" />
+                        시작일 : <input id="toDate" class="form-control"/><br>
+                        종료일 : <input id="fromDate" class="form-control"/>
                     </form>
                 </div>
                 <div class="modal-footer">
                     스케줄 공개 여부&nbsp;&nbsp;&nbsp;
-                    <select name="isPublic">
+                    <select name="isPublic" class="form-control">
                         <option value="1">공개</option>
                         <option value="0">비공개</option>
                     </select>

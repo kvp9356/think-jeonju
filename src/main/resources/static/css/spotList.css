@@ -93,3 +93,7 @@
 	width: 24px;
 	height: 24px;
 }
+#spotNonExist img {
+	margin-top: 100px;
+	margin-bottom: 10px;
+}
