@@ -11,19 +11,6 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-$(document).on("click","#fix_button",function() {
-    $.ajax({
-        url: "/api/schedules/changewriting",
-        method: "PUT",
-        data: {
-            id: $("#uuid").val(),
-        }, success: function () {
-            window.location.reload();
-        }
-    });
-});
-
-
 $(document).on("click",".draw",function(){
     $(".draw").css("border","none");
     $(this).css("border","2px solid red");
@@ -110,3 +97,24 @@ $(document).ready(function(){
 
 });
 
+Kakao.init('ce22c68da5f7d15b1e5ad1b043401892');
+function sendKakaoLink() {
+	Kakao.Link.sendDefault({
+		objectType: 'feed',
+        content: {
+        	title: $(".title h4").text(),
+        	description: '#전주 #여행 #think-jeonju',
+        	imageUrl: $(".spotimg").first().attr("src"),
+        	link: {
+        		webUrl: window.location.href
+        	}
+        },
+        buttons: [
+    	{
+    		title: '웹으로 보기',
+    		link: {
+    			webUrl: window.location.href
+    		}	
+    	}]
+	});
+}

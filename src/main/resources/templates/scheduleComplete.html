@@ -8,7 +8,10 @@
 <div class="scheduledetail">
     {{#schedule}}
     <div id="scheduleinfo">
-        <div class="title"><h4>{{title}}</h4></div>
+        <div class="title">
+        	<h4>{{title}}</h4>
+        	<a href="javascript:sendKakaoLink()"><img src="/image/kakaolink_btn_small.png" alt="" /></a>
+        </div>
         <div class="otherInfo">
             <input id="startDate" class="date" value="{{startDate}}"readonly> ~
             <input id="endDate" class="date" value="{{endDate}}"readonly>
@@ -27,7 +30,6 @@
             {{/draw}}
         </div>
     </div>
-    <input type="button" value="수정하기" id="fix_button">
 </div>
 <div class="detailInfo">
 
@@ -37,6 +39,7 @@
 {{/partial}}
 
 {{#partial "script"}}
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="/js/scheduleComplete.js"></script>
 {{/partial}}
 
