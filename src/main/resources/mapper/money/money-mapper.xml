@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kvp.thinkjeonju.repository.MoneyMapper">
+    <insert id="insertMoney">
+       INSERT INTO MONEY
+       VALUES(
+       #{id},
+       #{scheSpotId},
+       #{name},
+       #{amount},
+       #{scheDate}
+       )
+    </insert>
+
+    <delete id="deleteMoney">
+        DELETE
+        FROM MONEY
+        WHERE ID=#{id}
+    </delete>
+
+    <select id="getMoneyById" resultMap="money">
+        SELECT *
+        FROM MONEY
+        WHERE ID=#{id}
+    </select>
+
+    <select id="getSpotMoney" resultMap="money">
+        SELECT *
+        FROM MONEY
+        WHERE ID=#{id}
+        AND SCHE_DATE=#{scheDate}
+        AND SCHESPOT_ID=#{scheSpotId}
+    </select>
+
+    <resultMap id="money" type="money">
+        <result column="id" property="id"/>
+        <result column="schespot_id" property="scheSpotId"/>
+        <result column="name" property="name"/>
+        <result column="amount" property="amount"/>
+        <result column="sche_date" property="scheDate"/>
+    </resultMap>
+</mapper>

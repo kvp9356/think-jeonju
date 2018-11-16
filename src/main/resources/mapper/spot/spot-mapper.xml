@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kvp.thinkjeonju.repository.SpotMapper">
+	<select id="checkSpotIdDuplicate" resultType="_int">
+		SELECT COUNT(*) 
+		FROM SPOT 
+		WHERE ID = #{id}
+	</select>
+	
+	<insert id="addSpot">
+		INSERT INTO SPOT
+		VALUES (#{id}, 
+				#{name},
+				#{content},
+				#{addr},
+				#{addrDtl},
+				#{posX},
+				#{posY},
+				#{url},
+				#{tel},
+				#{fileCnt},
+				#{category})
+	</insert>
+	
+	<select id="checkSpotImgDuplicate" resultType="_int">
+		SELECT COUNT(*) 
+		FROM SPOTIMG
+		WHERE ID = #{id}
+	</select>
+	
+	<insert id="addSpotImg">
+		INSERT INTO SPOTIMG
+		VALUES (#{id}, 
+				#{spotId},
+				#{url})
+	</insert>
+	
+	<select id="getLikeCnt" resultType="_int">
+		SELECT COUNT(*)
+		FROM LIKE_TO
+		WHERE RELATED_ID = #{id}
+	</select>
+
+	<select id="getIsLike" resultType="int">
+		SELECT COUNT(*) 
+		FROM LIKE_TO
+		WHERE MEMBER_ID = #{memberId}
+		AND RELATED_ID = #{relatedId}
+	</select>
+	
+	<select id="findSpotImgUrlById" resultType="string">
+		SELECT URL FROM SPOTIMG
+		WHERE SPOT_ID = #{id}
+	</select>
+	
+	<select id="getSpotDataSize" resultType="int">
+		SELECT COUNT(*)
+		FROM SPOT
+		<if test="dataValue != null"> 
+       	WHERE NAME LIKE '%'||#{dataValue}||'%'
+       	</if>
+       	<if test="category != null"> 
+       	AND CATEGORY = #{category} 
+       	</if> 
+	</select>
+	
+	<select id="getSpotDetail" resultType="spot">
+		SELECT *
+		FROM SPOT
+		WHERE id = #{id}
+	</select>
+
+	<select id="findBestSpots" resultType="spot">
+		SELECT * FROM
+		(SELECT SPOT.* FROM SPOT
+		LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 's'
+		GROUP BY RELATED_ID) ON SPOT.ID = RELATED_ID
+		ORDER BY LIKE_CNT DESC nulls last, ID ASC)
+		WHERE ROWNUM <![CDATA[ <= ]]> 4
+	</select>
+	
+	<select id="getSpotData" resultType="spot">
+		SELECT ROWNUM, V.*
+		FROM (
+    		SELECT ROWNUM RNUME, E.*
+    		FROM (
+            	SELECT SPOT.* FROM SPOT
+            	LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 's'
+            	GROUP BY RELATED_ID) ON SPOT.ID = RELATED_ID
+            	<if test="dataValue != null"> 
+            	WHERE NAME LIKE '%'||#{dataValue}||'%'
+            	</if>
+            	<if test="category != null"> 
+            	AND CATEGORY = #{category} 
+            	</if> 
+            	ORDER BY LIKE_CNT DESC nulls last, ID ASC
+         	) E
+     	) V
+     	<if test="startNum != null and endNum != null">
+		WHERE RNUME BETWEEN #{startNum} AND #{endNum}
+		</if>  
+	</select>
+	
+	<select id="getSpotImg" resultType="spotImg">
+		SELECT *
+		FROM SPOTIMG
+		WHERE SPOT_ID = #{id}
+	</select>
+	
+</mapper>

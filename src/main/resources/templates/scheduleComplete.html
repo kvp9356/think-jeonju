@@ -1,0 +1,46 @@
+{{#partial "head"}}
+<link rel="stylesheet" href="/css/scheduleComplete.css">
+
+{{/partial}}
+
+{{#partial "contents"}}
+
+<div class="scheduledetail">
+    {{#schedule}}
+    <div id="scheduleinfo">
+        <div class="title">
+        	<h4>{{title}}</h4>
+        	<a href="javascript:sendKakaoLink()"><img src="/image/kakaolink_btn_small.png" alt="" /></a>
+        </div>
+        <div class="otherInfo">
+            <input id="startDate" class="date" value="{{startDate}}"readonly> ~
+            <input id="endDate" class="date" value="{{endDate}}"readonly>
+            <input id="trapTerm" class="date" readonly>
+            {{/schedule}}
+            {{#otherInfo scheSpot money}}
+            {{/otherInfo}}
+        </div>
+    </div>
+
+
+    <div id="scheduleResult">
+        <div class="drawSchedule">
+            {{#draw schedule scheSpot money}}
+
+            {{/draw}}
+        </div>
+    </div>
+</div>
+<div class="detailInfo">
+
+</div>
+
+<input type="hidden" id="uuid" name="uuid" value="{{schedule.id}}">
+{{/partial}}
+
+{{#partial "script"}}
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="/js/scheduleComplete.js"></script>
+{{/partial}}
+
+{{>base}}
