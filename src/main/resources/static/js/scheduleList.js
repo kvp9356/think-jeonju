@@ -39,6 +39,7 @@ function switchStarImg(img) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    $_("#schedule-menu").style.color = "lightblue";
    $(".schedule").on("click", (evt) => {
        const target = evt.target;
        if(target.className === 'star') {
