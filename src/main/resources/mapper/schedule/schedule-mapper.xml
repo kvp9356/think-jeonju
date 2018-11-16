@@ -24,6 +24,7 @@
         (SELECT SCHEDULE.* FROM SCHEDULE
         LEFT JOIN (SELECT RELATED_ID, COUNT(*) as LIKE_CNT FROM LIKE_TO  WHERE ISSPOT = 'c'
         GROUP BY RELATED_ID) ON SCHEDULE.ID = RELATED_ID
+        WHERE IS_PUBLIC = 1 AND IS_WRITING = 1
         ORDER BY LIKE_CNT DESC nulls last, ID ASC)
         WHERE ROWNUM <![CDATA[ <= ]]> 4
     </select>
@@ -71,6 +72,7 @@
 
     <select id="getSchedulesCount" resultType="int">
         SELECT COUNT(*) FROM SCHEDULE
+        WHERE IS_PUBLIC = 1 AND IS_WRITING = 1
     </select>
 
     <select id="getScheduleById" resultMap="schedule">
@@ -82,7 +84,8 @@
     <select id="findSchedulesByPage" resultMap="schedule">
         SELECT * FROM (
         SELECT SCHEDULE.*, ROWNUM AS RNUM FROM SCHEDULE
-        WHERE ROWNUM <![CDATA[ <= ]]> #{currentBlockEnd}
+        WHERE IS_PUBLIC = 1 AND IS_WRITING = 1
+        AND ROWNUM <![CDATA[ <= ]]> #{currentBlockEnd}
         ) WHERE RNUM <![CDATA[ >= ]]> #{currentBlockStart}
     </select>
 
