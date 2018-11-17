@@ -565,10 +565,10 @@ $(document).on("click",".arrowimg",function(){
 	// finish 직전 화살표가 아닌 경우
 	if($(this).next().prop('tagName') != "IMG") {
 		var day = $(this).parent().parent().attr("id").substring(7);
-		var startSpotId = $(this).prev().find(".spotId").attr("class").split(' ')[0];
-		var endSpotId = $(this).next().find(".spotId").attr("class").split(' ')[0];
-		var startSpotAddr = $("#detailday"+day).find("."+startSpotId).parent().find(".addr").val();
-		var endSpotAddr = $("#detailday"+day).find("."+endSpotId).parent().find(".addr").val();
+		var startSpotId = $(this).prev().data().spotId;
+		var endSpotId = $(this).next().data().spotId;
+		var startSpotAddr = $("#detailday"+day).find("[data-spot-id='"+ endSpotId +"']").parent().find(".addr").val();
+		var endSpotAddr = $("#detailday"+day).find("[data-spot-id='"+ endSpotId +"']").parent().find(".addr").val();
 		var url = "http://map.daum.net/?sName=" + startSpotAddr + "&eName=" + endSpotAddr;
 		window.open(url,'길찾기','location=no,status=no,scrollbars=yes');
 	}
