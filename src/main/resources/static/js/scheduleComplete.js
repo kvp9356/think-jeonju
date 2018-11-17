@@ -106,6 +106,7 @@ function sendKakaoLink() {
         	description: '#전주 #여행 #think-jeonju',
         	imageUrl: $(".spotimg").first().attr("src"),
         	link: {
+        		mobileWebUrl: window.location.href,
         		webUrl: window.location.href
         	}
         },
@@ -113,6 +114,7 @@ function sendKakaoLink() {
     	{
     		title: '웹으로 보기',
     		link: {
+    			mobileWebUrl: window.location.href,
     			webUrl: window.location.href
     		}	
     	}]
